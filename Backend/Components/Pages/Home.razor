@@ -9,12 +9,29 @@
     <button type="submit">Shorten Url</button>
 </EditForm>
 
+<p>@ShortUrlCode</p>
+
+<p>@ErrorMessage</p>
+
 @code {
     private CreateUrlRequest model = new();
     private readonly HttpClient http = new HttpClient();
+    private int? ShortUrlCode;
+    private string? ErrorMessage;
 
     private async Task ShortenUrl() 
     {
-        await http.PostAsJsonAsync("http://localhost:6767/api/urls/", model);
+        var response = await http.PostAsJsonAsync("http://localhost:6767/api/urls/", model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            ErrorMessage = await response.Content.ReadAsStringAsync();
+            return;
+        }
+
+        ErrorMessage = null;
+
+        var result = await response.Content.ReadFromJsonAsync<GetUrlRequest>();
+        ShortUrlCode = result?.Id;
     }
 }
