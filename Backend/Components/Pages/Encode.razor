@@ -1,0 +1,15 @@
+@page "/Encoder"
+
+<input type="number" @bind="id" @bind:event="oninput" />
+<p>Encoded Input: @EncodedValue</p>
+
+<input type="text" @bind="code" @bind:event="oninput" />
+<p>Decoded Input: @DecodedValue</p>
+@code {
+    public UrlCodeService CodeService = new();
+    int id = 0;
+    string code = "";
+    private string EncodedValue => CodeService.Encode(id);
+    private int DecodedValue => CodeService.Decode(code);
+
+}
