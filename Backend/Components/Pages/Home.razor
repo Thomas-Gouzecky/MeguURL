@@ -4,4 +4,17 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+<EditForm FormName="shortenUrlForm" Model="@model" OnSubmit="ShortenUrl">
+    <InputText @bind-Value="model.LongUrl"/>
+    <button type="submit">Shorten Url</button>
+</EditForm>
+
+@code {
+    private CreateUrlRequest model = new();
+    private readonly HttpClient http = new HttpClient();
+
+    private async Task ShortenUrl() 
+    {
+        await http.PostAsJsonAsync("http://localhost:6767/api/urls/", model);
+    }
+}
