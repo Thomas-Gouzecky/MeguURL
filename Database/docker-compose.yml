@@ -1,6 +1,6 @@
 services:
     api:
-        image: meguurl-api:prod-v1
+        image: tomcheese/meguurl-db-api-repo:latest
         container_name: meguURL-api
         ports:
             - "8000:8000"
