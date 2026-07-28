@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IHttpClientFactory HttpClientFactory
 
 <PageTitle>Home</PageTitle>
 
@@ -10,18 +11,26 @@
 </EditForm>
 
 <p>@ShortUrlCode</p>
+<p>@ShortUrl</p>
 
 <p>@ErrorMessage</p>
 
 @code {
+
     private CreateUrlRequest model = new();
-    private readonly HttpClient http = new HttpClient();
-    private int? ShortUrlCode;
+    private HttpClient? http;
+    private string? ShortUrlCode;
+    private string? ShortUrl;
     private string? ErrorMessage;
+
+    protected override void OnInitialized()
+    {
+        http = HttpClientFactory.CreateClient("BackendApi");
+    }
 
     private async Task ShortenUrl() 
     {
-        var response = await http.PostAsJsonAsync("http://localhost:6767/api/urls/", model);
+        var response = await http!.PostAsJsonAsync("api/urls/", model);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -29,9 +38,16 @@
             return;
         }
 
-        ErrorMessage = null;
+        var result = await response.Content.ReadFromJsonAsync<CreateUrlResponse>();
 
-        var result = await response.Content.ReadFromJsonAsync<GetUrlRequest>();
-        ShortUrlCode = result?.Id;
+        if (result == null)
+        {
+            ErrorMessage = await response.Content.ReadAsStringAsync();
+            return;
+        }
+
+        ErrorMessage = null;
+        ShortUrlCode = result.Code;
+        ShortUrl = result.ShortUrl;
     }
 }

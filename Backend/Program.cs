@@ -8,7 +8,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-builder.Services.AddHttpClient();
+var apiUrl = builder.Configuration["ApiSettings:BackendUrl"];
+
+builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(apiUrl!); });
 
 var app = builder.Build();
 

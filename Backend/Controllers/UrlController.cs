@@ -7,10 +7,12 @@ namespace Backend.Controllers;
 public class UrlController : ControllerBase
 {
     private readonly HttpClient _http;
+    private readonly UrlCodeService _urlCodeService;
 
     public UrlController(HttpClient http)
     {
         _http = http;
+        _urlCodeService = new();
     }
 
     [HttpGet("")]
@@ -36,13 +38,26 @@ public class UrlController : ControllerBase
 
         var result = await response.Content.ReadFromJsonAsync<UrlMapping>();
 
-        return Ok(result);
+        if (result == null)
+        {
+            return StatusCode(500, "Failed to create URL");
+        }
+
+        string code = _urlCodeService.Encode(result.Id);
+
+        return Ok(new CreateUrlResponse
+        {
+            Code = code,
+            ShortUrl = $"https://megu.url/{code}"
+        });
     }
 
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
-        var response = await _http.GetAsync($"http://localhost:8000/db/{code}");
+        int id = _urlCodeService.Decode(code);
+
+        var response = await _http.GetAsync($"http://localhost:8000/db/{id}");
 
         if (!response.IsSuccessStatusCode)
         {
