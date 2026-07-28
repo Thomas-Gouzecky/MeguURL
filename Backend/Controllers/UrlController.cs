@@ -38,4 +38,22 @@ public class UrlController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("{code}")]
+    public async Task<IActionResult> GetRedirectURL(string code)
+    {
+        var response = await _http.GetAsync($"http://localhost:8000/db/{code}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return StatusCode((int)response.StatusCode);
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<RedirectUrl>();
+
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
+    }
 }

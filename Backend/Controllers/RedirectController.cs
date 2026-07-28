@@ -15,7 +15,7 @@ public class RedirectController : ControllerBase
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
-        var response = await _http.GetAsync($"http://localhost:8000/db/{code}");
+        var response = await _http.GetAsync($"http://localhost:6767/api/urls/{code}");
 
         if (!response.IsSuccessStatusCode)
         {
