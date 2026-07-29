@@ -1,7 +1,7 @@
 public class Base62Decoder : IDecoderBase
 {
     private readonly string _alphabet;
-    private Dictionary<char, int> charMap = new();
+    private Dictionary<char, int> _charMap = new();
         
     public Base62Decoder(IBase62Configuration config)
     {
@@ -9,7 +9,7 @@ public class Base62Decoder : IDecoderBase
 
         for (int i = 0; i < _alphabet.Length; i++)
         {
-            charMap[_alphabet[i]] = i;
+            _charMap[_alphabet[i]] = i;
         }
     }
 
@@ -20,7 +20,11 @@ public class Base62Decoder : IDecoderBase
 
         foreach (char c in code)
         {
-            id = id * 62 + charMap[c];
+            if (!_charMap.TryGetValue(c, out int value))
+            {
+                throw new ArgumentException($"Invalid Base62 character: {c}");
+            }
+            id = id * 62 + _charMap[c];
         }
 
         return id;

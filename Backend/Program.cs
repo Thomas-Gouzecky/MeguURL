@@ -8,9 +8,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-var apiUrl = builder.Configuration["ApiSettings:BackendUrl"];
-
-builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(apiUrl!); });
+builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BackendApi"]!); });
+builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:DatabaseApi"]!); });
 
 var app = builder.Build();
 

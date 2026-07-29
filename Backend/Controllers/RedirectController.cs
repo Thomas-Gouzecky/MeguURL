@@ -7,15 +7,15 @@ public class RedirectController : ControllerBase
 {
     private readonly HttpClient _http;
 
-    public RedirectController(HttpClient http)
+    public RedirectController(IHttpClientFactory httpClientFactory)
     {
-        _http = http;
+        _http = httpClientFactory.CreateClient("BackendApi");
     }
 
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
-        var response = await _http.GetAsync($"http://localhost:6767/api/urls/{code}");
+        var response = await _http.GetAsync($"api/urls/{code}");
 
         if (!response.IsSuccessStatusCode)
         {

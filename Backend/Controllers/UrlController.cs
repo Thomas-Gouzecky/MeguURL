@@ -9,16 +9,16 @@ public class UrlController : ControllerBase
     private readonly HttpClient _http;
     private readonly UrlCodeService _urlCodeService;
 
-    public UrlController(HttpClient http)
+    public UrlController(IHttpClientFactory httpClientFactory)
     {
-        _http = http;
+        _http = httpClientFactory.CreateClient("DatabaseApi");
         _urlCodeService = new();
     }
 
     [HttpGet("")]
     public async Task<IActionResult> GetAllUrls()
     {
-        var response = await _http.GetAsync($"http://localhost:8000/db/");
+        var response = await _http.GetAsync("db/");
 
         if (!response.IsSuccessStatusCode)
             return NotFound();
@@ -29,7 +29,7 @@ public class UrlController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
-        var response = await _http.PostAsJsonAsync($"http://localhost:8000/db/", request);
+        var response = await _http.PostAsJsonAsync("db/", request);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -57,7 +57,7 @@ public class UrlController : ControllerBase
     {
         int id = _urlCodeService.Decode(code);
 
-        var response = await _http.GetAsync($"http://localhost:8000/db/{id}");
+        var response = await _http.GetAsync($"db/{id}");
 
         if (!response.IsSuccessStatusCode)
         {
