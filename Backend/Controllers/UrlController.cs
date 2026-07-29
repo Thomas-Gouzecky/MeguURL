@@ -8,11 +8,13 @@ public class UrlController : ControllerBase
 {
     private readonly HttpClient _http;
     private readonly UrlCodeService _urlCodeService;
+    private readonly IConfiguration _configuration;
 
-    public UrlController(IHttpClientFactory httpClientFactory)
+    public UrlController(IHttpClientFactory httpClientFactory, IConfiguration configuration, UrlCodeService urlCodeService)
     {
         _http = httpClientFactory.CreateClient("DatabaseApi");
-        _urlCodeService = new();
+        _configuration = configuration;
+        _urlCodeService = urlCodeService;
     }
 
     [HttpGet("")]
@@ -44,11 +46,12 @@ public class UrlController : ControllerBase
         }
 
         string code = _urlCodeService.Encode(result.Id);
+        var baseUrl = _configuration["ApiSettings:BackendApi"];
 
         return Ok(new CreateUrlResponse
         {
             Code = code,
-            ShortUrl = $"https://megu.url/{code}"
+            ShortUrl = $"{baseUrl}{code}"
         });
     }
 

@@ -11,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BackendApi"]!); });
 builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:DatabaseApi"]!); });
 
+builder.Services.AddSingleton<UrlCodeService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

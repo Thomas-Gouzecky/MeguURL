@@ -5,6 +5,7 @@
 
 <input type="text" @bind="code" @bind:event="oninput" />
 <p>Decoded Input: @DecodedValue</p>
+
 @code {
     public UrlCodeService CodeService = new();
     int id = 0;

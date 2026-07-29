@@ -10,8 +10,15 @@
     <button type="submit">Shorten Url</button>
 </EditForm>
 
-<p>@ShortUrlCode</p>
-<p>@ShortUrl</p>
+@if (ShortUrl != null && ShortUrlCode != null)
+{
+    <p>Your Specific URL Code is: @ShortUrlCode</p>
+    <p>
+        Your URL can be accessed at:
+        <a class="link-primary" href="@ShortUrl">@ShortUrl</a>
+    </p>
+    
+}
 
 <p>@ErrorMessage</p>
 
