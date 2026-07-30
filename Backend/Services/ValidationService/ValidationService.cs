@@ -1,4 +1,5 @@
 using System.Data;
+using Microsoft.VisualBasic;
 
 public class ValidationService
 {
@@ -8,7 +9,7 @@ public class ValidationService
         _urlValidator = new();
     }
 
-    public bool IsValidUrl(string url)
+    public UrlValidationResponse IsValidUrl(string url)
     {
         return _urlValidator.Validate(url);
     }

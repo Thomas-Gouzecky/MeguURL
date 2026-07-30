@@ -1,4 +1,4 @@
-public interface IValidateBase
+public interface IValidateBase<T>
 {
-    bool Validate(object context);
+    T Validate(object context);
 }

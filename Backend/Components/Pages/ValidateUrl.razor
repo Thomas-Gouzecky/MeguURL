@@ -2,11 +2,14 @@
 
 <input type="text" @bind="UrlInput" @bind:event="oninput"/>
 <p class="@TextColor fs-4 fw-bold">@ValidUrl</p>
+<a class="fs-4 fw-bold" href="@NormalizedUrl">@NormalizedUrl</a>
 
 @code {
     ValidationService ValidationService = new();
     string UrlInput = "";
-    bool ValidUrl => ValidationService.IsValidUrl(UrlInput);
+    UrlValidationResponse validationResponse => ValidationService.IsValidUrl(UrlInput);
+    bool ValidUrl => validationResponse.IsValid;
+    string NormalizedUrl => validationResponse.NormalizedUrl!;
     string TextColor => ValidUrl ? "text-success" : "text-danger";
 
 }
