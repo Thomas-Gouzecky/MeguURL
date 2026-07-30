@@ -13,6 +13,7 @@ public class RedirectController : ControllerBase
         _backendApi = httpClientFactory.CreateClient("BackendApi");
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
