@@ -1,0 +1,12 @@
+@page "/Validate"
+
+<input type="text" @bind="UrlInput" @bind:event="oninput"/>
+<p class="@TextColor fs-4 fw-bold">@ValidUrl</p>
+
+@code {
+    ValidationService ValidationService = new();
+    string UrlInput = "";
+    bool ValidUrl => ValidationService.IsValidUrl(UrlInput);
+    string TextColor => ValidUrl ? "text-success" : "text-danger";
+
+}
