@@ -6,21 +6,28 @@ namespace Backend.Controllers;
 [Route("api/urls")]
 public class UrlController : ControllerBase
 {
-    private readonly HttpClient _http;
+    private readonly HttpClient _databaseApi;
     private readonly UrlCodeService _urlCodeService;
     private readonly IConfiguration _configuration;
+    private readonly ValidationService _validationService;
 
-    public UrlController(IHttpClientFactory httpClientFactory, IConfiguration configuration, UrlCodeService urlCodeService)
+    public UrlController(
+        IHttpClientFactory httpClientFactory,
+        IConfiguration configuration,
+        UrlCodeService urlCodeService,
+        ValidationService validationService
+    )
     {
-        _http = httpClientFactory.CreateClient("DatabaseApi");
+        _databaseApi = httpClientFactory.CreateClient("DatabaseApi");
         _configuration = configuration;
         _urlCodeService = urlCodeService;
+        _validationService = validationService;
     }
 
     [HttpGet("")]
     public async Task<IActionResult> GetAllUrls()
     {
-        var response = await _http.GetAsync("db/");
+        var response = await _databaseApi.GetAsync("db/");
 
         if (!response.IsSuccessStatusCode)
             return NotFound();
@@ -31,7 +38,17 @@ public class UrlController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
-        var response = await _http.PostAsJsonAsync("db/", request);
+
+        UrlValidationResponse validationResponse = _validationService.IsValidUrl(request.LongUrl);
+
+        if (!validationResponse.IsValid)
+        {
+            return BadRequest(new { error = "The provided URL is invalid." });
+        }
+
+        request.LongUrl = validationResponse.NormalizedUrl!;
+        
+        var response = await _databaseApi.PostAsJsonAsync("db/", request);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -60,7 +77,7 @@ public class UrlController : ControllerBase
     {
         int id = _urlCodeService.Decode(code);
 
-        var response = await _http.GetAsync($"db/{id}");
+        var response = await _databaseApi.GetAsync($"db/{id}");
 
         if (!response.IsSuccessStatusCode)
         {
