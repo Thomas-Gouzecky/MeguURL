@@ -13,14 +13,17 @@ public class RedirectController : ControllerBase
         _backendApi = httpClientFactory.CreateClient("BackendApi");
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
         var response = await _backendApi.GetAsync($"api/urls/{code}");
 
-        // Redirect to a 404 not found page?
         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
             return Redirect("/error");
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return Redirect("/404");
 
         if (!response.IsSuccessStatusCode)
         {

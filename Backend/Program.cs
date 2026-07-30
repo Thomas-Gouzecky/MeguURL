@@ -14,7 +14,16 @@ builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = n
 builder.Services.AddSingleton<UrlCodeService>();
 builder.Services.AddSingleton<ValidationService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
