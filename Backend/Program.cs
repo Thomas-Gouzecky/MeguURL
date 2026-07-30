@@ -8,8 +8,14 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BackendApi"]!); });
-builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:DatabaseApi"]!); });
+var backendApi = builder.Configuration["ApiSettings:BackendApi"]
+    ?? throw new InvalidOperationException("Backend API URL is missing");
+
+var databaseApi = builder.Configuration["ApiSettings:DatabaseApi"]
+    ?? throw new InvalidOperationException("Database API URL is missing");
+
+builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
+builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); });
 
 builder.Services.AddSingleton<UrlCodeService>();
 builder.Services.AddSingleton<ValidationService>();
