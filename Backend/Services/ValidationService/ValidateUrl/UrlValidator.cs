@@ -16,7 +16,7 @@ public class UrlValidator : IValidateBase<UrlValidationResponse>
             normalizedUrl = "https://" + normalizedUrl;
         }
 
-        bool isValid = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
+        bool isValid = Uri.TryCreate(normalizedUrl, UriKind.Absolute, out var uri) &&
                 (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
 
         return new UrlValidationResponse { IsValid = isValid, NormalizedUrl = normalizedUrl };
