@@ -2,7 +2,7 @@ using System.Data;
 
 public class ValidationService
 {
-    private UrlValidator _urlValidator;
+    private readonly UrlValidator _urlValidator;
     public ValidationService()
     {
         _urlValidator = new();
