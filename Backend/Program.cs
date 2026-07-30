@@ -12,6 +12,7 @@ builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = ne
 builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(builder.Configuration["ApiSettings:DatabaseApi"]!); });
 
 builder.Services.AddSingleton<UrlCodeService>();
+builder.Services.AddSingleton<ValidationService>();
 
 var app = builder.Build();
 

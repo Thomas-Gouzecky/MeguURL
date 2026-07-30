@@ -9,12 +9,19 @@ public class UrlController : ControllerBase
     private readonly HttpClient _http;
     private readonly UrlCodeService _urlCodeService;
     private readonly IConfiguration _configuration;
+    private readonly ValidationService _validationService;
 
-    public UrlController(IHttpClientFactory httpClientFactory, IConfiguration configuration, UrlCodeService urlCodeService)
+    public UrlController(
+        IHttpClientFactory httpClientFactory,
+        IConfiguration configuration,
+        UrlCodeService urlCodeService,
+        ValidationService validationService
+    )
     {
         _http = httpClientFactory.CreateClient("DatabaseApi");
         _configuration = configuration;
         _urlCodeService = urlCodeService;
+        _validationService = validationService;
     }
 
     [HttpGet("")]
@@ -31,6 +38,11 @@ public class UrlController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
+        if (!_validationService.IsValidUrl(request.LongUrl))
+        {
+            return BadRequest(new { error = "The provided URL is invalid."});
+        }
+        
         var response = await _http.PostAsJsonAsync("db/", request);
 
         if (!response.IsSuccessStatusCode)
