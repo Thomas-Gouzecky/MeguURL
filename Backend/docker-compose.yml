@@ -1,0 +1,14 @@
+services:
+    backend:
+        image: meguurl-backend
+        container_name: meguURL-backend
+        environment:
+            - ApiSettings__BackendApi=http://backend:8080/
+            - ApiSettings__DatabaseApi=http://api:8000/
+        ports:
+            - "6767:8080"
+        networks:
+            - megu-network
+
+networks:
+    megu-network:
