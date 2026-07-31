@@ -24,7 +24,7 @@ public class Base62Decoder : IDecoderBase
             {
                 throw new ArgumentException($"Invalid Base62 character: {c}");
             }
-            id = id * 62 + _charMap[c];
+            id = id * 36 + _charMap[c];
         }
 
         return id;

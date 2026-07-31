@@ -18,10 +18,10 @@ public class Base62Encoder : IEncoderBase
 
         while (id > 0)
         {
-            int remainder = id % 62;
+            int remainder = id % 36;
             code.Append(_alphabet[remainder]);
 
-            id /= 62;
+            id /= 36;
         }
 
         return new string([.. code.ToString().Reverse()]);
