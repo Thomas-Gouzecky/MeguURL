@@ -1,2 +1,6 @@
 include:
     - Database/docker-compose.yml
+    - Backend/docker-compose.yml
+
+networks:
+    megu-network:
