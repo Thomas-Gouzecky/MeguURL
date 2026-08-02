@@ -8,8 +8,8 @@ export default function NavHome() {
 				className="flex justify-center items-center"
 			>
 				<img
+					className="max-w-32 w-fit h-fit"
 					src="/sparkle-chomusuke.webp"
-					width={150}
 				/>
 				{/* <p className="text-2xl text-shadow-md font-bold">Home</p> */}
 			</Link>
