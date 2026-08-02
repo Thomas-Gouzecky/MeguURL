@@ -4,7 +4,7 @@ import { socialLinks } from "./components/socialLinks";
 
 export default function Footer() {
 	return (
-		<div className="m-5 p-3 rounded-xl bg-[#261A18]">
+		<div className="m-5 p-3 rounded-xl bg-linear-to-tl from-[#261A18] to-[#170f0b]">
 			<LiterallyMe />
 			<SocialLinkContainer SocialLinks={socialLinks} />
 		</div>
