@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center">
@@ -5,12 +7,12 @@ export default function NotFound() {
 
 			<p className="mt-4 text-xl">This short URL doesn't exist.</p>
 
-			<a
+			<Link
 				href="/"
 				className="mt-6 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
 			>
 				Go Home
-			</a>
+			</Link>
 		</main>
 	);
 }
