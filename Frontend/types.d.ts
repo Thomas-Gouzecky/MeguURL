@@ -8,3 +8,7 @@ type NavItemProp = {
 	href: string;
 	name: string;
 };
+
+type FooterCardProp = {
+	title?: string;
+};
