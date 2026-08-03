@@ -2,7 +2,7 @@ export default function FootCard({
 	children,
 	FooterProps,
 }: {
-	children: React.ReactElement | React.ReactElement[];
+	children?: React.ReactElement | React.ReactElement[];
 	FooterProps?: FooterCardProp;
 }) {
 	const Title = FooterProps?.title;
