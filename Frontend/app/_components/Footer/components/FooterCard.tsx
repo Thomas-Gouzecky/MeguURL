@@ -1,14 +1,18 @@
 export default function FootCard({
 	children,
+	className,
 	FooterProps,
 }: {
 	children?: React.ReactElement | React.ReactElement[];
+	className?: string;
 	FooterProps?: FooterCardProp;
 }) {
 	const Title = FooterProps?.title;
-
+	const containerCSS =
+		className +
+		" w-fit p-4 rounded-xl bg-[#211615] border-3 border-[#332320] shadow-md h-fit flex flex-col items-center";
 	return (
-		<div className="p-4 w-fit rounded-xl bg-[#211615] border-3 border-[#332320] shadow-md h-fit flex flex-col items-center">
+		<div className={containerCSS}>
 			{Title ? (
 				<div className="w-full flex flex-col items-center">
 					<h1 className="text-md font-bold custom-text-primary">{Title}</h1>

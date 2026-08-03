@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar/Navbar";
@@ -15,10 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "MeguURL",
-	description: "URL Shortening app but it's with Megumin & Chomusuke :3",
+	title: site.title,
+	description: site.description,
 	icons: {
 		icon: "/favicon-bigger.png",
+	},
+	openGraph: {
+		title: site.title,
+		url: site.url,
 	},
 };
 

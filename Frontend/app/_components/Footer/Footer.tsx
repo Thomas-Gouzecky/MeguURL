@@ -1,5 +1,7 @@
-import SocialLinkContainer from "./components/SocialLinkContainer";
-import { socialLinks } from "./components/socialLinks";
+import SocialLinkContainer from "./components/SocialLinks/SocialLinkContainer";
+import ExtraInfoContainer from "./components/ExtraInfo/ExtraInfoContainer";
+import { socialLinks } from "./components/SocialLinks/socialLinks";
+import { extraInfoList } from "./components/ExtraInfo/extraInfo";
 import FooterCard from "./components/FooterCard";
 import Image from "next/image";
 
@@ -26,8 +28,13 @@ export default function Footer() {
 						<SocialLinkContainer SocialLinks={socialLinks} />
 					</FooterCard>
 				</div>
-				<div className="col-span-6 row-start-4">
-					<FooterCard />
+				<div className="flex col-span-6 row-start-4">
+					<FooterCard
+						className="w-full"
+						FooterProps={{ title: "Extra Info" }}
+					>
+						<ExtraInfoContainer ExtraInfoList={extraInfoList} />
+					</FooterCard>
 				</div>
 			</div>
 		</div>
