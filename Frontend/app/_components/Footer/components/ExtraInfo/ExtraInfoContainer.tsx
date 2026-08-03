@@ -21,7 +21,7 @@ export default function ExtraInfoContainer({ ExtraInfoList }: { ExtraInfoList: E
 
 			{/* Copyright */}
 			{siteUrl && siteTitle && (
-				<div className="mt-auto p-4">
+				<div className="mt-auto p-4 text-center">
 					<span>&copy; {currentYear} </span>
 					<ExtraInfoCard ExtraInfo={{ name: siteTitle, href: siteUrl }} />
 					{siteDescription && <span> - {siteDescription}</span>}

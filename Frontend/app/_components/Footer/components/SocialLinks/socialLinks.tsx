@@ -8,13 +8,13 @@ export const socialLinks: SocialLinkProp[] = [
 		icon: <FaGithub size={24} />,
 	},
 	{
-		name: "YouTube",
-		href: "https://youtube.com",
-		icon: <FaYoutube size={24} />,
-	},
-	{
 		name: "X",
 		href: "https://x.com",
 		icon: <FaXTwitter size={24} />,
+	},
+	{
+		name: "YouTube",
+		href: "https://youtube.com",
+		icon: <FaYoutube size={24} />,
 	},
 ];
