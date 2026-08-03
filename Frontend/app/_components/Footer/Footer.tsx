@@ -7,9 +7,9 @@ import Image from "next/image";
 
 export default function Footer() {
 	return (
-		<div className="flex items-center justify-center m-5">
-			<div className="m-auto grid grid-cols-6 grid-rows-4 gap-4 p-4 rounded-xl bg-linear-to-tl from-[#261A18] to-[#170f0b]">
-				<div className="col-span-2 row-span-3">
+		<div className="flex items-center justify-center m-5 p-4 rounded-xl bg-linear-to-tl from-[#261A18] to-[#170f0b]">
+			<div className="m-auto grid grid-cols-3 grid-rows-3 gap-4 max-w-7xl">
+				<div className="row-span-2 row-start-1">
 					<FooterCard FooterProps={{ title: "Literally Me :3" }}>
 						<Image
 							src="/literally-me.jpg"
@@ -20,17 +20,23 @@ export default function Footer() {
 						/>
 					</FooterCard>
 				</div>
-				<div className="row-span-3 col-start-3">
-					<FooterCard />
+				<div className="">
+					<FooterCard className="w-full" />
 				</div>
-				<div className="flex justify-end col-span-3 row-span-3 col-start-4">
-					<FooterCard FooterProps={{ title: "Links!" }}>
+				<div className="flex justify-center">
+					<FooterCard
+						className=""
+						FooterProps={{ title: "Links!" }}
+					>
 						<SocialLinkContainer SocialLinks={socialLinks} />
 					</FooterCard>
 				</div>
-				<div className="flex col-span-6 row-start-4">
+				<div className="col-span-2">
+					<FooterCard />
+				</div>
+				<div className="col-span-3 row-start-3">
 					<FooterCard
-						className="w-full"
+						className="w-full h-full"
 						FooterProps={{ title: "Extra Info" }}
 					>
 						<ExtraInfoContainer ExtraInfoList={extraInfoList} />

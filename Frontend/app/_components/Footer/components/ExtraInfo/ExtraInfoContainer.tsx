@@ -8,7 +8,8 @@ export default function ExtraInfoContainer({ ExtraInfoList }: { ExtraInfoList: E
 	const siteTitle = site.title;
 	const siteDescription = site.description;
 	return (
-		<div className="custom-text-primary">
+		<div className="custom-text-primary flex h-full flex-col">
+			{/* Links */}
 			<div className="flex justify-center gap-4">
 				{ExtraInfoList.map((item, i) => (
 					<ExtraInfoCard
@@ -17,8 +18,10 @@ export default function ExtraInfoContainer({ ExtraInfoList }: { ExtraInfoList: E
 					/>
 				))}
 			</div>
+
+			{/* Copyright */}
 			{siteUrl && siteTitle && (
-				<div className="pt-4">
+				<div className="mt-auto p-4">
 					<span>&copy; {currentYear} </span>
 					<ExtraInfoCard ExtraInfo={{ name: siteTitle, href: siteUrl }} />
 					{siteDescription && <span> - {siteDescription}</span>}
