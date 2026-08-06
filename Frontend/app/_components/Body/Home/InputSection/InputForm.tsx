@@ -41,10 +41,10 @@ export default function InputForm() {
 				/>
 
 				<button
-					className="bg-indigo-950 border-amber-600 border-4"
+					className="bg-indigo-950 border-amber-600 button-padding button-rounding relative text-lg font-bold"
 					type="submit"
 				>
-					Shorten URL
+					Explode
 				</button>
 			</form>
 

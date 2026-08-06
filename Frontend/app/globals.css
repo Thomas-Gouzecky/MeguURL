@@ -30,3 +30,12 @@ body {
 .custom-text-primary {
 	color: #fcead8;
 }
+
+.button-padding {
+	padding-inline: calc(var(--spacing) * 2.75);
+	padding-block: calc(var(--spacing) * 1.25);
+}
+
+.button-rounding {
+	border-radius: var(--radius-lg);
+}
