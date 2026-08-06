@@ -18,3 +18,9 @@ type NavItemProp = {
 type FooterCardProp = {
 	title?: string;
 };
+
+type PostUrlResponse = {
+	success: boolean;
+	error?: string;
+	urlCode?: string;
+};
