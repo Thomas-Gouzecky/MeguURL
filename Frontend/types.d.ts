@@ -24,3 +24,5 @@ type PostUrlResponse = {
 	error?: string;
 	urlCode?: string;
 };
+
+type CursorState = "default" | "pointer" | "text" | "select";

@@ -41,7 +41,7 @@ export default function InputForm() {
 				/>
 
 				<button
-					className="hover:cursor-pointer bg-indigo-950 border-amber-600 border-4"
+					className="bg-indigo-950 border-amber-600 border-4"
 					type="submit"
 				>
 					Shorten URL
