@@ -2,7 +2,7 @@ import SocialLinkCard from "./SocialLinkCard";
 
 export default function SocialLinkContainer({ SocialLinks }: { SocialLinks: SocialLinkProp[] }) {
 	return (
-		<div className="flex flex-wrap gap-4 rounded-xl">
+		<div className="flex flex-wrap gap-4 rounded-xl justify-center">
 			{SocialLinks.map((item, i) => (
 				<SocialLinkCard
 					key={i}

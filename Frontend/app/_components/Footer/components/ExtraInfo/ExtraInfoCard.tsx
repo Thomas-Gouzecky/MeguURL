@@ -4,7 +4,7 @@ export default function ExtraInfoCard({ ExtraInfo }: { ExtraInfo: ExtraInfoProp 
 	return (
 		<Link
 			href={ExtraInfo.href}
-			className="group relative inline-block text-[#CCB14E] hover:text-[#FADA64] transition-all duration-500"
+			className="group relative inline-block clickable-text-color transition-all duration-500"
 		>
 			{ExtraInfo.name}
 

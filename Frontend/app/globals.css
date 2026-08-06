@@ -39,3 +39,19 @@ body {
 .button-rounding {
 	border-radius: var(--radius-lg);
 }
+
+.text-dark-yellow {
+	color: #ccb14e;
+}
+
+.text-light-yellow {
+	color: #fada64;
+}
+
+.clickable-text-color {
+	color: #ccb14e;
+}
+
+.clickable-text-color:hover {
+	color: #fada64;
+}
