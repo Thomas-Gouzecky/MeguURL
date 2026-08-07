@@ -34,7 +34,7 @@ export default function CustomCursor() {
 		<Image
 			src={cursor}
 			alt=""
-			className="fixed pointer-events-none z-50"
+			className="fixed pointer-events-none z-50 h-auto w-auto"
 			width={32}
 			height={32}
 			unoptimized

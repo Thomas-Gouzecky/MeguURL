@@ -1,10 +1,6 @@
 import { FaTriangleExclamation, FaCircleCheck } from "react-icons/fa6";
 
-type Props = {
-	status: "idle" | "success" | "error";
-};
-
-export default function FormStatus({ status }: Props) {
+export default function FormStatus({ status }: { status: StatusProp }) {
 	if (status === "error") {
 		return (
 			<FaTriangleExclamation

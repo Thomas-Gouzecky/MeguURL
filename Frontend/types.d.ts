@@ -26,3 +26,10 @@ type PostUrlResponse = {
 };
 
 type CursorState = "default" | "pointer" | "text" | "select";
+
+type StatusProp = "idle" | "success" | "error";
+
+type StatusItem = {
+	id: string;
+	status: StatusProp;
+};
