@@ -4,8 +4,8 @@ export default function FormStatus({ status }: { status: StatusProp }) {
 	if (status === "error") {
 		return (
 			<FaTriangleExclamation
-				color="white"
-				size={24}
+				color="#9b0929"
+				size={32}
 			/>
 		);
 	}
@@ -13,8 +13,8 @@ export default function FormStatus({ status }: { status: StatusProp }) {
 	if (status === "success") {
 		return (
 			<FaCircleCheck
-				color="white"
-				size={24}
+				color="#20c40a"
+				size={32}
 			/>
 		);
 	}

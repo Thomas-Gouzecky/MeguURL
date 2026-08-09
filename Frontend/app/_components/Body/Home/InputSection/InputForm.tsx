@@ -6,12 +6,14 @@ import useStatusQueue from "@/hooks/useStatusQueue";
 import DisplayStatus from "./Status/DisplayStatus";
 import { GiMineExplosion } from "react-icons/gi";
 
+type Status = "success" | "error" | "idle";
+
 export default function InputForm() {
 	const [inputUrl, setInputUrl] = useState("");
 
 	const { code, error, shortenUrl } = useShortenUrl();
 
-	const { statusQueue, pushStatus, popStatus } = useStatusQueue();
+	const { statusQueue, pushStatus } = useStatusQueue();
 
 	const [status, setStatus] = useState<StatusProp>("idle");
 
@@ -29,29 +31,29 @@ export default function InputForm() {
 		pushStatus({ id: id, status: newStatus });
 	}
 
-	const statusStyle = {
-		success: "bg-green-300 border-green-500",
-		error: "bg-red-300 border-red-500",
-		idle: "border-transparent",
-	};
+	const statusStyle: Record<Status, string> = {
+		success:
+			"text-[#2aa136] hover:border-green-500 hover:text-green-500 focus:border-green-500 focus:text-green-500 focus:shadow-[0_0_10px_3px_rgba(34,231,94,0.35)]",
 
+		error: "text-[#880808] border-[#6c0d0d] hover:border-[#9b0929] hover:text-[#ad0303] focus:border-[#9b0929] focus:text-[#ad0303] focus:shadow-[0_0_10px_3px_rgba(255,48,48,0.35)]",
+
+		idle: "border-transparent text-[#ccb14e] hover:border-[#87732a] hover:text-[#fada64] focus:border-[#a78f3b] focus:text-[#fada64] focus:shadow-[0_0_10px_3px_rgba(167,143,59,0.35)]",
+	};
 	return (
 		<div className="flex flex-col gap-4 w-full">
 			<form
 				className={`
-					${statusStyle[status]}
-					border-3
 					flex flex-row items-center gap-4
 					w-full px-4 py-3 rounded-lg
 				`}
 				onSubmit={handleSubmit}
 			>
-				<div className="flex items-center w-full">
+				<div className="flex items-center w-full gap-2">
 					<DisplayStatus statusQueue={statusQueue} />
 
 					<div className="flex items-center gap-4 w-full">
 						<input
-							className="bg-white border-4 border-amber-600 text-red-600 flex-1"
+							className={`${statusStyle[status]} flex-1 z-10 origin-center bg-black outline-none focus:scale-100 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-2 button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300`}
 							type="text"
 							value={inputUrl}
 							placeholder="Example: google.com"
