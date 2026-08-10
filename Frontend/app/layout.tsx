@@ -41,7 +41,7 @@ export default function RootLayout({
 			<body className="min-h-full flex flex-col">
 				<CustomCursor />
 				<Navbar />
-				{children}
+				<main>{children}</main>
 				<Footer />
 			</body>
 		</html>
