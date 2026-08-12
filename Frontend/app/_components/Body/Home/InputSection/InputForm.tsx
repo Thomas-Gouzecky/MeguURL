@@ -6,8 +6,6 @@ import useStatusQueue from "@/hooks/useStatusQueue";
 import DisplayStatus from "./Status/DisplayStatus";
 import { GiMineExplosion } from "react-icons/gi";
 
-type Status = "success" | "error" | "idle";
-
 export default function InputForm() {
 	const [inputUrl, setInputUrl] = useState("");
 

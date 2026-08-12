@@ -27,6 +27,8 @@ type PostUrlResponse = {
 
 type CursorState = "default" | "pointer" | "text" | "select";
 
+type Status = "success" | "error" | "idle";
+
 type StatusProp = IdleStatusProp | SuccessStatusProp | ErrorStatusProp;
 
 type IdleStatusProp = {
