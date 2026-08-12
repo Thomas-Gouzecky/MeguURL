@@ -48,7 +48,7 @@ export default function InputForm() {
 				`}
 				onSubmit={handleSubmit}
 			>
-				<div className="flex items-center w-full gap-2">
+				<div className="relative flex items-center w-full gap-2">
 					<DisplayStatus statusQueue={statusQueue} />
 
 					<div className="flex items-center gap-4 w-full">
