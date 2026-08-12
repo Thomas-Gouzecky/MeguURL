@@ -3,17 +3,17 @@ import postLongUrl from "@/api/postLongUrl";
 
 export default function useShortenUrl() {
 	const [code, setCode] = useState<string>();
-	const [error, setError] = useState<string>();
+	const [responseError, setResponseError] = useState<ResponseErrorProp>();
 
 	async function shortenUrl(url: string): Promise<PostUrlResponse> {
 		const response: PostUrlResponse = await postLongUrl(url);
 
 		if (response.success) {
 			setCode(response.urlCode);
-			setError(undefined);
+			setResponseError(undefined);
 			// setStatus("success");
 		} else {
-			setError(response.error);
+			setResponseError(response.error);
 			setCode(undefined);
 			// setStatus("error");
 		}
@@ -23,7 +23,7 @@ export default function useShortenUrl() {
 
 	return {
 		code,
-		error,
+		responseError,
 		shortenUrl,
 	};
 }

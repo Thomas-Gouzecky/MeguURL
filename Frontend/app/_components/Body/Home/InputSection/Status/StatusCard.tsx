@@ -7,7 +7,7 @@ import StatusMessageContainer from "./StatusMessageContainer";
 
 export default function StatusCard({ status }: { status: StatusProp }) {
 	const [hovered, setHovered] = useState<boolean>(false);
-	return status !== "idle" ? (
+	return status.state !== "idle" ? (
 		<motion.div
 			layout
 			initial={{
@@ -26,11 +26,15 @@ export default function StatusCard({ status }: { status: StatusProp }) {
 				duration: 0.3,
 			}}
 			className="size-full flex items-center justify-center shrink-0"
-			onHoverStart={() => setHovered(true)}
-			onHoverEnd={() => setHovered(false)}
 		>
-			<FormStatus status={status} />
-			<AnimatePresence>{hovered && <StatusMessageContainer status={status} />}</AnimatePresence>
+			<motion.div
+				onHoverStart={() => setHovered(true)}
+				onHoverEnd={() => setHovered(false)}
+			>
+				<FormStatus status={status} />
+
+				<AnimatePresence>{hovered && <StatusMessageContainer status={status} />}</AnimatePresence>
+			</motion.div>
 		</motion.div>
 	) : null;
 }

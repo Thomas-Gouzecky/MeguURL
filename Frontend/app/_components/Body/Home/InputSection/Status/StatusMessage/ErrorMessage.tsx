@@ -1,15 +1,10 @@
-type StatusErrorProp = {
-	name: string;
-	code: number;
-	description: string;
-};
-
-export default function ErrorMessage({ Error }: { Error: StatusErrorProp }) {
+export default function ErrorMessage({ Error }: { Error: ResponseErrorProp }) {
 	return (
 		<div className="w-full">
-			<h1>Error: {Error.name}</h1>
-			<h3>{Error.code}</h3>
-			<p>{Error.description}</p>
+			<h1>
+				Error: {Error.code} {Error.name}
+			</h1>
+			<p>{Error.description.error}</p>
 		</div>
 	);
 }

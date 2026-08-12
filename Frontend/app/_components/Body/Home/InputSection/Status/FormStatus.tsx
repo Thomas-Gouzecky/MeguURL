@@ -1,7 +1,7 @@
 import { FaTriangleExclamation, FaCircleCheck } from "react-icons/fa6";
 
 export default function FormStatus({ status }: { status: StatusProp }) {
-	if (status === "error") {
+	if (status.state === "error") {
 		return (
 			<FaTriangleExclamation
 				color="#9b0929"
@@ -10,7 +10,7 @@ export default function FormStatus({ status }: { status: StatusProp }) {
 		);
 	}
 
-	if (status === "success") {
+	if (status.state === "success") {
 		return (
 			<FaCircleCheck
 				color="#20c40a"

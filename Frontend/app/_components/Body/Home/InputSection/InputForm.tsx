@@ -11,18 +11,20 @@ type Status = "success" | "error" | "idle";
 export default function InputForm() {
 	const [inputUrl, setInputUrl] = useState("");
 
-	const { code, error, shortenUrl } = useShortenUrl();
+	const { code, responseError, shortenUrl } = useShortenUrl();
 
 	const { statusQueue, pushStatus } = useStatusQueue();
 
-	const [status, setStatus] = useState<StatusProp>("idle");
+	const [status, setStatus] = useState<StatusProp>({ state: "idle" });
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		const result = await shortenUrl(inputUrl);
 
-		const newStatus: StatusProp = result.success ? "success" : "error";
+		console.log(responseError);
+
+		const newStatus: StatusProp = result.success ? { state: "success" } : { state: "error", error: result.error! };
 
 		setStatus(newStatus);
 
@@ -53,7 +55,7 @@ export default function InputForm() {
 
 					<div className="flex items-center gap-4 w-full">
 						<input
-							className={`${statusStyle[status]} flex-1 z-10 origin-center bg-black outline-none focus:scale-100 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-2 button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300`}
+							className={`${statusStyle[status.state]} flex-1 z-10 origin-center bg-black outline-none focus:scale-100 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-2 button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300`}
 							type="text"
 							value={inputUrl}
 							placeholder="Example: google.com"
@@ -89,7 +91,7 @@ export default function InputForm() {
 
 			{code && <span>Code: {code}</span>}
 
-			{error && <span>Error: {error}</span>}
+			{/* {error && <span>Error: {error}</span>} */}
 		</div>
 	);
 }

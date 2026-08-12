@@ -1,9 +1,3 @@
-type PostUrlResponse = {
-	success: boolean;
-	error?: string;
-	urlCode?: string;
-};
-
 type ApiPostUrlResponse = {
 	code: string;
 	ShortUrl: string;
@@ -22,15 +16,15 @@ export default async function postLongUrl(longUrl: string): Promise<PostUrlRespo
 		});
 
 		if (!response.ok) {
-			let urlResponse: PostUrlResponse = { success: false };
+			const errorResponse: BackendErrorResponse = await response.json();
 
-			if (response.status == 500) {
-				urlResponse.error = "Internal Server Error";
-			} else {
-				urlResponse.error = "Unknown Error";
-			}
+			const error: ResponseErrorProp = {
+				name: response.statusText,
+				code: response.status,
+				description: errorResponse,
+			};
 
-			return urlResponse;
+			return { success: false, error: error };
 		}
 
 		const data: ApiPostUrlResponse = await response.json();

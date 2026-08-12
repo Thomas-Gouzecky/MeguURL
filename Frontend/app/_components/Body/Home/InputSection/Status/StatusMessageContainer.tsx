@@ -11,7 +11,7 @@ export default function StatusMessageContainer({ status }: { status: StatusProp 
 				duration: 0.12,
 				ease: "easeOut",
 			}}
-			className="absolute z-20 bottom-15 left-0 min-w-64 w-[30%] bg-black custom-text-primary font-bold rounded-xl px-4 py-2"
+			className="absolute pointer-events-none z-20 bottom-15 left-0 min-w-64 w-[30%] bg-black custom-text-primary font-bold rounded-xl px-4 py-2"
 		>
 			<StatusMessage status={status} />
 		</motion.div>
