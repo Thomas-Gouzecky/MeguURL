@@ -8,7 +8,7 @@ type RedirectApiResponse = {
 
 export async function getRedirectUrl(code: string): Promise<RedirectResponse> {
 	try {
-		const response = await fetch(`http://localhost:6767/api/urls/${code}`);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}${code}`);
 
 		if (!response.ok) {
 			throw new Error(`Failed to fetch URL: ${response.status}`);
