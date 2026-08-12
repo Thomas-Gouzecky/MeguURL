@@ -7,6 +7,7 @@ import StatusMessageContainer from "./StatusMessageContainer";
 
 export default function StatusCard({ status }: { status: StatusProp }) {
 	const [hovered, setHovered] = useState<boolean>(false);
+	const [clicked, setClicked] = useState<boolean>(false);
 	return status.state !== "idle" ? (
 		<motion.div
 			layout
@@ -30,10 +31,11 @@ export default function StatusCard({ status }: { status: StatusProp }) {
 			<motion.div
 				onHoverStart={() => setHovered(true)}
 				onHoverEnd={() => setHovered(false)}
+				onClick={() => setClicked(!clicked)}
 			>
 				<FormStatus status={status} />
 
-				<AnimatePresence>{hovered && <StatusMessageContainer status={status} />}</AnimatePresence>
+				<AnimatePresence>{(hovered || clicked) && <StatusMessageContainer status={status} />}</AnimatePresence>
 			</motion.div>
 		</motion.div>
 	) : null;

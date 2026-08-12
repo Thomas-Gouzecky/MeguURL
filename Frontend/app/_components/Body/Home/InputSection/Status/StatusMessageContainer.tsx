@@ -1,28 +1,51 @@
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 import StatusMessage from "./StatusMessage/StatusMessage";
 
 export default function StatusMessageContainer({ status }: { status: StatusProp }) {
 	const statusMessageCSS: Record<Status, string> = {
-		success: "bg-green-500",
-		error: "bg-red-500",
+		success: "bg-[#11a839] border-[#048025]",
+		error: "bg-[#9b0929] border-[#6c0d0d]",
 		idle: "",
 	};
+
+	const container: Variants = {
+		hidden: {
+			transition: {
+				staggerChildren: 0.1,
+				staggerDirection: -1,
+			},
+		},
+		visible: {
+			transition: {
+				staggerChildren: 0.1,
+				staggerDirection: 1,
+			},
+		},
+	};
+
+	const item: Variants = {
+		hidden: { opacity: 0, y: 15, scale: 0.95, transition: { duration: 0.15, ease: "easeIn" } },
+		visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.15, ease: "easeOut" } },
+	};
+
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 15, scale: 0.98 }}
-			animate={{ opacity: 1, y: 0, scale: 1 }}
-			exit={{ opacity: 0, y: 15, scale: 0.98 }}
-			transition={{
-				duration: 0.12,
-				ease: "easeOut",
-			}}
-			className="absolute pointer-events-none z-20 bottom-15 left-0 min-w-64 w-[30%]"
+			variants={container}
+			initial="hidden"
+			animate="visible"
+			exit="hidden"
+			className="absolute pointer-events-none z-20 bottom-18 -left-2.5 min-w-64 w-[30%]"
 		>
-			<div
-				className={`${statusMessageCSS[status.state]} button-padding button-rounding custom-text-primary font-bold border-2 shadow-[-7px_7px_0_rgba(0,0,0,0.5)]`}
+			<motion.div
+				variants={item}
+				className={`${statusMessageCSS[status.state]} button-padding button-rounding custom-text-primary font-bold border-3`}
 			>
 				<StatusMessage status={status} />
-			</div>
+			</motion.div>
+			<motion.div
+				variants={item}
+				className={`${statusMessageCSS[status.state]} absolute rounded-md left-6 -bottom-6 w-4 h-4 border-3`}
+			/>
 		</motion.div>
 	);
 }
