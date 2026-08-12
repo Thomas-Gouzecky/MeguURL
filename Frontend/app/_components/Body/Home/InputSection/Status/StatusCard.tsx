@@ -2,12 +2,38 @@
 
 import FormStatus from "./FormStatus";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import StatusMessageContainer from "./StatusMessageContainer";
 
-export default function StatusCard({ status }: { status: StatusProp }) {
+export default function StatusCard({ status, queueSignature }: { status: StatusProp; queueSignature?: string }) {
 	const [hovered, setHovered] = useState<boolean>(false);
 	const [clicked, setClicked] = useState<boolean>(false);
+
+	const [suppressMessageAnimation, setSuppressMessageAnimation] = useState(false);
+	const suppressTimer = useRef<number | null>(null);
+
+	useEffect(() => {
+		setHovered(false);
+		setClicked(false);
+		setSuppressMessageAnimation(true);
+
+		if (suppressTimer.current) {
+			window.clearTimeout(suppressTimer.current);
+		}
+		// Clear suppression quickly after change so future interactions animate normally.
+		suppressTimer.current = window.setTimeout(() => {
+			setSuppressMessageAnimation(false);
+			suppressTimer.current = null;
+		}, 50);
+
+		return () => {
+			if (suppressTimer.current) {
+				window.clearTimeout(suppressTimer.current);
+				suppressTimer.current = null;
+			}
+		};
+	}, [queueSignature]);
+
 	return status.state !== "idle" ? (
 		<motion.div
 			layout
@@ -31,11 +57,30 @@ export default function StatusCard({ status }: { status: StatusProp }) {
 			<motion.div
 				onHoverStart={() => setHovered(true)}
 				onHoverEnd={() => setHovered(false)}
-				onClick={() => setClicked(!clicked)}
+				onClick={(e) => {
+					e.preventDefault();
+					setClicked(!clicked);
+				}}
 			>
-				<FormStatus status={status} />
+				<motion.button
+					whileHover={{ scale: 1.1 }}
+					whileTap={{ scale: 0.9 }}
+					transition={{
+						type: "spring",
+						stiffness: 400,
+						damping: 20,
+					}}
+				>
+					<FormStatus status={status} />
+				</motion.button>
 
-				<AnimatePresence>{(hovered || clicked) && <StatusMessageContainer status={status} />}</AnimatePresence>
+				{suppressMessageAnimation ? (
+					(hovered || clicked) && <StatusMessageContainer status={status} />
+				) : (
+					<AnimatePresence>
+						{(hovered || clicked) && <StatusMessageContainer status={status} />}
+					</AnimatePresence>
+				)}
 			</motion.div>
 		</motion.div>
 	) : null;
