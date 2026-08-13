@@ -38,7 +38,7 @@ export default function InputForm() {
 
 		error: "text-[#880808] border-[#6c0d0d] hover:border-[#9b0929] hover:text-[#ad0303] focus:border-[#9b0929] focus:text-[#ad0303] focus:shadow-[0_0_10px_3px_rgba(255,48,48,0.35)]",
 
-		idle: "border-transparent text-[#ccb14e] hover:border-[#87732a] hover:text-[#fada64] focus:border-[#a78f3b] focus:text-[#fada64] focus:shadow-[0_0_10px_3px_rgba(167,143,59,0.35)]",
+		idle: "border-[#402a2a] text-[#ccb14e] hover:border-[#87732a] hover:text-[#fada64] focus:border-[#a78f3b] focus:text-[#fada64] focus:shadow-[0_0_10px_3px_rgba(167,143,59,0.35)]",
 	};
 	return (
 		<div className="flex flex-col gap-4 w-full">
