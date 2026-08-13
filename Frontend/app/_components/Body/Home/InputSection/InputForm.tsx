@@ -54,7 +54,7 @@ export default function InputForm() {
 
 					<div className="flex items-center gap-4 w-full">
 						<input
-							className={`${statusStyle[status.state]} flex-1 z-10 origin-center bg-black outline-none focus:scale-100 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-2 button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300`}
+							className={`${statusStyle[status.state]} flex-1 z-10 origin-center bg-[#130b0b] outline-none focus:scale-100 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-2 button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300`}
 							type="text"
 							value={inputUrl}
 							placeholder="Example: google.com"
@@ -62,11 +62,11 @@ export default function InputForm() {
 						/>
 
 						<button
-							className="shrink-0 bg-black active:scale-105 hover:scale-110 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] border-transparent border-2 hover:border-[#6c3030] group clickable-text-color button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300"
+							className="shrink-0 bg-[#1f1414] border-2 border-[#402a2a] active:scale-105 hover:scale-110 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] hover:border-[#6c3030] group clickable-text-color button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300"
 							type="submit"
 						>
 							{/* Background gradient */}
-							<span className="absolute inset-0 bg-radial-[at_50%_100%] from-[#622626] via-[#271313] to-black opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+							<span className="absolute inset-0 bg-radial-[at_50%_100%] from-[#622626] via-[#271313] to-[#050303] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
 							<GiMineExplosion
 								size={24}

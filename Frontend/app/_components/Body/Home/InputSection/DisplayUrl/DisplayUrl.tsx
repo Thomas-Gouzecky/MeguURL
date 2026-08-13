@@ -93,7 +93,7 @@ export default function DisplayUrl({ code }: { code: string | null }) {
 			variants={variants}
 			initial="hidden"
 			animate={animationState}
-			className="bg-black button-rounding flex justify-center font-bold"
+			className="bg-[#1f1414] border-2 border-[#402a2a] button-rounding flex justify-center font-bold"
 		>
 			<motion.div className="flex items-center justify-center gap-4 text-lg w-fit px-4 py-3 rounded-xl">
 				<motion.div variants={item}>

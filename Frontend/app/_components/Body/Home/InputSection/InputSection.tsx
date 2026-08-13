@@ -5,7 +5,9 @@ export default function InputSection() {
 		<>
 			<div className="flex flex-col justify-center items-center gap-2">
 				<div className="flex justify-center items-center gap-4 text-shadow-[3px_3px_8px_rgba(0,0,0,0.5)]">
-					<h1 className="w-fit lg:text-4xl text-lg font-[futura]">Paste your url to explode it!</h1>
+					<h1 className="w-fit custom-text-primary lg:text-4xl text-lg font-[futura]">
+						Paste your url to explode it!
+					</h1>
 					<Image
 						className="shadow-[3px_3px_8px_rgba(0,0,0,0.5)] w-[12%]"
 						src={"/megumin_explosion.gif"}
