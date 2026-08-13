@@ -5,6 +5,7 @@ import useShortenUrl from "@/hooks/useShortenUrl";
 import useStatusQueue from "@/hooks/useStatusQueue";
 import DisplayStatus from "./Status/DisplayStatus";
 import { GiMineExplosion } from "react-icons/gi";
+import DisplayUrlContainer from "./DisplayUrl/DisplayUrlContainer";
 
 export default function InputForm() {
 	const [inputUrl, setInputUrl] = useState("");
@@ -87,9 +88,7 @@ export default function InputForm() {
 				</div>
 			</form>
 
-			{code && <span>Code: {code}</span>}
-
-			{/* {error && <span>Error: {error}</span>} */}
+			<DisplayUrlContainer code={code} />
 		</div>
 	);
 }
