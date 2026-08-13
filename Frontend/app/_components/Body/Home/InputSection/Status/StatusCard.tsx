@@ -12,6 +12,12 @@ export default function StatusCard({ status, queueSignature }: { status: StatusP
 	const [suppressMessageAnimation, setSuppressMessageAnimation] = useState(false);
 	const suppressTimer = useRef<number | null>(null);
 
+	const statusMessageCSS: Record<Status, string> = {
+		success: "bg-[#11a839]",
+		error: "bg-[#9b0929]",
+		idle: "",
+	};
+
 	useEffect(() => {
 		setHovered(false);
 		setClicked(false);
@@ -57,14 +63,14 @@ export default function StatusCard({ status, queueSignature }: { status: StatusP
 			<motion.div
 				onHoverStart={() => setHovered(true)}
 				onHoverEnd={() => setHovered(false)}
-				onClick={(e) => {
-					e.preventDefault();
-					setClicked(!clicked);
-				}}
 			>
 				<motion.button
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.9 }}
+					onClick={(e) => {
+						e.preventDefault();
+						setClicked(!clicked);
+					}}
 					transition={{
 						type: "spring",
 						stiffness: 400,
@@ -81,6 +87,18 @@ export default function StatusCard({ status, queueSignature }: { status: StatusP
 						{(hovered || clicked) && <StatusMessageContainer status={status} />}
 					</AnimatePresence>
 				)}
+
+				<motion.div
+					className={`${statusMessageCSS[status.state]} w-full h-0.5 rounded-lg origin-center`}
+					animate={{
+						opacity: clicked ? 1 : 0,
+						scaleX: clicked ? "100%" : 0,
+					}}
+					transition={{
+						duration: 0.2,
+						ease: "easeOut",
+					}}
+				/>
 			</motion.div>
 		</motion.div>
 	) : null;
