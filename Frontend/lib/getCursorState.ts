@@ -17,7 +17,11 @@ export default function getCursorState(element: Element): CursorState {
 		return "text";
 	}
 
-	if (element instanceof HTMLHeadingElement || element instanceof HTMLParagraphElement) {
+	if (
+		element instanceof HTMLHeadingElement ||
+		element instanceof HTMLParagraphElement ||
+		element instanceof HTMLSpanElement
+	) {
 		return "select";
 	}
 
