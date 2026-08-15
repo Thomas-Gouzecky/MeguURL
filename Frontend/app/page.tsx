@@ -10,7 +10,7 @@ import { useId } from "react";
 export default function Home() {
 	const id = useId();
 	return (
-		<>
+		<div className="flex flex-col gap-4 p-4">
 			{/* idek if i have art i want to use LOL */}
 			<WebArt />
 			<GlassCard
@@ -34,6 +34,6 @@ export default function Home() {
 					<AppDescription />
 				</div>
 			</GlassCard>
-		</>
+		</div>
 	);
 }
