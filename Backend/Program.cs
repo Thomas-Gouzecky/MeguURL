@@ -27,6 +27,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo("/keys"));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NextJs", policy =>
+    {
+        policy.WithOrigins([
+                "https://localhost:3000",
+                "http://localhost:3000"
+            ])
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,6 +56,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
     app.UseHttpsRedirection();
 }
+
+app.UseCors("NextJs");
 
 app.UseAntiforgery();
 

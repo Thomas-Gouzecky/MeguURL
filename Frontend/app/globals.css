@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+	--background: #402a2a;
+	--foreground: #171717;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #402a2a;
+		--foreground: #ededed;
+	}
+}
+* {
+	cursor: none !important;
+}
+
+html {
+	scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+	display: none;
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: Arial, Helvetica, sans-serif;
+
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 100%), url("/chomusuke-background-zoomed.png");
+
+	background-size:
+		100%,
+		max(50vw, 800px) auto;
+	background-position: center;
+	background-repeat: repeat, no-repeat;
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+
+	background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+
+	pointer-events: none;
+	z-index: -5;
+}
+
+.custom-text-primary {
+	color: #fcead8;
+}
+
+.button-padding {
+	padding-inline: calc(var(--spacing) * 2.75);
+	padding-block: calc(var(--spacing) * 1.25);
+}
+
+.button-rounding {
+	border-radius: var(--radius-lg);
+}
+
+.text-dark-yellow {
+	color: #ccb14e;
+}
+
+.text-light-yellow {
+	color: #fada64;
+}
+
+.clickable-text-color {
+	color: #ccb14e;
+}
+
+.clickable-text-color:hover {
+	color: #fada64;
+}
