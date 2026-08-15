@@ -2,7 +2,7 @@ import InputForm from "./InputForm";
 import Image from "next/image";
 export default function InputSection() {
 	return (
-		<>
+		<div className="flex flex-col gap-4">
 			<div className="flex flex-col justify-center items-center gap-2">
 				<div className="flex justify-center items-center gap-4 text-shadow-[3px_3px_8px_rgba(0,0,0,0.5)]">
 					<h1 className="w-fit custom-text-primary lg:text-4xl text-lg font-[futura]">
@@ -20,6 +20,6 @@ export default function InputSection() {
 				<div className="h-0.5 w-[80%] bg-linear-to-r via-[#796623]" />
 			</div>
 			<InputForm />
-		</>
+		</div>
 	);
 }
