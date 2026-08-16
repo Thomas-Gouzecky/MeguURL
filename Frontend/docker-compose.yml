@@ -1,6 +1,6 @@
 services:
     frontend:
-        image: meguurl-frontend
+        image: tomcheese/meguurl-frontend-repo:0.1.0
         container_name: meguURL-frontend
         ports:
             - "3000:3000"
