@@ -1,0 +1,13 @@
+services:
+    frontend:
+        image: tomcheese/meguurl-frontend-repo:0.1.0
+        container_name: meguURL-frontend
+        ports:
+            - "3000:3000"
+        env_file:
+            - .env.production
+        networks:
+            - megu-network
+
+networks:
+    megu-network:
