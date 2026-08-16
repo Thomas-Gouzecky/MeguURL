@@ -1,0 +1,13 @@
+services:
+    frontend:
+        image: meguurl-frontend
+        container_name: meguURL-frontend
+        ports:
+            - "3000:3000"
+        env_file:
+            - .env.production
+        networks:
+            - megu-network
+
+networks:
+    megu-network:
