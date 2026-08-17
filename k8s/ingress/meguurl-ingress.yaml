@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: meguurl-ingress
+spec:
+    ingressClassName: nginx
+    rules:
+        - host: meguurl.local
+          http:
+              paths:
+                  - path: /api
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: meguurl-backend
+                            port:
+                                number: 6767
+
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: meguurl-frontend
+                            port:
+                                number: 3000
