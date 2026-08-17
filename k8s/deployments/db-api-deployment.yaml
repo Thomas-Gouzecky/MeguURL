@@ -30,6 +30,9 @@ spec:
                 - image: tomcheese/meguurl-db-api-repo:latest
                   imagePullPolicy: IfNotPresent
                   name: meguurl-db-api-repo
+                  envFrom:
+                      - secretRef:
+                            name: db-api-secrets
                   resources: {}
                   terminationMessagePath: /dev/termination-log
                   terminationMessagePolicy: File
