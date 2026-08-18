@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("api/urls")]
+[Route("/api/urls")]
 public class UrlController : ControllerBase
 {
     private readonly HttpClient _databaseApi;
@@ -24,10 +24,10 @@ public class UrlController : ControllerBase
         _validationService = validationService;
     }
 
-    [HttpGet("")]
+    [HttpGet]
     public async Task<IActionResult> GetAllUrls()
     {
-        var response = await _databaseApi.GetAsync("db/");
+        var response = await _databaseApi.GetAsync("/db/");
 
         if (!response.IsSuccessStatusCode)
             return NotFound();
@@ -35,7 +35,7 @@ public class UrlController : ControllerBase
         return Ok(await response.Content.ReadFromJsonAsync<UrlMapping[]>());
     }
 
-    [HttpPost("")]
+    [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
 
@@ -48,7 +48,7 @@ public class UrlController : ControllerBase
 
         request.LongUrl = validationResponse.NormalizedUrl!;
         
-        var response = await _databaseApi.PostAsJsonAsync("db/", request);
+        var response = await _databaseApi.PostAsJsonAsync("/db/", request);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -68,7 +68,7 @@ public class UrlController : ControllerBase
         return Ok(new CreateUrlResponse
         {
             Code = code,
-            ShortUrl = $"{baseUrl}{code}"
+            ShortUrl = $"{baseUrl}/{code}"
         });
     }
 
@@ -77,7 +77,7 @@ public class UrlController : ControllerBase
     {
         int id = _urlCodeService.Decode(code);
 
-        var response = await _databaseApi.GetAsync($"db/{id}");
+        var response = await _databaseApi.GetAsync($"/db/{id}");
 
         if (!response.IsSuccessStatusCode)
         {

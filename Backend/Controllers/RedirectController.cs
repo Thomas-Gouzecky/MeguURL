@@ -17,7 +17,7 @@ public class RedirectController : ControllerBase
     [HttpGet("{code}")]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
-        var response = await _backendApi.GetAsync($"api/urls/{code}");
+        var response = await _backendApi.GetAsync($"/api/urls/{code}");
 
         if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
             return Redirect("/error");
