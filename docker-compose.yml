@@ -1,7 +1,7 @@
 include:
     - Database/docker-compose.yml
-    # - Backend/docker-compose.yml
-    # - Frontend/docker-compose.yml
+    - Backend/docker-compose.yml
+    - Frontend/docker-compose.yml
 
 networks:
     megu-network:
