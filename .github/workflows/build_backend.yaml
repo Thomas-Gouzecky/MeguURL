@@ -19,7 +19,7 @@ jobs:
                     Select-Object -ExpandProperty Node |
                     Select-Object -ExpandProperty InnerText
 
-                  echo "version=$version" >> $env:$GITHUB_OUTPUT
+                  echo "version=$version" >> $env:GITHUB_OUTPUT
 
             - name: Log in to Docker Hub
               uses: docker/login-action@v3
