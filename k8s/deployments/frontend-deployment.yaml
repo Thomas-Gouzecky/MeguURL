@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    creationTimestamp: "2026-08-16T22:36:42Z"
+    generation: 1
+    labels:
+        app: meguurl-frontend
+    name: meguurl-frontend
+    namespace: default
+    resourceVersion: "1044"
+    uid: 728cbfc1-9cf0-4fbd-8c84-b82933342d16
+spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+        matchLabels:
+            app: meguurl-frontend
+    strategy:
+        rollingUpdate:
+            maxSurge: 25%
+            maxUnavailable: 25%
+        type: RollingUpdate
+    template:
+        metadata:
+            labels:
+                app: meguurl-frontend
+        spec:
+            containers:
+                - image: tomcheese/meguurl-frontend-repo:0.1.1
+                  imagePullPolicy: IfNotPresent
+                  name: meguurl-frontend-repo
+                  envFrom:
+                      - configMapRef:
+                            name: frontend-config
+                  resources: {}
+                  terminationMessagePath: /dev/termination-log
+                  terminationMessagePolicy: File
+            dnsPolicy: ClusterFirst
+            restartPolicy: Always
+            schedulerName: default-scheduler
+            securityContext: {}
+            terminationGracePeriodSeconds: 30
+status: {}

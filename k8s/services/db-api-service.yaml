@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+    creationTimestamp: "2026-08-16T22:48:36Z"
+    labels:
+        app: meguurl-db-api
+    name: meguurl-db-api
+    namespace: default
+    resourceVersion: "2246"
+    uid: 050fb580-d7c9-4166-b149-2a7290457a92
+spec:
+    clusterIP: 10.96.229.5
+    clusterIPs:
+        - 10.96.229.5
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+        - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+        - name: 8000-8000
+          port: 8000
+          protocol: TCP
+          targetPort: 8000
+    selector:
+        app: meguurl-db-api
+    sessionAffinity: None
+    type: ClusterIP
+status:
+    loadBalancer: {}
