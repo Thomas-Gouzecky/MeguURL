@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
 
 namespace Backend.Controllers;
 
@@ -29,10 +30,14 @@ public class UrlController : ControllerBase
     {
         var response = await _databaseApi.GetAsync("/db/");
 
-        if (!response.IsSuccessStatusCode)
-            return NotFound();
+        var error = CheckResponseError(response);
 
-        return Ok(await response.Content.ReadFromJsonAsync<UrlMapping[]>());
+        if (error is not null)
+            return error;
+
+        var result = await response.Content.ReadFromJsonAsync<UrlMapping[]>();
+
+        return Ok(result);
     }
 
     [HttpPost]
@@ -43,17 +48,24 @@ public class UrlController : ControllerBase
 
         if (!validationResponse.IsValid)
         {
-            return BadRequest(new { error = "The provided URL is invalid." });
+            var problem = new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Invalid URL",
+                Detail = "The provided URL is invalid."
+            };
+            
+            return BadRequest(problem);
         }
 
         request.LongUrl = validationResponse.NormalizedUrl!;
-        
+
         var response = await _databaseApi.PostAsJsonAsync("/db/", request);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            return StatusCode((int)response.StatusCode);
-        }
+        var error = CheckResponseError(response);
+
+        if (error is not null)
+            return error;
 
         var result = await response.Content.ReadFromJsonAsync<UrlMapping>();
 
@@ -79,10 +91,10 @@ public class UrlController : ControllerBase
 
         var response = await _databaseApi.GetAsync($"/db/{id}");
 
-        if (!response.IsSuccessStatusCode)
-        {
-            return StatusCode((int)response.StatusCode);
-        }
+        var error = CheckResponseError(response);
+
+        if (error is not null)
+            return error;
 
         var result = await response.Content.ReadFromJsonAsync<RedirectUrl>();
 
@@ -90,5 +102,25 @@ public class UrlController : ControllerBase
             return NotFound();
 
         return Ok(result);
+    }
+
+    private IActionResult? CheckResponseError(HttpResponseMessage? response)
+    {
+        if (response is null)
+            return NotFound();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var problem = new ProblemDetails
+            {
+                Status = (int)response.StatusCode,
+                Title = response.StatusCode.GetDisplayName(),
+                Detail = response.ReasonPhrase
+            };
+
+            return StatusCode((int)response.StatusCode, problem);
+        }
+
+        return null;
     }
 }

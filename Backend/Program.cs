@@ -9,6 +9,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
+builder.Services.AddProblemDetails();
+
 var backendApi = builder.Configuration["ApiSettings:BackendApi"]
     ?? throw new InvalidOperationException("Backend API URL is missing");
 

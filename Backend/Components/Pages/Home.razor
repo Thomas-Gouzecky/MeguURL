@@ -37,11 +37,12 @@
 
     private async Task ShortenUrl() 
     {
-        var response = await http!.PostAsJsonAsync("api/urls/", model);
+        var response = await http!.PostAsJsonAsync("/api/urls/", model);
 
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage = await response.Content.ReadAsStringAsync();
+            var res = await response.Content.ReadFromJsonAsync<ProblemDetailsResponse>();
+                ErrorMessage = res?.Detail ?? "Error";
             return;
         }
 
