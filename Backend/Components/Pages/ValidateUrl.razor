@@ -1,15 +1,14 @@
 @page "/Validate"
+@inject ValidationService ValidationService
 
 <input type="text" @bind="UrlInput" @bind:event="oninput"/>
-<p class="@TextColor fs-4 fw-bold">@ValidUrl</p>
-<a class="fs-4 fw-bold" href="@NormalizedUrl">@NormalizedUrl</a>
+<p class="@TextColor fs-4 fw-bold">@UrlValidation.ValidUrl</p>
+<a class="fs-4 fw-bold" href="@UrlValidation.NormalizedUrl">@UrlValidation.NormalizedUrl</a>
 
 @code {
-    ValidationService ValidationService = new();
     string UrlInput = "";
-    UrlValidationResponse validationResponse => ValidationService.IsValidUrl(UrlInput);
-    bool ValidUrl => validationResponse.IsValid;
-    string NormalizedUrl => validationResponse.NormalizedUrl!;
-    string TextColor => ValidUrl ? "text-success" : "text-danger";
+    (bool ValidUrl, string NormalizedUrl) UrlValidation =>
+        ValidationService.IsNormalizedUrlValid(UrlInput);
+    string TextColor => UrlValidation.ValidUrl ? "text-success" : "text-danger";
 
 }

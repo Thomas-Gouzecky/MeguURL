@@ -1,16 +1,18 @@
-using System.Data;
-using Microsoft.VisualBasic;
-
 public class ValidationService
 {
     private readonly UrlValidator _urlValidator;
-    public ValidationService()
+    public ValidationService(UrlValidator urlValidator)
     {
-        _urlValidator = new();
+        _urlValidator = urlValidator;
     }
 
-    public UrlValidationResponse IsValidUrl(string url)
+    public async Task<UrlValidationResponse> IsValidUrl(string url)
     {
-        return _urlValidator.Validate(url);
+        return await _urlValidator.Validate(url);
+    }
+
+    public (bool, string) IsNormalizedUrlValid(string url)
+    {
+        return _urlValidator.IsNormalizedUrlValid(url);
     }
 }

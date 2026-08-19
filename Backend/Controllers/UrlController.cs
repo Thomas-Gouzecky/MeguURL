@@ -44,7 +44,7 @@ public class UrlController : ControllerBase
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
 
-        UrlValidationResponse validationResponse = _validationService.IsValidUrl(request.LongUrl);
+        UrlValidationResponse validationResponse = await _validationService.IsValidUrl(request.LongUrl);
 
         if (!validationResponse.IsValid)
         {
