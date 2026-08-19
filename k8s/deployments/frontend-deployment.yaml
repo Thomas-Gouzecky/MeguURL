@@ -27,7 +27,7 @@ spec:
                 app: meguurl-frontend
         spec:
             containers:
-                - image: tomcheese/meguurl-frontend-repo:latest
+                - image: tomcheese/meguurl-frontend-repo:0.1.2
                   imagePullPolicy: IfNotPresent
                   name: meguurl-frontend-repo
                   envFrom:
