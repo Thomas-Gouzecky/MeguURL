@@ -18,7 +18,7 @@ spec:
         spec:
             containers:
                 - name: meguurl-backend-repo
-                  image: tomcheese/meguurl-backend-repo:0.1.1
+                  image: tomcheese/meguurl-backend-repo:0.1.2
                   imagePullPolicy: IfNotPresent
                   envFrom:
                       - configMapRef:
