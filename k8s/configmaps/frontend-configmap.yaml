@@ -8,4 +8,3 @@ metadata:
     uid: 3fadd1e1-7954-4c6c-a72c-740f46954b01
 data:
     BACKEND: http://meguurl-backend:6767
-    NEXT_PUBLIC_FRONTEND: http://meguurl.local
