@@ -1,29 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-    creationTimestamp: "2026-08-17T19:26:27Z"
+    name: db-service
     labels:
         app: db-service
-    name: db-service
-    namespace: default
-    resourceVersion: "42416"
-    uid: 671830de-8174-49b4-8e3d-db1f83d9ac20
+
 spec:
-    clusterIP: 10.96.22.130
-    clusterIPs:
-        - 10.96.22.130
-    internalTrafficPolicy: Cluster
-    ipFamilies:
-        - IPv4
-    ipFamilyPolicy: SingleStack
+    selector:
+        app: postgres
+
     ports:
         - name: 5432-5432
           port: 5432
           protocol: TCP
           targetPort: 5432
-    selector:
-        app: postgres
-    sessionAffinity: None
+          
     type: ClusterIP
-status:
-    loadBalancer: {}

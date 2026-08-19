@@ -1,11 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    creationTimestamp: "2026-08-16T23:07:31Z"
     name: backend-config
-    namespace: default
-    resourceVersion: "4206"
-    uid: 882e10ef-696d-43e1-bf1d-064bf30154ef
 data:
     ApiSettings__BackendApi: http://meguurl-backend:8080/
     ApiSettings__DatabaseApi: http://meguurl-db-api:8000/
