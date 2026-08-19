@@ -63,7 +63,7 @@ export default function DisplayUrl({ code }: { code: string | null }) {
 	};
 
 	useEffect(() => {
-		setBaseURL(window.location.origin);
+		setBaseURL(window.location.host);
 	}, []);
 
 	useEffect(() => {
