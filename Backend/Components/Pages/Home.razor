@@ -20,7 +20,9 @@
     
 }
 
+<h5>@ErrorTitle</h5>
 <p>@ErrorMessage</p>
+<p>@ErrorUrl</p>
 
 @code {
 
@@ -28,7 +30,9 @@
     private HttpClient? http;
     private string? ShortUrlCode;
     private string? ShortUrl;
+    private string? ErrorTitle;
     private string? ErrorMessage;
+    private string? ErrorUrl;
 
     protected override void OnInitialized()
     {
@@ -37,11 +41,14 @@
 
     private async Task ShortenUrl() 
     {
-        var response = await http!.PostAsJsonAsync("api/urls/", model);
+        var response = await http!.PostAsJsonAsync("/api/urls/", model);
 
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage = await response.Content.ReadAsStringAsync();
+            var res = await response.Content.ReadFromJsonAsync<ProblemDetailsResponse>();
+            ErrorTitle = res?.Title ?? "Error";
+            ErrorMessage = res?.Detail ?? "Error";
+            ErrorUrl = res?.Url ?? "";
             return;
         }
 

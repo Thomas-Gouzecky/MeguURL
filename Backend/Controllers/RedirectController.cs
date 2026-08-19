@@ -1,5 +1,6 @@
-using backend.Components.Pages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
+
 
 namespace Backend.Controllers;
 
@@ -27,7 +28,14 @@ public class RedirectController : ControllerBase
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var problem = new ProblemDetails
+            {
+                Status = (int)response.StatusCode,
+                Title = response.StatusCode.GetDisplayName(),
+                Detail = response.ReasonPhrase
+            };
+
+            return StatusCode((int)response.StatusCode, problem);
         }
 
         var result = await response.Content.ReadFromJsonAsync<RedirectUrl>();

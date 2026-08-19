@@ -9,6 +9,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
+builder.Services.AddProblemDetails();
+
 var backendApi = builder.Configuration["ApiSettings:BackendApi"]
     ?? throw new InvalidOperationException("Backend API URL is missing");
 
@@ -17,8 +19,10 @@ var databaseApi = builder.Configuration["ApiSettings:DatabaseApi"]
 
 builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
 builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); });
+builder.Services.AddHttpClient("UrlValidator", client => { client.Timeout = TimeSpan.FromSeconds(10); });
 
 builder.Services.AddSingleton<UrlCodeService>();
+builder.Services.AddSingleton<UrlValidator>();
 builder.Services.AddSingleton<ValidationService>();
 
 builder.Services.AddEndpointsApiExplorer();

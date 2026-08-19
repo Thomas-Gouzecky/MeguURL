@@ -1,4 +1,4 @@
 public interface IValidateBase<T>
 {
-    T Validate(object context);
+    Task<T> Validate(object context);
 }
