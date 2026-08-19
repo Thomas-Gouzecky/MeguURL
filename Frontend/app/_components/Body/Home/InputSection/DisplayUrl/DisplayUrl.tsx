@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 type AnimateStates = "visible" | "hidden" | "bounce";
 
 export default function DisplayUrl({ code }: { code: string | null }) {
-	const baseURL = process.env.NEXT_PUBLIC_FRONTEND;
+	const [baseURL, setBaseURL] = useState<string>("");
 	const previousCode = useRef<string | null>(null);
 	const [animationState, setAnimationState] = useState<AnimateStates>("hidden");
 
@@ -61,6 +61,10 @@ export default function DisplayUrl({ code }: { code: string | null }) {
 			},
 		},
 	};
+
+	useEffect(() => {
+		setBaseURL(window.location.origin);
+	}, []);
 
 	useEffect(() => {
 		function animateState(): AnimateStates {
