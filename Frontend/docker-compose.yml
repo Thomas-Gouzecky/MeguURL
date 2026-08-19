@@ -1,6 +1,8 @@
 services:
     frontend:
         image: tomcheese/meguurl-frontend-repo:latest
+        pull_policy: always
+        # build: .
         container_name: meguURL-frontend
         ports:
             - "3000:3000"

@@ -1,6 +1,7 @@
 services:
     api:
         image: tomcheese/meguurl-db-api-repo:latest
+        pull_policy: always
         container_name: meguURL-api
         ports:
             - "8000:8000"
@@ -13,11 +14,10 @@ services:
 
     database:
         image: postgres:18
+        pull_policy: if_not_present
         container_name: meguURL-database
         env_file:
             - .env.db
-        ports:
-            - "5431:5432"
         volumes:
             - postgres-data:/var/lib/postgresql
         networks:

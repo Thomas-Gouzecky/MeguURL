@@ -1,6 +1,7 @@
 services:
     backend:
         image: tomcheese/meguurl-backend-repo:latest
+        pull_policy: always
         container_name: meguURL-backend
         env_file:
             - .env.production
