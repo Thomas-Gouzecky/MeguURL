@@ -10,56 +10,52 @@ public class UrlValidator : IValidateBase<UrlValidationResponse>
 
     public async Task<UrlValidationResponse> Validate(object context)
     {
-
         if (context is not string url || string.IsNullOrWhiteSpace(url))
         {
-            return new UrlValidationResponse
-            {
-                IsValid = false,
-                InvalidUrlResponse = new InvalidUrlResponse
-                {
-                    Title = "Missing URL",
-                    Message = "Please provide a URL to shorten.",
-                }
-            };
+            return InvalidUrl(
+                "Missing URL",
+                "Please provide a URL to shorten.");
         }
 
-        var (isNormalizedUrlValid, normalizedUrl) = IsNormalizedUrlValid(url);
+        var (isValid, normalizedUrl) = IsNormalizedUrlValid(url);
 
-        if (!isNormalizedUrlValid)
+        if (!isValid)
         {
-            return new UrlValidationResponse
-            {
-                IsValid = false,
-                InvalidUrlResponse = new InvalidUrlResponse
-                {
-                    Title = "Invalid URL",
-                    Message = "Please provide a valid URL to shorten.",
-                    Url = url
-                }
-            };
+            return InvalidUrl(
+                "Invalid URL",
+                "Please provide a valid URL to shorten.",
+                url);
         }
 
-        var doesUrlExist = await UrlExists(normalizedUrl);
-
-        if (!doesUrlExist)
+        if (!await UrlExists(normalizedUrl))
         {
-            return new UrlValidationResponse
-            {
-                IsValid = false,
-                InvalidUrlResponse = new InvalidUrlResponse
-                {
-                    Title = "URL Does Not Exist",
-                    Message = $"'{url}' does not currently exist. Please provide a valid URL.",
-                    Url = url
-                }
-            };
+            return InvalidUrl(
+                "URL Does Not Exist",
+                $"'{url}' does not currently exist. Please provide a valid URL.",
+                url);
         }
 
         return new UrlValidationResponse
         {
             IsValid = true,
             NormalizedUrl = normalizedUrl
+        };
+    }
+
+    private UrlValidationResponse InvalidUrl(
+        string title,
+        string message,
+        string? url = null)
+    {
+        return new UrlValidationResponse
+        {
+            IsValid = false,
+            InvalidUrlResponse = new InvalidUrlResponse
+            {
+                Title = title,
+                Message = message,
+                Url = url
+            }
         };
     }
 
