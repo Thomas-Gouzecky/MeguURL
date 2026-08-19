@@ -20,7 +20,9 @@
     
 }
 
+<h5>@ErrorTitle</h5>
 <p>@ErrorMessage</p>
+<p>@ErrorUrl</p>
 
 @code {
 
@@ -28,7 +30,9 @@
     private HttpClient? http;
     private string? ShortUrlCode;
     private string? ShortUrl;
+    private string? ErrorTitle;
     private string? ErrorMessage;
+    private string? ErrorUrl;
 
     protected override void OnInitialized()
     {
@@ -42,7 +46,9 @@
         if (!response.IsSuccessStatusCode)
         {
             var res = await response.Content.ReadFromJsonAsync<ProblemDetailsResponse>();
-                ErrorMessage = res?.Detail ?? "Error";
+            ErrorTitle = res?.Title ?? "Error";
+            ErrorMessage = res?.Detail ?? "Error";
+            ErrorUrl = res?.Url ?? "";
             return;
         }
 

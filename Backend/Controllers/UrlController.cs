@@ -48,12 +48,24 @@ public class UrlController : ControllerBase
 
         if (!validationResponse.IsValid)
         {
+            InvalidUrlResponse invalidUrlResponse = validationResponse.InvalidUrlResponse!;
+            if (invalidUrlResponse is null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Invalid URL",
+                    Detail = "The URL validation failed."
+                });
+            }
+
             var problem = new ProblemDetails
             {
                 Status = StatusCodes.Status400BadRequest,
-                Title = "Invalid URL",
-                Detail = "The provided URL is invalid."
+                Title = invalidUrlResponse.Title,
+                Detail = invalidUrlResponse.Message
             };
+            problem.Extensions["Url"] = invalidUrlResponse.Url;
             
             return BadRequest(problem);
         }
