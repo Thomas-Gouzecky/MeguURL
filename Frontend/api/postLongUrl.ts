@@ -4,7 +4,7 @@ type ApiPostUrlResponse = {
 };
 
 export default async function postLongUrl(longUrl: string): Promise<PostUrlResponse> {
-	const endpoint = process.env.NODE_ENV === "development" ? (process.env.NEXT_PUBLIC_BACKEND ?? "") : "";
+	const endpoint = process.env.DEPLOYMENT === "kubernetes" ? "" : (process.env.NEXT_PUBLIC_BACKEND ?? "");
 	try {
 		const response = await fetch(`${endpoint}/api/urls/`, {
 			method: "POST",
