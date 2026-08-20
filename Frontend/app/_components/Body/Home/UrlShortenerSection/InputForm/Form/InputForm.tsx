@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import useStatusQueue from "@/hooks/useStatusQueue";
-import FormBody from "./Form/FormBody";
+import FormBody from "./FormBody";
 
 export default function InputForm({ shortenUrl }: { shortenUrl(url: string): Promise<PostUrlResponse> }) {
 	const { statusQueue, pushStatus } = useStatusQueue();

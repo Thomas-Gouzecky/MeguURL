@@ -1,6 +1,6 @@
 import useShortenUrl from "@/hooks/useShortenUrl";
 import DisplayUrlContainer from "./DisplayUrl/DisplayUrlContainer";
-import InputForm from "./InputForm";
+import InputForm from "./Form/InputForm";
 
 export default function InputFormContainer() {
 	const { code, shortenUrl } = useShortenUrl();
