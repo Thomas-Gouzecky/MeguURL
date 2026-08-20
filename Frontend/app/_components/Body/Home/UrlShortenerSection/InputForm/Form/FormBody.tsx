@@ -1,4 +1,4 @@
-import DisplayStatus from "./Status/DisplayStatus";
+import DisplayStatus from "./DisplayStatus/DisplayStatus";
 import SubmitButton from "./SubmitButton";
 import InputBox from "./InputBox";
 
