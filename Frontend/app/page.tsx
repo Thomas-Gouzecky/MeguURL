@@ -1,7 +1,7 @@
 "use client";
 
 import WebArt from "./_components/Body/Home/WebArt";
-import InputSection from "./_components/Body/Home/InputSection/InputSection";
+import UrlShortenerSection from "./_components/Body/Home/InputSection/UrlShortenerSection";
 import AppDescription from "./_components/Body/Home/AppDescription";
 import { GlassCard } from "react-glass-ui";
 
@@ -11,7 +11,6 @@ export default function Home() {
 	const id = useId();
 	return (
 		<div className="flex flex-col gap-8 p-4">
-			{/* idek if i have art i want to use LOL */}
 			<WebArt />
 			<GlassCard
 				className="p-4 shadow-[5px_5px_0_rgba(0,0,0,0.35)] custom-text-primary w-[80%] max-w-4xl m-auto"
@@ -28,9 +27,8 @@ export default function Home() {
 				innerLightSpread={0.5}
 			>
 				<div className="flex flex-col gap-16">
-					<InputSection />
+					<UrlShortenerSection />
 
-					{/* idek if i want to put a description LOL */}
 					<AppDescription />
 				</div>
 			</GlassCard>

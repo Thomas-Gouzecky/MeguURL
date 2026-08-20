@@ -1,6 +1,7 @@
-import InputForm from "./InputForm";
+import InputFormContainer from "./InputFormContainer";
 import Image from "next/image";
-export default function InputSection() {
+
+export default function UrlShortenerSection() {
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col justify-center items-center gap-2">
@@ -19,7 +20,7 @@ export default function InputSection() {
 				</div>
 				<div className="h-0.5 w-[80%] bg-linear-to-r via-[#796623]" />
 			</div>
-			<InputForm />
+			<InputFormContainer />
 		</div>
 	);
 }
