@@ -1,13 +1,13 @@
 import useShortenUrl from "@/hooks/useShortenUrl";
 import DisplayUrlContainer from "./DisplayUrl/DisplayUrlContainer";
-import ShortenUrlForm from "./ShortenUrlForm";
+import InputForm from "./InputForm";
 
 export default function InputFormContainer() {
 	const { code, shortenUrl } = useShortenUrl();
 
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<ShortenUrlForm shortenUrl={shortenUrl} />
+			<InputForm shortenUrl={shortenUrl} />
 			<DisplayUrlContainer code={code} />
 		</div>
 	);

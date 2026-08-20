@@ -1,4 +1,4 @@
-import InputFormContainer from "./InputFormContainer";
+import InputFormContainer from "./InputForm/InputFormContainer";
 import Image from "next/image";
 
 export default function UrlShortenerSection() {

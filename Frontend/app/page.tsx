@@ -1,7 +1,7 @@
 "use client";
 
 import WebArt from "./_components/Body/Home/WebArt";
-import UrlShortenerSection from "./_components/Body/Home/InputSection/UrlShortenerSection";
+import UrlShortenerSection from "./_components/Body/Home/UrlShortenerSection/UrlShortenerSection";
 import AppDescription from "./_components/Body/Home/AppDescription";
 import { GlassCard } from "react-glass-ui";
 
