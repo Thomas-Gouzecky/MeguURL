@@ -4,4 +4,3 @@ metadata:
     name: frontend-config
 data:
     BACKEND: http://meguurl-backend:6767
-    DEPLOYMENT: k8s
