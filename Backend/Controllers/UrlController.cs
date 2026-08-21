@@ -26,6 +26,11 @@ public class UrlController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(UrlMapping[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllUrls()
     {
         var response = await _databaseApi.GetAsync("/db/");
@@ -41,6 +46,9 @@ public class UrlController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(CreateUrlResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(InvalidUrlProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] CreateUrlRequest request)
     {
 
@@ -51,7 +59,7 @@ public class UrlController : ControllerBase
             InvalidUrlResponse invalidUrlResponse = validationResponse.InvalidUrlResponse!;
             if (invalidUrlResponse is null)
             {
-                return BadRequest(new ProblemDetails
+                return BadRequest(new InvalidUrlProblemDetails
                 {
                     Status = StatusCodes.Status400BadRequest,
                     Title = "Invalid URL",
@@ -59,13 +67,13 @@ public class UrlController : ControllerBase
                 });
             }
 
-            var problem = new ProblemDetails
+            var problem = new InvalidUrlProblemDetails
             {
                 Status = StatusCodes.Status400BadRequest,
                 Title = invalidUrlResponse.Title,
-                Detail = invalidUrlResponse.Message
+                Detail = invalidUrlResponse.Message,
+                url = invalidUrlResponse.Url
             };
-            problem.Extensions["Url"] = invalidUrlResponse.Url;
             
             return BadRequest(problem);
         }
@@ -83,7 +91,12 @@ public class UrlController : ControllerBase
 
         if (result == null)
         {
-            return StatusCode(500, "Failed to create URL");
+            return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Failed to create URL",
+                Detail = "The URL could not be created."
+            });
         }
 
         string code = _urlCodeService.Encode(result.Id);
@@ -97,6 +110,10 @@ public class UrlController : ControllerBase
     }
 
     [HttpGet("{code}")]
+    [ProducesResponseType(typeof(RedirectUrl), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
         int id = _urlCodeService.Decode(code);
