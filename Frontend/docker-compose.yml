@@ -1,6 +1,6 @@
 services:
     frontend:
-        image: tomcheese/meguurl-frontend-repo:latest
+        image: tomcheese/meguurl-frontend-repo:local
         pull_policy: always
         # build: .
         container_name: meguURL-frontend

@@ -2,6 +2,14 @@ name: Build Frontend Image
 
 on:
     workflow_dispatch:
+        inputs:
+            deployment:
+                description: "Which frontend image should be built?"
+                required: true
+                type: choice
+                options:
+                    - local
+                    - k8s
 
 jobs:
     build:
@@ -23,11 +31,24 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
 
+            - name: Set build configuration
+              id: config
+              run: |
+                  if [ "${{ inputs.deployment }}" = "k8s" ]; then
+                      echo "backend_url=" >> "$GITHUB_OUTPUT"
+                      echo "image_suffix=k8s" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "backend_url=http://localhost:6767" >> "$GITHUB_OUTPUT"
+                      echo "image_suffix=local" >> "$GITHUB_OUTPUT"
+                  fi
+
             - name: Build and push
               uses: docker/build-push-action@v6
               with:
                   context: ./Frontend
                   push: true
+                  build-args: |
+                      NEXT_PUBLIC_BACKEND=${{ steps.config.outputs.backend_url }}
                   tags: |
-                      ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:${{ steps.version.outputs.version }}
-                      ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:latest
+                      ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:${{ steps.version.outputs.version }}-${{ steps.config.outputs.image_suffix }}
+                      ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:${{ steps.config.outputs.image_suffix }}

@@ -40,7 +40,9 @@
 
   # Copy application source code
   COPY . .
-
+  
+  ARG NEXT_PUBLIC_BACKEND
+  ENV NEXT_PUBLIC_BACKEND=$NEXT_PUBLIC_BACKEND
   ENV NODE_ENV=production
 
   # Next.js collects completely anonymous telemetry data about general usage.
