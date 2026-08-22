@@ -23,28 +23,7 @@ export default function ErrorMessage({ Error }: { Error: PostUrlErrorResponse })
 				)}
 			</div>
 
-			{/* Quick dirty fix (i will fix this response in the backend properly later) */}
-			{Error.title === "URL Does Not Exist" ? (
-				<div className="w-full min-w-0 flex flex-row">
-					<div className="flex min-w-0 shrink">
-						<span className="shrink-0">'</span>
-
-						<Link
-							className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap clickable-text-color transition-all duration-500"
-							href={Error.url!}
-							target="_blank"
-						>
-							{Error.url}
-						</Link>
-
-						<span className="shrink-0">'</span>
-					</div>
-
-					<span className="shrink-0">&nbsp;does not currently exist.</span>
-				</div>
-			) : (
-				<span>{Error.detail}</span>
-			)}
+			<span>{Error.detail}</span>
 		</div>
 	);
 }

@@ -1,22 +1,24 @@
-type RedirectResponse = {
-	longUrl: string;
-};
-
 type RedirectApiResponse = {
 	long_url: string;
 };
 
-export async function getRedirectUrl(code: string): Promise<RedirectResponse> {
+export async function getRedirectUrl(code: string): Promise<GetRedirectUrlResult> {
 	try {
 		const response = await fetch(`${process.env.BACKEND}/api/urls/${code}`);
 
-		if (!response.ok) {
-			throw new Error(`Failed to fetch URL: ${response.status}`);
+		if (response.ok) {
+			const data: RedirectApiResponse = await response.json();
+
+			return { success: true, longUrl: data.long_url };
 		}
 
-		const data: RedirectApiResponse = await response.json();
+		const errorResponse: GetRedirectUrlErrorResponse = await response.json();
 
-		return { longUrl: data.long_url };
+		return {
+			success: false,
+			status: response.status,
+			error: errorResponse,
+		};
 	} catch (err) {
 		console.error("Fetch Failed:", err);
 		throw err;

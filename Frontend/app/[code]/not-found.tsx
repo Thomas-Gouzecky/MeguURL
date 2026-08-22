@@ -1,4 +1,4 @@
-import Link from "next/link";
+import HomeButton from "../_components/HomeButton";
 
 export default function NotFound() {
 	return (
@@ -7,12 +7,7 @@ export default function NotFound() {
 
 			<p className="mt-4 text-xl">This short URL doesn't exist.</p>
 
-			<Link
-				href="/"
-				className="mt-6 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-			>
-				Go Home
-			</Link>
+			<HomeButton />
 		</main>
 	);
 }

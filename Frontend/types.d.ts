@@ -1,3 +1,20 @@
+// ===========================================================
+// Header Types
+// ===========================================================
+
+type NavItemProp = {
+	href: string;
+	name: string;
+};
+
+// ===========================================================
+// Footer Types
+// ===========================================================
+
+type FooterCardProp = {
+	title?: string;
+};
+
 type SocialLinkProp = {
 	name: string;
 	href: string;
@@ -10,22 +27,15 @@ type ExtraInfoProp = {
 	icon?: React.ReactElement;
 };
 
-type NavItemProp = {
-	href: string;
-	name: string;
-};
-
-type FooterCardProp = {
-	title?: string;
-};
-
-type PostUrlResponse = {
-	success: boolean;
-	error?: PostUrlErrorResponse;
-	urlCode?: string;
-};
+// ===========================================================
+// Cursor Types
+// ===========================================================
 
 type CursorState = "default" | "pointer" | "text" | "select";
+
+// ===========================================================
+// Status Icon Types
+// ===========================================================
 
 type Status = "success" | "error" | "idle";
 
@@ -44,6 +54,15 @@ type ErrorStatusProp = {
 	error: PostUrlErrorResponse;
 };
 
+type StatusItem = {
+	id: string;
+	status: StatusProp;
+};
+
+// ===========================================================
+// Post Url Response Types
+// ===========================================================
+
 type PostUrlErrorResponse = {
 	title: string;
 	status: number;
@@ -51,7 +70,31 @@ type PostUrlErrorResponse = {
 	url?: string;
 };
 
-type StatusItem = {
-	id: string;
-	status: StatusProp;
+type PostUrlResponse = {
+	success: boolean;
+	error?: PostUrlErrorResponse;
+	urlCode?: string;
 };
+
+// ===========================================================
+// Redirection Error Types
+// ===========================================================
+
+type GetRedirectUrlErrorResponse = ServiceUnavailableResponse;
+
+type ServiceUnavailableResponse = {
+	title: string;
+	status: number;
+	detail: string;
+};
+
+type GetRedirectUrlResult =
+	| {
+			success: true;
+			longUrl: string;
+	  }
+	| {
+			success: false;
+			status: number;
+			error: GetRedirectUrlErrorResponse;
+	  };
