@@ -1,3 +1,5 @@
+import { ServiceUnavailableError } from "@/lib/errors/ServiceUnavailableError";
+
 type RedirectResponse = {
 	longUrl: string;
 };
@@ -11,7 +13,9 @@ export async function getRedirectUrl(code: string): Promise<RedirectResponse> {
 		const response = await fetch(`${process.env.BACKEND}/api/urls/${code}`);
 
 		if (!response.ok) {
-			throw new Error(`Failed to fetch URL: ${response.status}`);
+			const errorResponse: GetRedirectUrlErrorResponse = await response.json();
+
+			throw new ServiceUnavailableError(errorResponse, `Failed to fetch URL: ${response.status}`);
 		}
 
 		const data: RedirectApiResponse = await response.json();

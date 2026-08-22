@@ -51,6 +51,14 @@ type PostUrlErrorResponse = {
 	url?: string;
 };
 
+type GetRedirectUrlErrorResponse = ServiceUnavailableResponse
+
+type ServiceUnavailableResponse = {
+	title: string;
+	status: number;
+	detail: string;
+};
+
 type StatusItem = {
 	id: string;
 	status: StatusProp;
