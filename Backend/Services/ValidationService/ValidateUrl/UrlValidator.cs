@@ -24,15 +24,15 @@ public class UrlValidator : IValidateBase<UrlValidationResponse>
             return InvalidUrl(
                 "Invalid URL",
                 "Please provide a valid URL to shorten.",
-                url);
+                normalizedUrl);
         }
 
         if (!await UrlExists(normalizedUrl))
         {
             return InvalidUrl(
                 "URL Does Not Exist",
-                $"'{url}' does not currently exist. Please provide a valid URL.",
-                url);
+                $"This URL does not currently exist.",
+                normalizedUrl);
         }
 
         return new UrlValidationResponse
