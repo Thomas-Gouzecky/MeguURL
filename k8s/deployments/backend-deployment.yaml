@@ -18,8 +18,8 @@ spec:
         spec:
             containers:
                 - name: meguurl-backend-repo
-                  image: tomcheese/meguurl-backend-repo:0.1.2
-                  imagePullPolicy: IfNotPresent
+                  image: tomcheese/meguurl-backend-repo:latest
+                  imagePullPolicy: Always
                   envFrom:
                       - configMapRef:
                             name: backend-config

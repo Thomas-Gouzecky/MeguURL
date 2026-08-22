@@ -19,7 +19,7 @@ spec:
             containers:
                 - name: meguurl-frontend-repo
                   image: tomcheese/meguurl-frontend-repo:k8s
-                  imagePullPolicy: IfNotPresent
+                  imagePullPolicy: Always
                   envFrom:
                       - configMapRef:
                             name: frontend-config
