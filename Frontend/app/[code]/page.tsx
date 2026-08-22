@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import { getRedirectUrl } from "@/api/getRedirectUrl";
-import { ServiceUnavailableError } from "@/lib/errors/ServiceUnavailableError";
+import ErrorDisplay from "./ErrorDisplay";
 
 export default async function Page({ params }: { params: Promise<{ code: string }> }) {
 	const { code } = await params;
@@ -8,12 +8,22 @@ export default async function Page({ params }: { params: Promise<{ code: string 
 
 	try {
 		const response = await getRedirectUrl(code);
-		redirectUrl = response.longUrl;
-	} catch (err) {
-		if (err instanceof ServiceUnavailableError && err.error.status === 404) {
-			notFound();
+
+		if (!response.success) {
+			if (response.status === 404) {
+				notFound();
+			}
+
+			return (
+				<ErrorDisplay
+					status={response.status}
+					error={response.error}
+				/>
+			);
 		}
 
+		redirectUrl = response.longUrl;
+	} catch (err) {
 		throw err;
 	}
 
