@@ -3,27 +3,38 @@ import postLongUrl from "@/api/postLongUrl";
 
 export default function useShortenUrl() {
 	const [code, setCode] = useState<string>();
-	const [responseError, setResponseError] = useState<ResponseErrorProp>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	async function shortenUrl(url: string): Promise<PostUrlResponse> {
+		if (url.trim() === "") {
+			const errorResponse: PostUrlErrorResponse = {
+				title: "Invalid URL",
+				status: 400,
+				detail: "Please enter a URL.",
+			};
+
+			return { success: false, error: errorResponse };
+		}
+		setIsLoading(true);
+
 		const response: PostUrlResponse = await postLongUrl(url);
 
 		if (response.success) {
 			setCode(response.urlCode);
-			setResponseError(undefined);
-			// setStatus("success");
 		} else {
-			setResponseError(response.error);
 			setCode(undefined);
-			// setStatus("error");
 		}
 
-		return response;
+		try {
+			return response;
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return {
 		code,
-		responseError,
+		isLoading,
 		shortenUrl,
 	};
 }

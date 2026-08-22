@@ -1,14 +1,14 @@
 import { GiMineExplosion } from "react-icons/gi";
-import { useFormStatus } from "react-dom";
+import { useFormContext } from "@/hooks/useFormContext";
 
 export default function SubmitButton() {
-	const status = useFormStatus();
+	const { isLoading } = useFormContext();
 
 	return (
 		<button
 			className="shrink-0 bg-[#1f1414] border-2 border-[#402a2a] active:scale-105 hover:scale-110 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] hover:border-[#6c3030] group clickable-text-color button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300"
 			type="submit"
-			disabled={status.pending}
+			disabled={isLoading}
 		>
 			{/* Background gradient */}
 			<span className="absolute inset-0 bg-radial-[at_50%_100%] from-[#622626] via-[#271313] to-[#050303] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

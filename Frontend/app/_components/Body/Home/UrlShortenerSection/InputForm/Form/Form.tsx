@@ -10,7 +10,10 @@ export default function Form({ shortenUrl }: { shortenUrl(url: string): Promise<
 
 	const [status, setStatus] = useState<StatusProp>({ state: "idle" });
 
-	async function handleSubmit(formData: FormData) {
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		const formData = new FormData(event.currentTarget);
 		const inputUrl = formData.get("inputUrl") as string;
 
 		const result = await shortenUrl(inputUrl);
@@ -23,13 +26,14 @@ export default function Form({ shortenUrl }: { shortenUrl(url: string): Promise<
 
 		pushStatus({ id: id, status: newStatus });
 	}
+
 	return (
 		<form
 			className={`
 					flex flex-row items-center gap-4
 					w-full px-4 py-3 rounded-lg relative
 				`}
-			action={handleSubmit}
+			onSubmit={handleSubmit}
 		>
 			<FormLoadingOverlay />
 			<FormBody

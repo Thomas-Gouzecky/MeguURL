@@ -1,11 +1,8 @@
+import { useFormContext } from "@/hooks/useFormContext";
 import { motion, Variants } from "motion/react";
-import { useFormStatus } from "react-dom";
-import { useEffect, useState } from "react";
 
 export default function FormLoadingOverlay() {
-	const { pending } = useFormStatus();
-	const [animationState, setAnimationState] = useState<"visible" | "hidden">("hidden");
-
+	const { isLoading } = useFormContext();
 	const variant: Variants = {
 		hidden: {
 			opacity: 1,
@@ -48,20 +45,12 @@ export default function FormLoadingOverlay() {
 		},
 	};
 
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setAnimationState(pending ? "visible" : "hidden");
-		}, 100);
-
-		return () => clearTimeout(timeout);
-	}, [pending]);
-
 	return (
 		<motion.div
-			className={`flex items-center justify-center absolute inset-0 z-50 rounded-lg ${pending ? "pointer-events-auto" : "pointer-events-none"}`}
+			className={`flex items-center justify-center absolute inset-0 z-50 rounded-lg ${isLoading ? "pointer-events-auto" : "pointer-events-none"}`}
 			variants={variant}
 			initial="hidden"
-			animate={animationState}
+			animate={isLoading ? "visible" : "hidden"}
 		>
 			<motion.div
 				className={`absolute z-5 w-full h-full rounded-lg inset-0 bg-black/40`}

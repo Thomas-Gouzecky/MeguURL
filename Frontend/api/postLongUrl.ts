@@ -1,20 +1,9 @@
-type ApiPostUrlResponse = {
+type PostUrlSuccessResponse = {
 	code: string;
 	ShortUrl: string;
 };
 
 export default async function postLongUrl(longUrl: string): Promise<PostUrlResponse> {
-	if (longUrl.trim() === "") {
-		return {
-			success: false,
-			error: {
-				name: "Invalid URL",
-				code: 400,
-				description: { error: "Please enter a URL." },
-			},
-		};
-	}
-
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/urls/`, {
 			method: "POST",
@@ -27,18 +16,12 @@ export default async function postLongUrl(longUrl: string): Promise<PostUrlRespo
 		});
 
 		if (!response.ok) {
-			const errorResponse: BackendErrorResponse = await response.json();
+			const errorResponse: PostUrlErrorResponse = await response.json();
 
-			const error: ResponseErrorProp = {
-				name: response.statusText,
-				code: response.status,
-				description: errorResponse,
-			};
-
-			return { success: false, error: error };
+			return { success: false, error: errorResponse };
 		}
 
-		const data: ApiPostUrlResponse = await response.json();
+		const data: PostUrlSuccessResponse = await response.json();
 
 		return { success: true, urlCode: data.code };
 	} catch (err) {
