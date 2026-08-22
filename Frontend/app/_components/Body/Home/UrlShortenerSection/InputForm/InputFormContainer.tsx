@@ -10,8 +10,8 @@ export default function InputFormContainer() {
 		<div className="flex flex-col gap-4 w-full">
 			<FormProvider isLoading={isLoading}>
 				<Form shortenUrl={shortenUrl} />
-				<DisplayUrlContainer code={code} />
 			</FormProvider>
+			<DisplayUrlContainer code={code} />
 		</div>
 	);
 }
