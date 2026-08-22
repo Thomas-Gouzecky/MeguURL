@@ -21,7 +21,7 @@ type FooterCardProp = {
 
 type PostUrlResponse = {
 	success: boolean;
-	error?: ResponseErrorProp;
+	error?: PostUrlErrorResponse;
 	urlCode?: string;
 };
 
@@ -41,17 +41,14 @@ type SuccessStatusProp = {
 
 type ErrorStatusProp = {
 	state: "error";
-	error: ResponseErrorProp;
+	error: PostUrlErrorResponse;
 };
 
-type ResponseErrorProp = {
-	name: string;
-	code: number;
-	description: BackendErrorResponse;
-};
-
-type BackendErrorResponse = {
-	error: string;
+type PostUrlErrorResponse = {
+	title: string;
+	status: number;
+	detail: string;
+	url?: string;
 };
 
 type StatusItem = {

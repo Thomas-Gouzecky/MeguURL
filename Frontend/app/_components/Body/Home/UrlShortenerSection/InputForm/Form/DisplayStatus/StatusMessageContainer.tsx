@@ -34,7 +34,7 @@ export default function StatusMessageContainer({ status }: { status: StatusProp 
 			initial="hidden"
 			animate="visible"
 			exit="hidden"
-			className="absolute pointer-events-none z-20 bottom-18 -left-2.5 min-w-64 w-[30%]"
+			className="absolute pointer-events-none z-20 bottom-18 -left-2.5 w-fit min-w-64 max-w-[70%]"
 		>
 			<motion.div
 				variants={item}
