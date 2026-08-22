@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
+using Backend.Attributes;
 
 namespace Backend.Controllers;
 
 [ApiController]
 [Route("/api/urls")]
+[RequiredService("Database")]
 public class UrlController : ControllerBase
 {
     private readonly HttpClient _databaseApi;

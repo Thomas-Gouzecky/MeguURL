@@ -11,16 +11,20 @@ builder.Services.AddControllers();
 
 builder.Services.AddProblemDetails();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var backendApi = builder.Configuration["ApiSettings:BackendApi"]
     ?? throw new InvalidOperationException("Backend API URL is missing");
 
 var databaseApi = builder.Configuration["ApiSettings:DatabaseApi"]
     ?? throw new InvalidOperationException("Database API URL is missing");
 
-builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
-builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); });
-builder.Services.AddHttpClient("UrlValidator", client => { client.Timeout = TimeSpan.FromSeconds(10); });
+builder.Services.AddTransient<ApiExceptionHandler>();
 
+builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
+builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); }).AddHttpMessageHandler<ApiExceptionHandler>();;
+builder.Services.AddHttpClient("UrlValidator", client => { client.Timeout = TimeSpan.FromSeconds(10); });
+    
 builder.Services.AddSingleton<UrlCodeService>();
 builder.Services.AddSingleton<UrlValidator>();
 builder.Services.AddSingleton<ValidationService>();
@@ -51,11 +55,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseHttpsRedirection();

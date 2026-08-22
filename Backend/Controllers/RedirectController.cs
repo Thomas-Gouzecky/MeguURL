@@ -1,10 +1,11 @@
+using Backend.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
-
 
 namespace Backend.Controllers;
 
 [ApiController]
+[RequiredService("Backend")]
 public class RedirectController : ControllerBase
 {
     private readonly HttpClient _backendApi;
