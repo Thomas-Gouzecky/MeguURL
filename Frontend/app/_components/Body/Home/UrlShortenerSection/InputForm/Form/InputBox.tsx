@@ -1,9 +1,9 @@
-import { useFormStatus } from "react-dom";
+import { useFormContext } from "@/hooks/useFormContext";
 import { useState } from "react";
 
 export default function InputBox({ status }: { status: StatusProp }) {
 	const [inputUrl, setInputUrl] = useState<string>("");
-	const { pending } = useFormStatus();
+	const { isLoading } = useFormContext();
 
 	const statusStyle: Record<Status, string> = {
 		success:
@@ -23,7 +23,7 @@ export default function InputBox({ status }: { status: StatusProp }) {
 			autoComplete="off"
 			placeholder="Example: google.com"
 			onChange={(e) => setInputUrl(e.target.value)}
-			disabled={pending}
+			disabled={isLoading}
 		/>
 	);
 }

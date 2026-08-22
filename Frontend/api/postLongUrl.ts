@@ -4,16 +4,6 @@ type PostUrlSuccessResponse = {
 };
 
 export default async function postLongUrl(longUrl: string): Promise<PostUrlResponse> {
-	if (longUrl.trim() === "") {
-		const errorResponse: PostUrlErrorResponse = {
-			title: "Invalid URL",
-			status: 400,
-			detail: "Please enter a URL.",
-		};
-
-		return { success: false, error: errorResponse };
-	}
-
 	try {
 		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/urls/`, {
 			method: "POST",
