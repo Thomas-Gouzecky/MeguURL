@@ -40,6 +40,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("NextJs", policy =>
     {
         policy.WithOrigins([
+                "https://meguurl.local",
+                "http://meguurl.local",
                 "https://localhost:3000",
                 "http://localhost:3000"
             ])

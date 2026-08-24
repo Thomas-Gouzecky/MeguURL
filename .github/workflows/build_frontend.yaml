@@ -51,7 +51,7 @@ jobs:
                   context: ./Frontend
                   push: true
                   build-args: |
-                      NEXT_PUBLIC_BACKEND=
+                      NEXT_PUBLIC_BACKEND=https://api.meguurl.local
                   tags: |
                       ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:${{ steps.version.outputs.version }}-k8s
                       ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:k8s
