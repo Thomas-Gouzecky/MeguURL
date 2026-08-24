@@ -16,9 +16,10 @@ export default function Home() {
 				className="p-4 shadow-[5px_5px_0_rgba(0,0,0,0.35)] custom-text-primary w-[80%] max-w-4xl m-auto"
 				id={id}
 				blur={4}
+				distortion={0}
 				brightness={80}
 				saturation={100}
-				borderSize={2}
+				borderSize={3}
 				borderOpacity={0.2}
 				borderRadius={12}
 				innerLightBlur={10}
