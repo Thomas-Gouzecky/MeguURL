@@ -6,7 +6,7 @@ import DefaultGlass from "./_components/DefaultGlass";
 export default function Home() {
 	return (
 		<>
-			<div className="background-image" />
+			<div className="default-background-image" />
 			<div className="flex flex-col gap-8 p-4">
 				<WebArt />
 				<DefaultGlass>

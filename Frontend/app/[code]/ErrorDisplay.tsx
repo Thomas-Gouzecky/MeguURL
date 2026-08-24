@@ -5,7 +5,7 @@ import DefaultGlass from "../_components/DefaultGlass";
 export default function ErrorDisplay({ status, error }: { status: number; error: ServiceUnavailableResponse }) {
 	return (
 		<div className="min-h-fit grid grid-rows-5 p-4 gap-8">
-			<div className="movable-background-image -top-30 left-1/2 -translate-x-1/2 absolute" />
+			<div className="movable-background-image -top-70 left-1/2 -translate-x-1/2 absolute" />
 			<div className="row-span-3" />
 			<div className="row-span-2">
 				<DefaultGlass>{errorMessage()}</DefaultGlass>
