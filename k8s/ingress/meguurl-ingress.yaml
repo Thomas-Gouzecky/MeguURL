@@ -1,6 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+    annotations:
+        cert-manager.io/issuer: meguurl-local
     name: meguurl-ingress
 spec:
     ingressClassName: nginx
@@ -25,3 +27,8 @@ spec:
                             name: meguurl-backend
                             port:
                                 number: 6767
+    tls:
+        - hosts:
+              - meguurl.local
+              - api.meguurl.local
+          secretName: meguurl-local-tls
