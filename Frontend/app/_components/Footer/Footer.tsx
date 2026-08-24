@@ -41,7 +41,7 @@ export default function Footer() {
 				</div>
 				<div className="sm:col-span-2 sm:row-start-4 lg:col-span-3 lg:row-start-3">
 					<FooterCard
-						className="w-full h-full"
+						className="w-full h-full relative"
 						FooterProps={{ title: "Extra Info" }}
 					>
 						<ExtraInfoContainer ExtraInfoList={extraInfoList} />
