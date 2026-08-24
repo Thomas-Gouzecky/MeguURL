@@ -21,6 +21,15 @@ export async function getRedirectUrl(code: string): Promise<GetRedirectUrlResult
 		};
 	} catch (err) {
 		console.error("Fetch Failed:", err);
-		throw err;
+
+		return {
+			success: false,
+			status: 503,
+			error: {
+				title: "Backend Unavailable",
+				status: 503,
+				detail: "The backend service is currently unavailable.",
+			},
+		};
 	}
 }

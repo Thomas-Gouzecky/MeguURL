@@ -40,7 +40,10 @@ export default function RootLayout({
 			<body className="min-h-full flex flex-col">
 				<CustomCursor />
 				<Navbar />
-				<main>{children}</main>
+				<main>
+					<div className="background-gradient" />
+					{children}
+				</main>
 				<Footer />
 			</body>
 		</html>
