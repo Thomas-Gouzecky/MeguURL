@@ -13,7 +13,7 @@ export default function useShortenUrl() {
 				detail: "Please enter a URL.",
 			};
 
-			return { success: false, error: errorResponse };
+			return { success: false, status: errorResponse.status, error: errorResponse };
 		}
 		setIsLoading(true);
 
