@@ -1,3 +1,5 @@
+import { BackendUnavailableReponse } from "@/lib/utils";
+
 type RedirectApiResponse = {
 	long_url: string;
 };
@@ -9,7 +11,11 @@ export async function getRedirectUrl(code: string): Promise<GetRedirectUrlResult
 		if (response.ok) {
 			const data: RedirectApiResponse = await response.json();
 
-			return { success: true, longUrl: data.long_url };
+			return {
+				success: true,
+				status: 200,
+				longUrl: data.long_url,
+			};
 		}
 
 		const errorResponse: GetRedirectUrlErrorResponse = await response.json();
@@ -20,16 +26,12 @@ export async function getRedirectUrl(code: string): Promise<GetRedirectUrlResult
 			error: errorResponse,
 		};
 	} catch (err) {
-		console.error("Fetch Failed:", err);
+		// console.error("Fetch Failed:", err);
 
 		return {
 			success: false,
 			status: 503,
-			error: {
-				title: "Backend Unavailable",
-				status: 503,
-				detail: "The backend service is currently unavailable.",
-			},
+			error: BackendUnavailableReponse,
 		};
 	}
 }
