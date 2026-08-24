@@ -1,3 +1,5 @@
+import { BackendUnavailableReponse } from "@/lib/utils";
+
 type PostUrlSuccessResponse = {
 	code: string;
 	ShortUrl: string;
@@ -18,14 +20,25 @@ export default async function postLongUrl(longUrl: string): Promise<PostUrlRespo
 		if (!response.ok) {
 			const errorResponse: PostUrlErrorResponse = await response.json();
 
-			return { success: false, error: errorResponse };
+			return {
+				success: false,
+				status: errorResponse.status,
+				error: errorResponse,
+			};
 		}
 
 		const data: PostUrlSuccessResponse = await response.json();
 
-		return { success: true, urlCode: data.code };
+		return {
+			success: true,
+			status: 201,
+			urlCode: data.code,
+		};
 	} catch (err) {
-		console.error("Fetch Failed:", err);
-		throw err;
+		return {
+			success: false,
+			status: 503,
+			error: BackendUnavailableReponse,
+		};
 	}
 }

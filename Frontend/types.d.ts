@@ -72,6 +72,7 @@ type PostUrlErrorResponse = {
 
 type PostUrlResponse = {
 	success: boolean;
+	status: number;
 	error?: PostUrlErrorResponse;
 	urlCode?: string;
 };
@@ -91,10 +92,13 @@ type ServiceUnavailableResponse = {
 type GetRedirectUrlResult =
 	| {
 			success: true;
+			status: number;
 			longUrl: string;
 	  }
-	| {
-			success: false;
-			status: number;
-			error: GetRedirectUrlErrorResponse;
-	  };
+	| ErrorResponse;
+
+type ErrorResponse = {
+	success: false;
+	status: number;
+	error: GetRedirectUrlErrorResponse;
+};

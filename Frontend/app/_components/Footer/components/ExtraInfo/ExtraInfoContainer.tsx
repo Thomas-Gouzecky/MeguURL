@@ -1,10 +1,12 @@
 import { site } from "@/lib/site";
 import ExtraInfoCard from "./ExtraInfoCard";
+import packageJson from "@/package.json";
 
 export default function ExtraInfoContainer({ ExtraInfoList }: { ExtraInfoList: ExtraInfoProp[] }) {
 	const currentYear = new Date().getFullYear();
 	const siteTitle = site.title;
 	const siteDescription = site.description;
+	const siteVersion = packageJson.version;
 	return (
 		<div className="custom-text-primary flex h-full flex-col">
 			{/* Links */}
@@ -25,6 +27,11 @@ export default function ExtraInfoContainer({ ExtraInfoList }: { ExtraInfoList: E
 					{siteDescription && <span> - {siteDescription}</span>}
 				</div>
 			)}
+
+			{/* Version */}
+			<div className="absolute bottom-0 right-0 button-padding mx-4 my-3 rounded-lg bg-[#1d1312] text-[#332320] font-bold">
+				<span>v{siteVersion}</span>
+			</div>
 		</div>
 	);
 }

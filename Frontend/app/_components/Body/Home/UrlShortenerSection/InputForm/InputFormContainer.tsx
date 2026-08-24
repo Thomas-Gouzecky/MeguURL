@@ -1,3 +1,5 @@
+"use client";
+
 import useShortenUrl from "@/hooks/useShortenUrl";
 import DisplayUrlContainer from "./DisplayUrlContainer/DisplayUrlContainer";
 import Form from "./Form/Form";
