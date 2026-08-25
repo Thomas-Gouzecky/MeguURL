@@ -18,9 +18,9 @@ spec:
         spec:
             containers:
                 - name: meguurl-backend-repo
-                  #   image: tomcheese/meguurl-backend-repo:latest
-                  #   imagePullPolicy: Always
-                  image: meguurl-backend:test-v1
+                  image: tomcheese/meguurl-backend-repo:latest
+                  imagePullPolicy: Always
+                  #   image: meguurl-backend:test-v1
                   volumeMounts:
                       - name: backend-tls
                         mountPath: /certs
