@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
     name: frontend-config
 data:
-    BACKEND: http://meguurl-backend:6767
+    BACKEND: https://meguurl-backend:6767
