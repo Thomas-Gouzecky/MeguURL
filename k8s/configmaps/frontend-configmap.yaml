@@ -4,3 +4,4 @@ metadata:
     name: frontend-config
 data:
     BACKEND: https://meguurl-backend:6767
+    NODE_EXTRA_CA_CERTS: /certs/ca.crt
