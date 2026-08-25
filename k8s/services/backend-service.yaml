@@ -10,9 +10,9 @@ spec:
         app: meguurl-backend
 
     ports:
-        - name: 6767-8080
+        - name: 6767-6767
           port: 6767
           protocol: TCP
-          targetPort: 8080
-          
+          targetPort: 6767
+
     type: ClusterIP

@@ -21,14 +21,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 ## Apply Kubernetes Manifests
 
 ```
-kubectl apply -f k8s/secrets/db-api-secrets.yaml
-kubectl apply -f k8s/secrets/db-secrets.yaml
-kubectl apply -f k8s/certificates
-kubectl apply -f k8s/configmaps
-kubectl apply -f k8s/storage
-kubectl apply -f k8s/ingress
-kubectl apply -f k8s/services
-kubectl apply -f k8s/deployments
+kubectl apply -f k8s/
 ```
 
 ## Trust Local Certificate

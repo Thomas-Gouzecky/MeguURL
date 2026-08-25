@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+    name: meguurl-frontend-ingress
     annotations:
-        cert-manager.io/issuer: meguurl-local
-    name: meguurl-ingress
+        cert-manager.io/issuer: meguurl-local-ca-issuer
 spec:
     ingressClassName: nginx
+
     rules:
         - host: meguurl.local
           http:
@@ -17,6 +18,23 @@ spec:
                             name: meguurl-frontend
                             port:
                                 number: 3000
+
+    tls:
+        - hosts:
+              - meguurl.local
+          secretName: meguurl-local-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: meguurl-backend-ingress
+    annotations:
+        cert-manager.io/issuer: meguurl-local-ca-issuer
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+    ingressClassName: nginx
+
+    rules:
         - host: api.meguurl.local
           http:
               paths:
@@ -27,8 +45,8 @@ spec:
                             name: meguurl-backend
                             port:
                                 number: 6767
+
     tls:
         - hosts:
-              - meguurl.local
               - api.meguurl.local
           secretName: meguurl-local-tls

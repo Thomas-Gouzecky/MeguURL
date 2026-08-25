@@ -18,9 +18,22 @@ spec:
         spec:
             containers:
                 - name: meguurl-backend-repo
-                  image: tomcheese/meguurl-backend-repo:latest
-                  imagePullPolicy: Always
+                  #   image: tomcheese/meguurl-backend-repo:latest
+                  #   imagePullPolicy: Always
+                  image: meguurl-backend:test-v1
+                  volumeMounts:
+                      - name: backend-tls
+                        mountPath: /certs
+                        readOnly: true
+                  env:
+                      - name: NODE_EXTRA_CA_CERTS
+                        value: /certs/tls.crt
                   envFrom:
                       - configMapRef:
                             name: backend-config
                   resources: {}
+
+            volumes:
+                - name: backend-tls
+                  secret:
+                      secretName: meguurl-backend-tls

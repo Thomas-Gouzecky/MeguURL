@@ -20,7 +20,16 @@ spec:
                 - name: meguurl-frontend-repo
                   image: tomcheese/meguurl-frontend-repo:k8s
                   imagePullPolicy: Always
+                  volumeMounts:
+                      - name: ca-cert
+                        mountPath: /certs
+                        readOnly: true
                   envFrom:
                       - configMapRef:
                             name: frontend-config
                   resources: {}
+
+            volumes:
+                - name: ca-cert
+                  secret:
+                      secretName: meguurl-local-ca

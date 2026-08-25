@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: meguurl-backend-tls
+spec:
+    secretName: meguurl-backend-tls
+    issuerRef:
+        name: meguurl-local-ca-issuer
+        kind: Issuer
+    dnsNames:
+        - meguurl-backend
