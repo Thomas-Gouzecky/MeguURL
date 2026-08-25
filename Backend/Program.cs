@@ -1,5 +1,6 @@
 using backend.Components;
 using Microsoft.AspNetCore.DataProtection;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,22 @@ builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+if (builder.Configuration.GetValue<bool>("ASPNETCORE_USE_K8S_TLS"))
+{
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        var certificate = X509Certificate2.CreateFromPemFile(
+            "/certs/tls.crt",
+            "/certs/tls.key"
+        );
+
+        options.ListenAnyIP(6767, listenOptions =>
+        {
+            listenOptions.UseHttps(certificate);
+        });
+    });
+}
 
 var backendApi = builder.Configuration["ApiSettings:BackendApi"]
     ?? throw new InvalidOperationException("Backend API URL is missing");
