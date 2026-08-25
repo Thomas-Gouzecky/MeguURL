@@ -6,7 +6,7 @@ export default function SubmitButton() {
 
 	return (
 		<button
-			className="shrink-0 bg-[#1f1414] border-2 border-[#402a2a] active:scale-105 hover:scale-110 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] hover:border-[#6c3030] group clickable-text-color button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300"
+			className="w-full h-fit bg-[#1f1414] border-2 border-[#402a2a] active:scale-102 md:active:scale-105 hover:scale-105 md:hover:scale-110 hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.25)] hover:border-[#6c3030] group clickable-text-color button-padding button-rounding relative text-lg font-bold overflow-hidden transition-all duration-300"
 			type="submit"
 			disabled={isLoading}
 		>
@@ -18,7 +18,7 @@ export default function SubmitButton() {
 				className="z-20 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-[calc(210%)] transition-all duration-300 group-hover:scale-115 group-hover:-translate-y-[calc(40%)] group-hover:-translate-x-1/2"
 			/>
 
-			<div className="flex items-center gap-2">
+			<div className="flex justify-center items-center gap-2">
 				{/* Fake Icon */}
 				<GiMineExplosion
 					size={24}
