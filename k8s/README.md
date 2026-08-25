@@ -23,11 +23,30 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 ```
 kubectl apply -f k8s/secrets/db-api-secrets.yaml
 kubectl apply -f k8s/secrets/db-secrets.yaml
+kubectl apply -f k8s/certificates
 kubectl apply -f k8s/configmaps
 kubectl apply -f k8s/storage
 kubectl apply -f k8s/ingress
 kubectl apply -f k8s/services
 kubectl apply -f k8s/deployments
+```
+
+## Trust Local Certificate
+
+```
+kubectl get secret meguurl-local-tls \
+  -o jsonpath="{.data['tls\.crt']}" |
+  base64 --decode > meguurl-local-ca.crt
+```
+
+<br>
+
+### Powershell (Administrative Permissions)
+
+```
+Import-Certificate `
+    -FilePath .\meguurl-local-ca.crt `
+    -CertStoreLocation Cert:\LocalMachine\Root
 ```
 
 ## Ensure Kubernetes Project is Working
