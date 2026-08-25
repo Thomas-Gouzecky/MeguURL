@@ -30,6 +30,7 @@ function FlexSpacingFooter() {
 	return (
 		<div className="flex flex-col gap-4 w-full">
 			<div className="flex flex-row w-full gap-4">
+				{/* Literally */}
 				<div className="">
 					<FooterCard
 						className="flex justify-center h-full "
@@ -55,6 +56,7 @@ function FlexSpacingFooter() {
 					<FooterCard className="w-full h-full" />
 				</div>
 
+				{/* Links */}
 				<div className="">
 					<FooterCard
 						className="w-full h-full"
