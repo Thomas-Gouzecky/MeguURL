@@ -29,11 +29,11 @@ function FlexSpacingFooter() {
 	);
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<div className="flex flex-row w-full gap-4">
-				{/* Literally */}
-				<div className="">
+			<div className="grid grid-cols-4 gap-4 lg:flex lg:flex-row lg:w-full">
+				{/* Literally Me :3*/}
+				<div className="col-span-2">
 					<FooterCard
-						className="flex justify-center h-full "
+						className="flex justify-center h-fit w-full md:h-full"
 						FooterProps={{ title: "Literally Me :3" }}
 					>
 						<Image
@@ -47,25 +47,40 @@ function FlexSpacingFooter() {
 				</div>
 
 				{/* QR Code Section */}
-				<div className="flex-2">
-					<FooterCard className="w-full h-full" />
-				</div>
-
-				{/* Anime Countdown Section */}
-				<div className="flex-4">
-					<FooterCard className="w-full h-full" />
-				</div>
-
-				{/* Links */}
-				<div className="">
+				<div className="col-span-2">
 					<FooterCard
-						className="w-full h-full"
-						FooterProps={{ title: "Links!" }}
+						className="flex justify-center h-fit w-full md:h-full"
+						FooterProps={{ title: "Literally Me :3" }}
 					>
-						<div className="m-auto h-full">
-							<SocialLinkContainer SocialLinks={socialLinks} />
-						</div>
+						<Image
+							src="/literally-me.jpg"
+							className="w-full max-w-full h-full rounded-lg object-cover"
+							alt="Literally me as a sleepy cat ^_^"
+							width={150}
+							height={100}
+						/>
 					</FooterCard>
+				</div>
+
+				<div className="flex flex-wrap flex-row gap-4 col-span-4 lg:flex-4">
+					{/* Anime Countdown Section */}
+					<div className="flex-3 lg:flex-1">
+						<FooterCard className="w-full h-full">
+							<div className="w-36" />
+						</FooterCard>
+					</div>
+
+					{/* Links */}
+					<div className="flex-1 md:flex-0">
+						<FooterCard
+							className="w-full h-full"
+							FooterProps={{ title: "Links!" }}
+						>
+							<div className="m-auto h-full">
+								<SocialLinkContainer SocialLinks={socialLinks} />
+							</div>
+						</FooterCard>
+					</div>
 				</div>
 			</div>
 			{ExtraInfo}
@@ -75,8 +90,14 @@ function FlexSpacingFooter() {
 
 function GridSpacingFooter() {
 	return (
-		<div className="m-auto grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-4 lg:grid-cols-3 lg:grid-rows-3 gap-4 max-w-7xl">
-			<div className="m-auto sm:row-span-2 lg:row-span-2 lg:row-start-1">
+		<div
+			className="m-auto gap-4 grid 
+			grid-rows-3 grid-cols-4"
+		>
+			<div
+				className="m-auto 
+				row-start-1 col-start-1 col-span-2"
+			>
 				<FooterCard
 					className=""
 					FooterProps={{ title: "Literally Me :3" }}
@@ -90,10 +111,16 @@ function GridSpacingFooter() {
 					/>
 				</FooterCard>
 			</div>
-			<div className="">
+			<div
+				className="
+				row-start-1 col-start-3 col-span-2"
+			>
 				<FooterCard className="w-full h-full" />
 			</div>
-			<div className="m-auto flex justify-center row-start-2 sm:row-start-1 sm:col-start-2 lg:col-start-3">
+			<div
+				className="m-auto flex justify-center
+				row-start-2 col-start-4"
+			>
 				<FooterCard
 					className="w-full"
 					FooterProps={{ title: "Links!" }}
@@ -103,10 +130,16 @@ function GridSpacingFooter() {
 					</div>
 				</FooterCard>
 			</div>
-			<div className="sm:col-span-2 lg:col-span-2">
+			<div
+				className="
+				row-start-2 col-span-3"
+			>
 				<FooterCard className="w-full h-full" />
 			</div>
-			<div className="sm:col-span-2 sm:row-start-4 lg:col-span-3 lg:row-start-3">
+			<div
+				className="
+				row-start-3 col-span-4"
+			>
 				<FooterCard
 					className="w-full h-full relative"
 					FooterProps={{ title: "Extra Info" }}

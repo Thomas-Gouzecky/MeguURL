@@ -4,7 +4,7 @@ import SpacingFooter from "./FooterSpacings";
 export default function Footer() {
 	return (
 		<FooterBackground>
-			<SpacingFooter />
+			<SpacingFooter spacingType="flex" />
 		</FooterBackground>
 	);
 }
