@@ -6,6 +6,7 @@ import useCursorState from "@/hooks/useCursorState";
 import { cursorMap } from "@/lib/cursorMap";
 
 export default function CustomCursor() {
+	const [hasMouse, setHasMouse] = useState(false);
 	const [position, setPosition] = useState({
 		x: 0,
 		y: 0,
@@ -16,6 +17,8 @@ export default function CustomCursor() {
 	const cursor = cursorMap[cursorState];
 
 	useEffect(() => {
+		setHasMouse(window.matchMedia("(pointer: fine)").matches);
+
 		const move = (e: MouseEvent) => {
 			setPosition({
 				x: e.clientX,
@@ -29,6 +32,10 @@ export default function CustomCursor() {
 			window.removeEventListener("mousemove", move);
 		};
 	}, []);
+
+	if (!hasMouse) {
+		return null;
+	}
 
 	return (
 		<Image
