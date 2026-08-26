@@ -6,7 +6,7 @@ export default function WebArt() {
 				className="absolute inset-0 font-black text-black transition-all duration-300
 				lg:text-9xl lg:translate-x-1.75 lg:translate-y-1.75 
 				md:text-9xl md:translate-x-1.75 md:translate-y-1.75 
-				text-5xl translate-x-1 translate-y-1"
+				text-[clamp(3rem,16vw,8rem)] translate-x-1 translate-y-1"
 			>
 				MeguURL
 			</span>
@@ -16,7 +16,7 @@ export default function WebArt() {
 				className="relative font-black text-transparent bg-clip-text bg-center bg-cover transition-all duration-300
 				lg:text-9xl 
 				md:text-9xl 
-				text-5xl"
+				text-[clamp(3rem,16vw,8rem)]"
 				style={{
 					backgroundImage: "url('/megumin_entrance.gif')",
 					backgroundSize: "cover",
