@@ -6,8 +6,8 @@ metadata:
 spec:
     secretName: meguurl-local-tls
     dnsNames:
-        - meguurl.local
-        - api.meguurl.local
+        - megu.url
+        - api.megu.url
     issuerRef:
         name: meguurl-local
         kind: Issuer

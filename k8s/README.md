@@ -18,6 +18,12 @@ kind create cluster -n <cluster-name> --config k8s/kind-configs.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
 
+## Install Cert Manager
+
+```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.21.1/cert-manager.yaml
+```
+
 ## Apply Kubernetes Manifests
 
 ```

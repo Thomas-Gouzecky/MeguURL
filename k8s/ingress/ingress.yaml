@@ -8,7 +8,7 @@ spec:
     ingressClassName: nginx
 
     rules:
-        - host: meguurl.local
+        - host: megu.url
           http:
               paths:
                   - path: /
@@ -21,7 +21,7 @@ spec:
 
     tls:
         - hosts:
-              - meguurl.local
+              - megu.url
           secretName: meguurl-local-tls
 ---
 apiVersion: networking.k8s.io/v1
@@ -35,7 +35,7 @@ spec:
     ingressClassName: nginx
 
     rules:
-        - host: api.meguurl.local
+        - host: api.megu.url
           http:
               paths:
                   - path: /
@@ -48,5 +48,5 @@ spec:
 
     tls:
         - hosts:
-              - api.meguurl.local
+              - api.megu.url
           secretName: meguurl-local-tls
