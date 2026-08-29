@@ -1,0 +1,3 @@
+ca:
+    clusterIssuer:
+        name: local-ca-issuer

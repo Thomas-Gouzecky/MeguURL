@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: {{ .Values.ca.certificate.name }}
+spec:
+    isCA: true
+    commonName: {{ .Values.ca.certificate.commonName }}
+    secretName: {{ .Values.ca.certificate.secretName }}
+    issuerRef:
+        name: {{ .Values.ca.bootstrapIssuer.name }}
+        kind: {{ .Values.ca.bootstrapIssuer.kind }}
+        group: cert-manager.io
