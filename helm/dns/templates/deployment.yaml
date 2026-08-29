@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.deployment.name }}
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            app: {{ .Values.deployment.name }}
+    template:
+        metadata:
+            labels:
+                app: {{ .Values.deployment.name }}
+        spec:
+            containers:
+                - name: {{ .Values.deployment.name }}
+                  image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+                  resources: |
+                      {{- toYaml .Values.resources | nindent 20 }}
+                  args:
+                      - -conf
+                      - /etc/coredns/Corefile
+                  ports:
+                      - name: dns-udp
+                        containerPort: {{ .Values.deployment.containerPorts.udp }}
+                        protocol: UDP
+                      - name: dns-tcp
+                        containerPort: {{ .Values.deployment.containerPorts.tcp }}
+                        protocol: TCP
+                  volumeMounts:
+                      - name: config
+                        mountPath: /etc/coredns
+            volumes:
+                - name: config
+                  configMap:
+                      name: {{ .Values.configmap.name }}

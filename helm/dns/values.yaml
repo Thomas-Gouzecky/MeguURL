@@ -1,0 +1,36 @@
+replicaCount: 1
+
+deployment:
+    name: coredns-deployment
+    containerPorts:
+        udp: 53
+        tcp: 53
+
+image:
+    repo: coredns/coredns
+    tag: "1.13.1"
+
+resources:
+    requests:
+        cpu: 50m
+        memory: 64Mi
+    limits:
+        cpu: 200m
+        memory: 128Mi
+
+configmap:
+    name: coredns-config
+    hosts:
+        - ip: 192.168.2.9
+          names:
+              - megu.url
+              - api.megu.url
+service:
+    name: coredns-service
+    nodePort:
+        udp: 30553
+        tcp: 30553
+
+testService:
+    type: ClusterIP
+    port: 80
