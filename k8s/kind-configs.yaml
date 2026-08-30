@@ -5,13 +5,13 @@ nodes:
     - role: control-plane
       extraPortMappings:
           # HTTP
-          - containerPort: 80
+          - containerPort: 30822
             hostPort: 80
             listenAddress: "192.168.2.9"
             protocol: TCP
 
           # HTTPS
-          - containerPort: 443
+          - containerPort: 31572
             hostPort: 443
             listenAddress: "192.168.2.9"
             protocol: TCP
