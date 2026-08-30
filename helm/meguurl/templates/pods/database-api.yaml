@@ -1,46 +1,46 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: {{ .Values.db.api.name }}
+    name: {{ .Values.dbAPI.name }}
     labels:
-        app: {{ .Values.db.api.name }}
+        app: {{ .Values.dbAPI.name }}
 
 spec:
     selector:
-        app: {{ .Values.db.api.name }}
+        app: {{ .Values.dbAPI.name }}
 
     ports:
-        - name: "{{ .Values.db.api.service.port }}-{{ .Values.db.api.deployment.port }}"
-          port: {{ .Values.db.api.service.port }}
+        - name: "{{ .Values.dbAPI.service.port }}-{{ .Values.dbAPI.deployment.port }}"
+          port: {{ .Values.dbAPI.service.port }}
           protocol: {{ .Values.service.protocol }}
-          targetPort: {{ .Values.db.api.deployment.port }}
+          targetPort: {{ .Values.dbAPI.deployment.port }}
 
     type: {{ .Values.service.type }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ .Values.db.api.name }}
+    name: {{ .Values.dbAPI.name }}
     labels:
-        app: {{ .Values.db.api.name }}
+        app: {{ .Values.dbAPI.name }}
 
 spec:
     replicas: {{ .Values.replicaCount }}
 
     selector:
         matchLabels:
-            app: {{ .Values.db.api.name }}
+            app: {{ .Values.dbAPI.name }}
     template:
         metadata:
             labels:
-                app: {{ .Values.db.api.name }}
+                app: {{ .Values.dbAPI.name }}
         spec:
             containers:
-                - name: "{{ .Values.db.api.name }}-repo"
-                  image: "{{ .Values.db.api.image.repo }}:{{ .Values.db.api.image.tag }}"
+                - name: "{{ .Values.dbAPI.name }}-repo"
+                  image: "{{ .Values.dbAPI.image.repo }}:{{ .Values.dbAPI.image.tag }}"
                   imagePullPolicy: {{ .Values.imagePullPolicy }}
                   envFrom:
                       - secretRef:
-                            name: {{ .Values.db.api.secretName }}
+                            name: {{ .Values.dbAPI.secretName }}
                   resources: |
-                      {{- toYaml .Values.backend.resources | nindent 20 }}
+                      {{- toYaml .Values.dbAPI.resources | nindent 20 }}
