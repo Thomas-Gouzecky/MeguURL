@@ -42,5 +42,5 @@ spec:
                   envFrom:
                       - secretRef:
                             name: {{ .Values.dbAPI.secretName }}
-                  resources: |
+                  resources:
                       {{- toYaml .Values.dbAPI.resources | nindent 20 }}

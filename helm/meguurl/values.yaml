@@ -84,7 +84,7 @@ dbAPI:
             memory: 128Mi
 
 postgres:
-    name: database-postgres
+    name: db-postgres
     image:
         repo: postgres
         tag: "18"

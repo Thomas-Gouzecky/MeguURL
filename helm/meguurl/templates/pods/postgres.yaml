@@ -45,7 +45,7 @@ spec:
                   volumeMounts:
                       - name: {{ .Values.postgres.persistence.name }}
                         mountPath: /var/lib/postgresql
-                  resources: |
+                  resources:
                       {{- toYaml .Values.postgres.resources | nindent 20 }}
     volumeClaimTemplates:
         - metadata:

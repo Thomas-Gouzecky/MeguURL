@@ -46,7 +46,7 @@ spec:
                   envFrom:
                       - configMapRef:
                             name: {{ .Values.backend.configmap.name }}
-                  resources: |
+                  resources:
                       {{- toYaml .Values.backend.resources | nindent 20 }}
 
             volumes:

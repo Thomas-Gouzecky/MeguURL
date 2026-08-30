@@ -15,7 +15,7 @@ spec:
             containers:
                 - name: {{ .Values.deployment.name }}
                   image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
-                  resources: |
+                  resources: 
                       {{- toYaml .Values.resources | nindent 20 }}
                   args:
                       - -conf

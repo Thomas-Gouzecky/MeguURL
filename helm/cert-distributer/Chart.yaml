@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cert-distributer
-description: A certificate distributer system signing certificates with a single self-signed certificate
+description: The clusters certificate distribution system
 type: application
 
 version: 0.1.0
