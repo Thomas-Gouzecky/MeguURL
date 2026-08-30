@@ -93,9 +93,12 @@ postgres:
     statefulSet:
         port: 5432
     secretName: postgres-secret
-    vct:
+    persistence:
         name: postgres-storage
-        storage: 10Gi
+        enabled: true
+        accessMode: ReadWriteOnce
+        storageClass: standard
+        size: 10Gi
     requests:
         cpu: 100m
         memory: 256Mi

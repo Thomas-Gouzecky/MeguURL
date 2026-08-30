@@ -43,16 +43,17 @@ spec:
                       - secretRef:
                             name: {{ .Values.postgres.secretName }}
                   volumeMounts:
-                      - name: {{ .Values.postgres.vct.name }}
+                      - name: {{ .Values.postgres.persistence.name }}
                         mountPath: /var/lib/postgresql
                   resources: |
                       {{- toYaml .Values.postgres.resources | nindent 20 }}
     volumeClaimTemplates:
         - metadata:
-              name: {{ .Values.postgres.vct.name }}
+              name: {{ .Values.postgres.persistence.name }}
           spec:
-              accessModes: ["ReadWriteOnce"]
-              resources: 
-                requests:
-                  storage: {{ .Values.postgres.vct.storage }}
-              storageClassName: standard
+              accessModes:
+                  - {{ .Values.postgres.persistence.accessMode }}
+              storageClassName: {{ .Values.postgres.persistence.storageClass }}
+              resources:
+                  requests:
+                      storage: {{ .Values.postgres.persistence.size }}
