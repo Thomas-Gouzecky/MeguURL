@@ -1,5 +1,11 @@
+imagePullPolicy: Always
+
+replicaCount: 1
+
 certificate:
     gateway: meguurl-gateway-tls
+    caBundle:
+        name: local-ca
 
 gatewayClass:
     name: traefik-class
@@ -12,18 +18,52 @@ frontend:
     route:
         name: frontend-route
         hostName: megu.url
+
+    name: meguurl-frontend
     service:
-        name: frontend-service
-        port: 80
+        port: 3000
+    deployment:
+        port: 3000
+    image:
+        repo: tomcheese/meguurl-frontend-repo
+        tag: k8s
+    configmap:
+        name: frontend-config
+    resources:
+        requests:
+            cpu: 50m
+            memory: 64Mi
+        limits:
+            cpu: 200m
+            memory: 128Mi
 
 backend:
     route:
         name: backend-route
         hostName: api.megu.url
-    service:
-        name: backend-service
-        port: 80
 
-testService:
+    name: meguurl-backend
+    service:
+        port: 6767
+    deployment:
+        port: 6767
+    image:
+        repo: tomcheese/meguurl-backend-repo
+        tag: latest
+    configmap:
+        name: backend-config
+    resources:
+        requests:
+            cpu: 50m
+            memory: 64Mi
+        limits:
+            cpu: 200m
+            memory: 128Mi
+    tlsSecretName: meguurl-backend-tls-secret
+
+service:
     type: ClusterIP
-    port: 80
+    protocol: TCP
+    port:
+        HTTP: 80
+        HTTPS: 443

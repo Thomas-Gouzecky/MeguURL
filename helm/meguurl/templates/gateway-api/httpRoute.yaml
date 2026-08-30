@@ -20,7 +20,7 @@ spec:
                     value: /
 
           backendRefs:
-              - name: {{ .Values.frontend.service.name }}
+              - name: {{ .Values.frontend.name }}
                 port: {{ .Values.frontend.service.port }}
 ---
 # Backend Route
@@ -44,5 +44,5 @@ spec:
                     value: /
 
           backendRefs:
-              - name: {{ .Values.backend.service.name }}
+              - name: {{ .Values.backend.name }}
                 port: {{ .Values.backend.service.port }}
