@@ -61,6 +61,24 @@ backend:
             memory: 128Mi
     tlsSecretName: meguurl-backend-tls-secret
 
+db:
+    api:
+        name: meguurl-database-api
+        image:
+            repo: tomcheese/meguurl-db-api-repo
+            tag: latest
+        secretName: database-api-secret
+        service:
+            port: 8000
+        deployment:
+            port: 8000
+        resources:
+            requests:
+                cpu: 50m
+                memory: 64Mi
+            limits:
+                cpu: 200m
+                memory: 128Mi
 service:
     type: ClusterIP
     protocol: TCP
