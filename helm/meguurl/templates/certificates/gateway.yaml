@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: {{ .Values.certificate.gateway.name }}
+spec:
+    secretName: {{ .Values.gateway.tlsSecretName}}
+    issuerRef:
+        name: {{ .Values.ca.clusterIssuer.name }}
+        kind: ClusterIssuer
+    dnsNames:
+        - {{ .Values.frontend.route.hostName}}
+        - {{ .Values.backend.route.hostName}}

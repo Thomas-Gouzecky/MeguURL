@@ -3,7 +3,10 @@ imagePullPolicy: Always
 replicaCount: 1
 
 certificate:
-    gateway: meguurl-gateway-tls
+    gateway:
+        name: meguurl-gateway-tls
+    backend:
+        name: kestrel-backend-tls
     caBundle:
         name: local-ca
 
@@ -13,6 +16,7 @@ gatewayClass:
 
 gateway:
     name: meguurl-gateway
+    tlsSecretName: gateway-tls-secret
 
 frontend:
     route:
