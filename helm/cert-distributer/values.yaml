@@ -6,7 +6,8 @@ ca:
         name: local-ca
         commonName: Local CA Certificate
         secretName: local-ca-secret
-
+    bundle:
+        name: local-ca
 testService:
     type: ClusterIP
     port: 80
