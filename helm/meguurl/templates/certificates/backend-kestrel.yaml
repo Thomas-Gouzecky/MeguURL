@@ -8,4 +8,7 @@ spec:
         name: {{ .Values.ca.clusterIssuer.name }}
         kind: ClusterIssuer
     dnsNames:
-        - backend
+        - {{ .Values.backend.name }}
+        - "{{ .Values.backend.name }}.{{ .Release.Namespace }}"
+        - "{{ .Values.backend.name }}.{{ .Release.Namespace }}.svc"
+        - "{{ .Values.backend.name }}.{{ .Release.Namespace }}.svc.cluster.local"
