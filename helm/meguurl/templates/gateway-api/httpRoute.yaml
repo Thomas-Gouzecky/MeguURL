@@ -1,0 +1,48 @@
+---
+# Frontend Route
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+    name: {{ .Values.frontend.route.name }}
+spec:
+    parentRefs:
+        - name: {{ .Values.gateway.name }}
+          sectionName: https
+          kind: Gateway
+
+    hostnames:
+        - {{ .Values.frontend.route.hostName }}
+
+    rules:
+        - matches:
+              - path:
+                    type: PathPrefix
+                    value: /
+
+          backendRefs:
+              - name: {{ .Values.frontend.service.name }}
+                port: {{ .Values.frontend.service.port }}
+---
+# Backend Route
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+    name: {{ .Values.backend.route.name }}
+spec:
+    parentRefs:
+        - name: {{ .Values.gateway.name }}
+          sectionName: https
+          kind: Gateway
+
+    hostnames:
+        - {{ .Values.backend.route.hostName }}
+
+    rules:
+        - matches:
+              - path:
+                    type: PathPrefix
+                    value: /
+
+          backendRefs:
+              - name: {{ .Values.backend.service.name }}
+                port: {{ .Values.backend.service.port }}
