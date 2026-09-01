@@ -25,6 +25,7 @@ configmap:
           names:
               - megu.url
               - api.megu.url
+              - cert-downloader.home.arpa
 service:
     name: coredns-service
     nodePort:
