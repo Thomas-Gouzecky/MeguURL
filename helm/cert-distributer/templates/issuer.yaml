@@ -1,6 +1,0 @@
-apiVersion: cert-manager.io/v1
-kind: {{ .Values.ca.bootstrapIssuer.kind }}
-metadata:
-    name: {{ .Values.ca.bootstrapIssuer.name }}
-spec:
-    selfSigned: {}

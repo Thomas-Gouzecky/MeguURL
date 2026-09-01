@@ -1,9 +1,0 @@
-ca:
-    clusterIssuer:
-        name: local-ca-issuer
-    bundle:
-        name: local-ca
-
-gatewayClass:
-    name: traefik-class
-    controllerName: traefik.io/gateway-controller
