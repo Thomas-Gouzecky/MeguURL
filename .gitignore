@@ -5,3 +5,4 @@ k8s/secrets/*.yaml
 !k8s/secrets/*.example.yaml
 meguurl-local-ca.crt
 *.ignore.*
+secrets.yaml

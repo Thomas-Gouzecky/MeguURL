@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ .Values.configmap.name }}
+data:
+    Corefile: |
+        url:53 {
+            hosts {
+                {{- range $.Values.configmap.hosts }}
+                {{- $host := .}}
+                {{- range .names}}
+                {{- $host.ip | nindent 16 }} {{ . }}
+                {{- end }}
+                {{- end }}
+                fallthrough
+            }
+        }
+
+        .:53 {
+            forward . 1.1.1.1 8.8.8.8
+            cache 30
+            errors
+        }
