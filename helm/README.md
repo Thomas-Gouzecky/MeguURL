@@ -135,6 +135,22 @@ Restart the frontend so it can mount the CA bundle:
 kubectl rollout restart deployment/meguurl-frontend -n meguurl
 ```
 
+### Certificate Downloader
+
+```bash
+helm install cert-downloader helm/cert-downloader \
+    --namespace cert-downloader \
+    -f helm/clusterValues.yaml
+
+kubectl label namespace cert-downloader trust=enabled
+```
+
+Restart the cert-downloader so it can mount the CA bundle:
+
+```bash
+kubectl rollout restart deployment/cert-downloader -n cert-downloader
+```
+
 ## 6. Verify the Installation
 
 Check the pod and Gateway status:
@@ -151,3 +167,9 @@ nslookup megu.url
 ```
 
 Once DNS is configured, open [https://megu.url](https://megu.url) to access the MeguURL frontend.
+
+## 7. Trusting the Local CA
+
+To trust the local CA, you need to add the CA certificate to your system's trusted certificate store. The exact steps depend on your operating system and device.
+
+Visit [http://cert-downloader.home.arpa/ca.crt](http://cert-downloader.home.arpa/ca.crt) to download the CA certificate. Follow your operating system's instructions to add it to the trusted store.
