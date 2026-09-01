@@ -4,17 +4,25 @@ metadata:
     name: {{ .Values.configmap.name }}
 data:
     Corefile: |
-        url:53 {
+        {{- $zones := dict }}
+        {{- range $.Values.configmap.hosts }}
+        {{- $host := . }}
+        {{- range .names }}
+        {{- $zone := default . (regexFind "[^.]+\\.[^.]+$" .) }}
+        {{- $records := default (list) (get $zones $zone) }}
+        {{- $_ := set $zones $zone (append $records (dict "ip" $host.ip "name" .)) }}
+        {{- end }}
+        {{- end }}
+        {{- range $zone, $records := $zones }}
+        {{ $zone }}:53 {
             hosts {
-                {{- range $.Values.configmap.hosts }}
-                {{- $host := .}}
-                {{- range .names}}
-                {{- $host.ip | nindent 16 }} {{ . }}
-                {{- end }}
+                {{- range $records }}
+                {{- .ip | nindent 16 }} {{ .name }}
                 {{- end }}
                 fallthrough
             }
         }
+        {{- end }}
 
         .:53 {
             forward . 1.1.1.1 8.8.8.8
