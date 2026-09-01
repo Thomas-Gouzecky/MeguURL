@@ -3,7 +3,7 @@ gateway:
 
 route:
     name: cert-downloader-route
-    hostName: cert-downloader.local
+    hostName: cert-downloader.home.arpa
 
 image:
     repo: nginx
