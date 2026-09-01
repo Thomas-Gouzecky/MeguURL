@@ -10,7 +10,7 @@ This guide deploys MeguURL to a local [Kind](https://kind.sigs.k8s.io/) Kubernet
 - [Kubernetes](https://kubernetes.io/releases/download/)
 - [Kind](https://kind.sigs.k8s.io/)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/)
-- [Helm 3](https://helm.sh/docs/intro/install/)
+- [Helm 3 or Later](https://helm.sh/docs/intro/install/)
 
 Install Kind on Windows with `winget`:
 
