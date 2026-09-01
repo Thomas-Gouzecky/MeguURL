@@ -1,21 +1,22 @@
-providers:
-    kubernetesGateway:
-        enabled: true
+traefik:
+    providers:
+        kubernetesGateway:
+            enabled: true
 
-ports:
-    web:
-        nodePort: 30822
+    ports:
+        web:
+            nodePort: 30822
 
-    websecure:
-        nodePort: 31572
+        websecure:
+            nodePort: 31572
 
-service:
-    type: NodePort
+    service:
+        type: NodePort
 
-additionalArguments:
-    - --entryPoints.web.http.redirections.entryPoint.to=websecure
-    - --entryPoints.web.http.redirections.entryPoint.scheme=https
-    - --entryPoints.web.http.redirections.entryPoint.permanent=true
-    - --entryPoints.web.observability.accessLogs=false
-    - --entryPoints.web.observability.metrics=false
-    - --entryPoints.web.observability.tracing=false
+    additionalArguments:
+        - --entryPoints.web.http.redirections.entryPoint.to=websecure
+        - --entryPoints.web.http.redirections.entryPoint.scheme=https
+        - --entryPoints.web.http.redirections.entryPoint.permanent=true
+        - --entryPoints.web.observability.accessLogs=false
+        - --entryPoints.web.observability.metrics=false
+        - --entryPoints.web.observability.tracing=false
