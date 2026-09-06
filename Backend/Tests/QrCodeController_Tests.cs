@@ -45,19 +45,23 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
     }
 
     [Fact]
-    public async Task Post_ReturnsInvalidErrorCorrectionResponse()
+    public async Task Post_ReturnsAllValidationErrors()
     {
         var response = await _client.PostAsJsonAsync(
             "/api/qrcode",
-            new { Data = "https://megu.url", ErrorCorrection = "Invalid" },
+            new { data = "", error_correction = "Invalid" },
             TestContext.Current.CancellationToken);
 
-        Assert.False(response.IsSuccessStatusCode);
+        Assert.Equal(System.Net.HttpStatusCode.UnprocessableEntity, response.StatusCode);
 
         var error = await response.Content.ReadFromJsonAsync<HTTPValidationError>(TestContext.Current.CancellationToken);
 
         Assert.NotNull(error);
 
-        Assert.Equal("Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'", error.Detail[0].Msg);
+        Assert.Equal(2, error.Detail.Count);
+        Assert.Contains(error.Detail, detail =>
+            detail.Msg == "String should have at least 1 character");
+        Assert.Contains(error.Detail, detail =>
+            detail.Msg == "Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'");
     }
 }
