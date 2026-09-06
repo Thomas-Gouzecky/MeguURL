@@ -55,5 +55,4 @@ jobs:
 
             - name: Stop QR code service
               if: always()
-              working-directory: Backend
-              run: docker compose down -d qrcode
+              run: docker rm --force qr-code-api || true
