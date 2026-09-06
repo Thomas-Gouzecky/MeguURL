@@ -4,7 +4,7 @@ services:
         pull_policy: always
         container_name: meguURL-backend
         env_file:
-            - .env.production
+            - App/.env.production
         ports:
             - "6767:8080"
         volumes:
