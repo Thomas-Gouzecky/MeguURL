@@ -1,4 +1,7 @@
+using System.Text.Json.Serialization;
+
 public class HTTPValidationError()
 {
-    public List<ValidationError>? Detail;
+    [JsonPropertyName("detail")]
+    public required List<ValidationError> Detail { get; set; }
 }

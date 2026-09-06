@@ -23,9 +23,14 @@ public class QrCodeController : ControllerBase
 
         if (!response.IsSuccessStatusCode)
         {
-            var error = await response.Content.ReadFromJsonAsync<HTTPValidationError>();
+            var errorResponse = await response.Content.ReadFromJsonAsync<HTTPValidationError>();
 
-            return StatusCode((int)response.StatusCode, error);
+            if (errorResponse?.Detail is not { Count: > 0 })
+            {
+                return BadRequest();
+            }
+
+            return StatusCode((int)response.StatusCode, errorResponse);
         }
 
         var result = await response.Content.ReadFromJsonAsync<QrCodeResponse>();

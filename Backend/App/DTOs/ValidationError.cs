@@ -1,8 +1,8 @@
 public class ValidationError()
 {
-    public required List<object> Loc;
-    public required string Msg;
-    public required string Type;
-    object? Input;
-    object? Ctx;
+    public required List<object> Loc { get; set; }
+    public required string Msg { get; set; }
+    public required string Type { get; set; }
+    public object? Input { get; set; }
+    public object? Ctx { get; set; }
 }

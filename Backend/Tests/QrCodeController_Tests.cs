@@ -57,5 +57,7 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
         var error = await response.Content.ReadFromJsonAsync<HTTPValidationError>(TestContext.Current.CancellationToken);
 
         Assert.NotNull(error);
+
+        Assert.Equal("Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'", error.Detail[0].Msg);
     }
 }
