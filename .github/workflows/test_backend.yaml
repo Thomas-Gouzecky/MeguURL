@@ -16,9 +16,10 @@ jobs:
             - name: Set up .NET
               uses: actions/setup-dotnet@v6
               with:
-                  dotnet-version: "9.0.x"
+                  dotnet-version: "9.0.302"
 
             - name: Show .NET version
+              working-directory: Backend
               run: dotnet --version
 
             - name: Start QR code service
@@ -45,10 +46,12 @@ jobs:
                   exit 1
 
             - name: Restore backend dependencies
-              run: dotnet restore Backend/Tests/Tests.csproj
+              working-directory: Backend
+              run: dotnet restore Tests/Tests.csproj
 
             - name: Run backend tests
-              run: dotnet test Backend/Tests/Tests.csproj --configuration Release --no-restore
+              working-directory: Backend
+              run: dotnet test Tests/Tests.csproj --configuration Release --no-restore
 
             - name: Stop QR code service
               if: always()
