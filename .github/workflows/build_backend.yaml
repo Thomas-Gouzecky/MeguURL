@@ -1,6 +1,12 @@
 name: Build Backend Image
 
 on:
+    push:
+        branches: ["main"]
+        paths:
+            - "Backend/App/**"
+            - "Backend/Dockerfile"
+            - ".github/workflows/build_backend.yaml"
     workflow_dispatch:
 
 jobs:
@@ -8,14 +14,16 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout Frontend
+            - name: Checkout Backend
               uses: actions/checkout@v4
+              with:
+                  sparse-checkout: Backend
 
             - name: Get Version
               id: Version
               shell: pwsh
               run: |
-                  $version = Select-Xml -Path ./Backend/backend.csproj -XPath "//Version" |
+                  $version = Select-Xml -Path ./Backend/App/backend.csproj -XPath "//Version" |
                     Select-Object -ExpandProperty Node |
                     Select-Object -ExpandProperty InnerText
 
@@ -31,6 +39,7 @@ jobs:
               uses: docker/build-push-action@v6
               with:
                   context: ./Backend
+                  file: ./Backend/Dockerfile
                   push: true
                   tags: |
                       ${{ secrets.DOCKER_USERNAME }}/meguurl-backend-repo:${{ steps.version.outputs.version }}
