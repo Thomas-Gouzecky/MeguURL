@@ -8,25 +8,38 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: Check for backend changes
+              id: changes
+              uses: dorny/paths-filter@v3
+              with:
+                  filters: |
+                      backend:
+                        - 'Backend/**'
+
             - name: Checkout repository
+              if: steps.changes.outputs.backend == 'true'
               uses: actions/checkout@v4
               with:
                   sparse-checkout: Backend
 
             - name: Set up .NET
+              if: steps.changes.outputs.backend == 'true'
               uses: actions/setup-dotnet@v6
               with:
                   dotnet-version: "9.0.302"
 
             - name: Show .NET version
+              if: steps.changes.outputs.backend == 'true'
               working-directory: Backend
               run: dotnet --version
 
             - name: Start QR code service
+              if: steps.changes.outputs.backend == 'true'
               working-directory: Backend
               run: docker compose up -d qrcode
 
             - name: Wait for QR code service
+              if: steps.changes.outputs.backend == 'true'
               working-directory: Backend
               shell: bash
               run: |
@@ -46,13 +59,15 @@ jobs:
                   exit 1
 
             - name: Restore backend dependencies
+              if: steps.changes.outputs.backend == 'true'
               working-directory: Backend
               run: dotnet restore Tests/Tests.csproj
 
             - name: Run backend tests
+              if: steps.changes.outputs.backend == 'true'
               working-directory: Backend
               run: dotnet test Tests/Tests.csproj --configuration Release --no-restore
 
             - name: Stop QR code service
-              if: always()
+              if: always() && steps.changes.outputs.backend == 'true'
               run: docker rm --force qr-code-api || true
