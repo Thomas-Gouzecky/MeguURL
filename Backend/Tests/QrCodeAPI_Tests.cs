@@ -28,7 +28,26 @@ public class QrCodeApi_Tests : IDisposable
     }
 
     [Fact]
-    public async Task Test_CorrectMatrixString() {
+    public async Task Test_CorrectMatrixString()
+    {
+        var testData = new MeguURL();
+
+        var response = await _client.PostAsJsonAsync(
+            "/qrcode/",
+            new { data = testData.urlString },
+            cancellationToken: TestContext.Current.CancellationToken);
+
+        var result = await response.Content.ReadFromJsonAsync<QrCodeResponse>(
+            TestContext.Current.CancellationToken);
+
+        Assert.NotNull(result);
+        Assert.Equal(testData.matrixString, result.Matrix);
+        Assert.Equal(testData.size * testData.size, result.Matrix.Length);
+    }
+
+    [Fact]
+    public async Task Test_CorrectSizeResponse() 
+    { 
         var testData = new MeguURL();
 
         var response = await _client.PostAsJsonAsync(
@@ -41,7 +60,7 @@ public class QrCodeApi_Tests : IDisposable
 
         Assert.NotNull(result);
         Assert.Equal(testData.size, result.Size);
-        Assert.Equal(testData.matrixString, result.Matrix);
+        Assert.Equal(result.Size * result.Size, result.Matrix.Length);
     }
 
     public void Dispose()
