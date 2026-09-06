@@ -17,6 +17,9 @@ public class QrCodeController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(QrCodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(HTTPValidationError), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> CreateQrCode([FromBody] QrCodeRequest request)
     {
         var response = await _qrCodeApi.PostAsJsonAsync("/qrcode/", request);
