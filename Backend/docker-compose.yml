@@ -11,6 +11,16 @@ services:
             - dataprotection-keys:/keys
         networks:
             - megu-network
+
+    qrcode:
+        image: tomcheese/qr-code-generator:latest
+        pull_policy: always
+        ports:
+            - "8001:8000"
+        container_name: "qr-code-api"
+        networks:
+            - megu-network
+
 volumes:
     dataprotection-keys:
 
