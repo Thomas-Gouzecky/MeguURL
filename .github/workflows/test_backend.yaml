@@ -1,0 +1,53 @@
+name: Test Backend
+
+on:
+    pull_request:
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: Backend
+
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 9.0.x
+
+            - name: Start QR code service
+              working-directory: Backend
+              run: docker compose up -d qrcode
+
+            - name: Wait for QR code service
+              working-directory: Backend
+              shell: bash
+              run: |
+                  for attempt in {1..30}; do
+                    if curl --fail --silent \
+                      -H "Content-Type: application/json" \
+                      -d '{"data":"https://megu.url","error_correction":"LOW"}' \
+                      http://localhost:8001/qrcode/ > /dev/null; then
+                        exit 0
+                    fi
+
+                    sleep 2
+                  done
+
+                  echo "QR code service did not become ready"
+                  docker compose logs qrcode
+                  exit 1
+
+            - name: Restore backend dependencies
+              run: dotnet restore Backend/Tests/Tests.csproj
+
+            - name: Run backend tests
+              run: dotnet test Backend/Tests/Tests.csproj --configuration Release --no-restore
+
+            - name: Stop QR code service
+              if: always()
+              working-directory: Backend
+              run: docker compose down
