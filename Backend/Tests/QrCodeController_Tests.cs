@@ -115,7 +115,7 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
             new { error_correction = "LOW" },
             TestContext.Current.CancellationToken);
 
-        Assert.Equal(System.Net.HttpStatusCode.UnprocessableEntity, response.StatusCode);
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
     }
 
     [Fact]
