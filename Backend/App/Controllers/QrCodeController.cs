@@ -21,7 +21,7 @@ public class QrCodeController : ControllerBase
     {
         var response = await _qrCodeApi.PostAsJsonAsync("/qrcode/", request);
 
-        var result = response.Content.ReadFromJsonAsync<QrCodeResponse>();
+        var result = await response.Content.ReadFromJsonAsync<QrCodeResponse>();
 
         return Ok(result);
     }

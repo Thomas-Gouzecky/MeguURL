@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualBasic;
 
 namespace Tests;
 
@@ -19,17 +18,12 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
     {
         var response = await _client.PostAsJsonAsync(
             "/api/qrcode",
-            new QrCodeRequest("https://megu.url", "LOW"),
-            TestContext.Current.CancellationToken);
-
-        response.EnsureSuccessStatusCode();
-
-        var result = await response.Content.ReadFromJsonAsync<QrCodeResponse>(
+            new { data = "https://megu.url", error_correction = "LOW" },
             TestContext.Current.CancellationToken);
 
         Assert.True(
             response.IsSuccessStatusCode,
-            $"Status: {(int)response.StatusCode} {response.StatusCode}\nBody: {result}");
+            $"Status: {(int)response.StatusCode} {response.StatusCode}");
     }
 
     [Fact]
@@ -37,7 +31,7 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
     {
         var response = await _client.PostAsJsonAsync(
             "/api/qrcode",
-            new QrCodeRequest("https://megu.url", "LOW"),
+            new { data = "https://megu.url", error_correction = "LOW" },
             TestContext.Current.CancellationToken);
 
         response.EnsureSuccessStatusCode();
@@ -49,8 +43,6 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
         Assert.True(result.Size > 0, $"Results size: {result.Size}");
         Assert.Equal(result.Size * result.Size, result.Matrix.Length);
     }
-
-    private sealed record QrCodeRequest(string Data, string? ErrorCorrection);
 
     private sealed record QrCodeResponse(int Size, string Matrix);
     private sealed record HTTPValidationError(List<ValidationError> Detail);
