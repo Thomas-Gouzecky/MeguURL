@@ -1,12 +1,12 @@
 using Backend.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi;
 
 namespace Backend.Controllers;
 
 [ApiController]
 [Route("/api/qrcode")]
 [RequiredService("QrCode")]
+[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status503ServiceUnavailable)]
 public class QrCodeController : ControllerBase
 {
     private readonly HttpClient _qrCodeApi;
