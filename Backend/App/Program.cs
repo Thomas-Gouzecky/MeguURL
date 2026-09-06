@@ -36,12 +36,16 @@ var backendApi = builder.Configuration["ApiSettings:BackendApi"]
 var databaseApi = builder.Configuration["ApiSettings:DatabaseApi"]
     ?? throw new InvalidOperationException("Database API URL is missing");
 
+var qrcodeApi = builder.Configuration["ApiSettings:QrCodeApi"]
+    ?? throw new InvalidOperationException("QR Code API URL is missing");
+
 builder.Services.AddTransient<ApiExceptionHandler>();
 
 builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
-builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); }).AddHttpMessageHandler<ApiExceptionHandler>();;
+builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); }).AddHttpMessageHandler<ApiExceptionHandler>(); ;
+builder.Services.AddHttpClient("QrCodeApi", client => { client.BaseAddress = new Uri(qrcodeApi); }).AddHttpMessageHandler<ApiExceptionHandler>(); ;
 builder.Services.AddHttpClient("UrlValidator", client => { client.Timeout = TimeSpan.FromSeconds(10); });
-    
+
 builder.Services.AddSingleton<UrlCodeService>();
 builder.Services.AddSingleton<UrlValidator>();
 builder.Services.AddSingleton<ValidationService>();
@@ -95,3 +99,5 @@ app.MapRazorComponents<App>()
 app.MapControllers();
 
 app.Run();
+
+public partial class Program() { }

@@ -4,13 +4,23 @@ services:
         pull_policy: always
         container_name: meguURL-backend
         env_file:
-            - .env.production
+            - App/.env.production
         ports:
             - "6767:8080"
         volumes:
             - dataprotection-keys:/keys
         networks:
             - megu-network
+
+    qrcode:
+        image: tomcheese/qr-code-generator:latest
+        pull_policy: always
+        ports:
+            - "8001:8000"
+        container_name: "qr-code-api"
+        networks:
+            - megu-network
+
 volumes:
     dataprotection-keys:
 
