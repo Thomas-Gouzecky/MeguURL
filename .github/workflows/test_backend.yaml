@@ -14,9 +14,9 @@ jobs:
                   sparse-checkout: Backend
 
             - name: Set up .NET
-              uses: actions/setup-dotnet@v4
+              uses: actions/setup-dotnet@v6
               with:
-                  dotnet-version: 9.0.x
+                  dotnet-version: "9.0.x"
 
             - name: Show .NET version
               run: dotnet --version
