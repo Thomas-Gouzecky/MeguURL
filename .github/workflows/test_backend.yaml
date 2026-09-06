@@ -18,6 +18,9 @@ jobs:
               with:
                   dotnet-version: 9.0.x
 
+            - name: Show .NET version
+              run: dotnet --version
+
             - name: Start QR code service
               working-directory: Backend
               run: docker compose up -d qrcode
@@ -50,4 +53,4 @@ jobs:
             - name: Stop QR code service
               if: always()
               working-directory: Backend
-              run: docker compose down
+              run: docker compose down -d qrcode
