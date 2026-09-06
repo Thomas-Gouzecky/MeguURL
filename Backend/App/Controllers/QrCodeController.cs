@@ -21,6 +21,13 @@ public class QrCodeController : ControllerBase
     {
         var response = await _qrCodeApi.PostAsJsonAsync("/qrcode/", request);
 
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadFromJsonAsync<HTTPValidationError>();
+
+            return StatusCode((int)response.StatusCode, error);
+        }
+
         var result = await response.Content.ReadFromJsonAsync<QrCodeResponse>();
 
         return Ok(result);

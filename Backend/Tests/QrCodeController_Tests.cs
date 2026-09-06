@@ -44,7 +44,18 @@ public class QrCodeController_Tests : IClassFixture<WebApplicationFactory<Progra
         Assert.Equal(result.Size * result.Size, result.Matrix.Length);
     }
 
-    private sealed record QrCodeResponse(int Size, string Matrix);
-    private sealed record HTTPValidationError(List<ValidationError> Detail);
-    private record ValidationError(List<object> Loc, string Msg, string Type, object? Input, object? Ctx);
+    [Fact]
+    public async Task Post_ReturnsInvalidErrorCorrectionResponse()
+    {
+        var response = await _client.PostAsJsonAsync(
+            "/api/qrcode",
+            new { Data = "https://megu.url", ErrorCorrection = "Invalid" },
+            TestContext.Current.CancellationToken);
+
+        Assert.False(response.IsSuccessStatusCode);
+
+        var error = await response.Content.ReadFromJsonAsync<HTTPValidationError>(TestContext.Current.CancellationToken);
+
+        Assert.NotNull(error);
+    }
 }
