@@ -102,3 +102,11 @@ type ErrorResponse = {
 	status: number;
 	error: GetRedirectUrlErrorResponse;
 };
+
+// ===========================================================
+// Other API Types
+// ===========================================================
+type QrCodeAPIRequest = {
+	data: string;
+	error_correction?: string | null;
+};

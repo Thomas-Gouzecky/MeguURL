@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { testSize, testMatrix, testUrl } from "./data";
-import { POST } from "../api/QrCode";
+import { generateQrCode } from "../api/QrCode";
 
 describe("POST /api/qrcode", () => {
-	it("returns the Mock QR Code", async () => {
+	it("returns successful response from Mock QR Code", async () => {
 		// Fake response (the response im expecting)
 		vi.stubGlobal(
 			"fetch",
@@ -18,9 +18,8 @@ describe("POST /api/qrcode", () => {
 			),
 		);
 
-		// Make the actual request
-
-		const response = await POST({ data: testUrl, error_correction: "LOW" });
+		// Make the request
+		const response = await generateQrCode({ data: testUrl, error_correction: "LOW" });
 
 		expect(response.status).toBe(200);
 
@@ -31,11 +30,20 @@ describe("POST /api/qrcode", () => {
 
 		vi.unstubAllGlobals();
 	});
-});
 
-describe("POST /api/qrcode", () => {
-	it("returns the real QR Code", async () => {
-		const response = await POST({ data: testUrl, error_correction: "LOW" });
+	it("returns the successful response from QR Code service", async () => {
+		const response = await generateQrCode({ data: testUrl, error_correction: "LOW" });
+
+		expect(response.status).toBe(200);
+
+		const body = await response.json();
+
+		expect(body.matrix).toEqual(testMatrix);
+		expect(body.size).toEqual(testSize);
+	});
+
+	it("returns the successful response from service with no error_correction field", async () => {
+		const response = await generateQrCode({ data: testUrl });
 
 		expect(response.status).toBe(200);
 
