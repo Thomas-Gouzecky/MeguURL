@@ -45,4 +45,24 @@ describe("Integration Tests - POST /api/qrcode", () => {
 
 		expect(error.detail[0].msg).toBe("Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'");
 	});
+
+	it("returns error response with whitespace in data", async () => {
+		const { result } = renderHook(() => useQrCode());
+
+		await act(async () => {
+			await result.current.create({
+				data: "    ",
+			});
+		});
+
+		expect(result.current.status).toBe(422);
+
+		const error = result.current.error;
+
+		if (!error) {
+			throw new Error("Expected the Error response to be defined");
+		}
+
+		expect(error.detail[0].msg).toBe("String should match pattern '\\S'");
+	});
 });
