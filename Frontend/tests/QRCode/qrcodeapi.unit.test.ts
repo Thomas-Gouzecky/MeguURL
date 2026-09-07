@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { testSize, testMatrix, testUrl } from "../data";
-import { generateQrCode } from "../../api/QrCode";
+import { generateQrCode } from "@/api/QrCode";
 
 describe("Mock Tests - POST /api/qrcode", () => {
 	afterEach(() => {
