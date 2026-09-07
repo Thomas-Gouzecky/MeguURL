@@ -3,20 +3,36 @@ import { testSize, testMatrix, testUrl } from "../data";
 import useQrCode from "@/hooks/useQrCode";
 import { renderHook, act } from "@testing-library/react";
 
+async function createQrCode(request: QrCodeAPIRequest) {
+	const { result } = renderHook(() => useQrCode());
+
+	await act(async () => {
+		await result.current.create(request);
+	});
+
+	return result.current;
+}
+
+function expectValidationError(result: ReturnType<typeof useQrCode>, message: string) {
+	expect(result.status).toBe(422);
+
+	if (!result.error) {
+		throw new Error("Expected the Error response to be defined");
+	}
+
+	expect(result.error.detail[0].msg).toBe(message);
+}
+
 describe("Integration Tests - POST /api/qrcode", () => {
 	it("returns response in a successful request from the hook", async () => {
-		const { result } = renderHook(() => useQrCode());
-
-		await act(async () => {
-			await result.current.create({
-				data: testUrl,
-				error_correction: "LOW",
-			});
+		const result = await createQrCode({
+			data: testUrl,
+			error_correction: "LOW",
 		});
 
-		expect(result.current.status).toBe(200);
+		expect(result.status).toBe(200);
 
-		const body = result.current.body;
+		const body = result.body;
 		if (!body) {
 			throw new Error("Expected the QR code response body to be defined");
 		}
@@ -26,43 +42,19 @@ describe("Integration Tests - POST /api/qrcode", () => {
 	});
 
 	it("returns error response with an invalid ecc from the hook", async () => {
-		const { result } = renderHook(() => useQrCode());
-
-		await act(async () => {
-			await result.current.create({
-				data: "Hello World",
-				error_correction: "Invalid",
-			});
+		const result = await createQrCode({
+			data: "Hello World",
+			error_correction: "Invalid",
 		});
 
-		expect(result.current.status).toBe(422);
-
-		const error = result.current.error;
-
-		if (!error) {
-			throw new Error("Expected the Error response to be defined");
-		}
-
-		expect(error.detail[0].msg).toBe("Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'");
+		expectValidationError(result, "Input should be 'LOW', 'MEDIUM', 'QUARTILE' or 'HIGH'");
 	});
 
 	it("returns error response with whitespace in data", async () => {
-		const { result } = renderHook(() => useQrCode());
-
-		await act(async () => {
-			await result.current.create({
-				data: "    ",
-			});
+		const result = await createQrCode({
+			data: "    ",
 		});
 
-		expect(result.current.status).toBe(422);
-
-		const error = result.current.error;
-
-		if (!error) {
-			throw new Error("Expected the Error response to be defined");
-		}
-
-		expect(error.detail[0].msg).toBe("String should match pattern '\\S'");
+		expectValidationError(result, "String should match pattern '\\S'");
 	});
 });
