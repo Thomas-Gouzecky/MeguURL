@@ -110,3 +110,16 @@ type QrCodeAPIRequest = {
 	data: string;
 	error_correction?: string | null;
 };
+
+type QrCodeAPIResponse = {
+	size: number;
+	matrix: string;
+};
+
+type HTTPValidationError = {
+	detail: ValidationError[];
+};
+
+type ValidationError = {
+	msg: string;
+};
