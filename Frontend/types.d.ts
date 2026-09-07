@@ -102,3 +102,34 @@ type ErrorResponse = {
 	status: number;
 	error: GetRedirectUrlErrorResponse;
 };
+
+// ===========================================================
+// Other API Types
+// ===========================================================
+type QrCodeAPIRequest = {
+	data: string;
+	error_correction?: string | null;
+};
+
+type QrCodeAPIResponse = {
+	size: number;
+	matrix: string;
+};
+
+type QrCodeResult =
+	| {
+			response: Response;
+			error: null;
+	  }
+	| {
+			response: null;
+			error: Error;
+	  };
+
+type HTTPValidationError = {
+	detail: ValidationError[];
+};
+
+type ValidationError = {
+	msg: string;
+};
