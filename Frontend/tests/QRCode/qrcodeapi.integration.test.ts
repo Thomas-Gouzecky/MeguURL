@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { testSize, testMatrix, testUrl } from "../data";
 import useQrCode from "@/hooks/useQrCode";
 import { renderHook, act } from "@testing-library/react";
@@ -13,8 +13,8 @@ async function createQrCode(request: QrCodeAPIRequest) {
 	return result.current;
 }
 
-function expectValidationError(result: ReturnType<typeof useQrCode>, message: string) {
-	expect(result.status).toBe(422);
+function expectValidationError(result: ReturnType<typeof useQrCode>, message: string, status = 422) {
+	expect(result.status).toBe(status);
 
 	if (!result.error) {
 		throw new Error("Expected the Error response to be defined");
@@ -24,6 +24,10 @@ function expectValidationError(result: ReturnType<typeof useQrCode>, message: st
 }
 
 describe("Integration Tests - POST /api/qrcode", () => {
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
 	it("returns response in a successful request from the hook", async () => {
 		const result = await createQrCode({
 			data: testUrl,
@@ -56,5 +60,36 @@ describe("Integration Tests - POST /api/qrcode", () => {
 		});
 
 		expectValidationError(result, "String should match pattern '\\S'");
+	});
+
+	it("returns service unavailable error if the service is not active", async () => {
+		const fetchMock = vi.fn().mockResolvedValue(
+			new Response(JSON.stringify({ detail: [{ msg: "QR Code Service is currently unavailable" }] }), {
+				status: 503,
+			}),
+		);
+
+		vi.stubGlobal("fetch", fetchMock);
+
+		const result = await createQrCode({
+			data: testUrl,
+			error_correction: "LOW",
+		});
+
+		expectValidationError(result, "QR Code Service is currently unavailable", 503);
+	});
+
+	it("returns backend unavailable error if the .NET backend is not active", async () => {
+		const fetchMock = vi.fn().mockRejectedValue(new TypeError("Failed to fetch"));
+
+		vi.stubGlobal("fetch", fetchMock);
+
+		const result = await createQrCode({
+			data: testUrl,
+			error_correction: "LOW",
+		});
+
+		expect(result.body).toBeNull();
+		expectValidationError(result, "Backend is currently unavailable", 503);
 	});
 });

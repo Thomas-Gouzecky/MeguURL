@@ -116,6 +116,16 @@ type QrCodeAPIResponse = {
 	matrix: string;
 };
 
+type QrCodeResult =
+	| {
+			response: Response;
+			error: null;
+	  }
+	| {
+			response: null;
+			error: Error;
+	  };
+
 type HTTPValidationError = {
 	detail: ValidationError[];
 };
