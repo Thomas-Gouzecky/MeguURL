@@ -41,6 +41,7 @@ jobs:
                   docker run -d
                   --name meguURL-backend
                   --network megu-network
+                  --network-alias test-backend
                   -p 6767:8080
                   --env-file backend.env
                   ${{ secrets.DOCKER_USERNAME }}/meguurl-backend-repo:latest
@@ -50,7 +51,7 @@ jobs:
                   docker run -d
                   --name qr-code-generator
                   --network megu-network
-                  --network-alias qr-code-generator
+                  --network-alias test-qrcode
                   ${{ secrets.DOCKER_USERNAME }}/qr-code-generator:latest
 
             - name: Wait for backend
@@ -77,7 +78,7 @@ jobs:
               env:
                   BACKEND: http://localhost:6767
                   NEXT_PUBLIC_BACKEND: http://localhost:6767
-              run: npm test -- --run "tests/QRCode/*.integration.test.ts"
+              run: npm run test:integration
 
             - name: Stop services
               if: always()
@@ -105,4 +106,4 @@ jobs:
 
             - name: Run unit tests
               working-directory: Frontend
-              run: npm test -- --run "tests/QRCode/*.unit.test.ts"
+              run: npm run test:unit
