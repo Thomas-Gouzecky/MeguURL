@@ -11,8 +11,13 @@ export default function useQrCode() {
 
 		setStatus(response.status);
 
-		if (!response.ok) setError(await response.json());
-		else setBody(await response.json());
+		if (!response.ok) {
+			setBody(null);
+			setError(await response.json());
+		} else {
+			setError(null);
+			setBody(await response.json());
+		}
 
 		return response;
 	}

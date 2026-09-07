@@ -45,6 +45,13 @@ describe("Integration Tests - POST /api/qrcode", () => {
 		expect(body.size).toBe(testSize);
 	});
 
+	it.each(["LOW", "MEDIUM", "QUARTILE", "HIGH"])("accepts %s error correction", async (error_correction) => {
+		const result = await createQrCode({ data: testUrl, error_correction });
+
+		expect(result.status).toBe(200);
+		expect(result.body).not.toBeNull();
+	});
+
 	it("returns error response with an invalid ecc from the hook", async () => {
 		const result = await createQrCode({
 			data: "Hello World",
@@ -60,6 +67,47 @@ describe("Integration Tests - POST /api/qrcode", () => {
 		});
 
 		expectValidationError(result, "String should match pattern '\\S'");
+	});
+
+	it("returns error response with an empty data value", async () => {
+		const result = await createQrCode({ data: "" });
+
+		expectValidationError(result, "String should have at least 1 character");
+	});
+
+	it("returns error response when data is missing", async () => {
+		const result = await createQrCode({} as QrCodeAPIRequest);
+
+		expect(result.status).toBe(400);
+		expect(result.error).not.toBeNull();
+	});
+
+	it("clears the previous error after a successful request", async () => {
+		const fetchMock = vi
+			.fn()
+			.mockResolvedValueOnce(
+				new Response(JSON.stringify({ detail: [{ msg: "Invalid QR code data" }] }), {
+					status: 422,
+				}),
+			)
+			.mockResolvedValueOnce(
+				new Response(JSON.stringify({ size: testSize, matrix: testMatrix }), { status: 200 }),
+			);
+
+		vi.stubGlobal("fetch", fetchMock);
+		const { result } = renderHook(() => useQrCode());
+
+		await act(async () => {
+			await result.current.create({ data: "invalid" });
+		});
+		expect(result.current.error).not.toBeNull();
+
+		await act(async () => {
+			await result.current.create({ data: testUrl, error_correction: "LOW" });
+		});
+
+		expect(result.current.error).toBeNull();
+		expect(result.current.body).not.toBeNull();
 	});
 
 	it("returns service unavailable error if the service is not active", async () => {
