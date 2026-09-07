@@ -1,10 +1,10 @@
-name: Test Frontend
+name: Test QR Code Frontend
 
 on:
     pull_request:
 
 jobs:
-    integration-test:
+    integration-tests:
         runs-on: ubuntu-latest
 
         steps:
@@ -38,7 +38,7 @@ jobs:
 
             - name: Start backend service
               run: >
-                  docker run --rm -d
+                  docker run -d
                   --name meguURL-backend
                   --network megu-network
                   -p 6767:8080
@@ -47,9 +47,10 @@ jobs:
 
             - name: Start qr code generator service
               run: >
-                  docker run --rm -d
+                  docker run -d
                   --name qr-code-generator
                   --network megu-network
+                  --network-alias qr-code-generator
                   ${{ secrets.DOCKER_USERNAME }}/qr-code-generator:latest
 
             - name: Wait for backend
@@ -66,7 +67,9 @@ jobs:
                   done
 
                   echo "Backend failed to start"
+                  docker ps -a
                   docker logs meguURL-backend
+                  docker logs qr-code-generator
                   exit 1
 
             - name: Run tests
@@ -74,7 +77,7 @@ jobs:
               env:
                   BACKEND: http://localhost:6767
                   NEXT_PUBLIC_BACKEND: http://localhost:6767
-              run: npm test -- --run "**/*.integration.test.ts"
+              run: npm test -- --run "tests/QRCode/*.integration.test.ts"
 
             - name: Stop services
               if: always()
@@ -102,4 +105,4 @@ jobs:
 
             - name: Run unit tests
               working-directory: Frontend
-              run: npm test -- --run "**/*.unit.test.ts"
+              run: npm test -- --run "tests/QRCode/*.unit.test.ts"
