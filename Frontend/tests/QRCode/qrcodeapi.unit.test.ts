@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { testSize, testMatrix, testUrl } from "../data";
 import { generateQrCode } from "@/api/QrCode";
 
-describe("Mock Tests - POST /api/qrcode", () => {
+describe("Unit Tests - POST /api/qrcode", () => {
 	afterEach(() => {
 		vi.unstubAllGlobals();
 	});
@@ -59,5 +59,31 @@ describe("Mock Tests - POST /api/qrcode", () => {
 		const body = await response.json();
 
 		expect(body).toEqual({ detail: "Invalid QR code data" });
+	});
+
+	it("preserves a server error response from the QR code service", async () => {
+		const errorBody = { detail: "Internal server error" };
+		const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(errorBody), { status: 500 }));
+		vi.stubGlobal("fetch", fetchMock);
+
+		const response = await generateQrCode({ data: testUrl });
+
+		expect(response.status).toBe(500);
+		expect(await response.json()).toEqual(errorBody);
+	});
+
+	it("returns backend unavailable error if the .NET backend is not active", async () => {
+		const errorBody = { detail: [{ msg: "Backend is currently unavailable" }] };
+		const fetchMock = vi.fn().mockRejectedValue(new TypeError("Failed to fetch"));
+
+		vi.stubGlobal("fetch", fetchMock);
+
+		const response = await generateQrCode({
+			data: testUrl,
+			error_correction: "LOW",
+		});
+
+		expect(response.status).toBe(503);
+		expect(await response.json()).toEqual(errorBody);
 	});
 });
