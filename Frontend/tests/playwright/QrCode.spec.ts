@@ -6,6 +6,11 @@ test.describe("QR Code Creation Page", () => {
 	});
 
 	test("Check Home Page is Reachable", async ({ page }) => {
-		await expect(page).toHaveURL("http://localhost:3000");
+		await expect(page).toHaveURL("");
+	});
+
+	test("Check QR Code Page is Routable", async ({ page }) => {
+		await page.goto("/qrcode");
+		await expect(page).toHaveURL("/qrcode");
 	});
 });
