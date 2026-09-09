@@ -14,4 +14,18 @@ test.describe("QR Code Creation Page", () => {
 		await expect(page).toHaveURL("/qrcode");
 		await expect(page).toHaveTitle("MeguQR");
 	});
+
+	test("Check QR Code Link is in Navbar", async ({ page }) => {
+		const Navbar = page.locator("div").nth(1);
+		expect(Navbar.getByRole("link", { name: "MeguQR" })).toBeTruthy();
+		await Navbar.getByRole("link", { name: "MeguQR" }).click();
+		await expect(page).toHaveURL("/qrcode");
+		await expect(page).toHaveTitle("MeguQR");
+	});
+
+	test("Check Navbar Link is Disabled when at /qrcode", async ({ page }) => {
+		const Navbar = page.locator("div").nth(1);
+		await page.goto("/qrcode");
+		await expect(Navbar.getByRole("link", { name: "MeguQR" })).toBeDisabled();
+	});
 });
