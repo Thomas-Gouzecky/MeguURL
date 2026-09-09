@@ -12,5 +12,6 @@ test.describe("QR Code Creation Page", () => {
 	test("Check QR Code Page is Routable", async ({ page }) => {
 		await page.goto("/qrcode");
 		await expect(page).toHaveURL("/qrcode");
+		await expect(page).toHaveTitle("MeguQR");
 	});
 });
