@@ -58,7 +58,9 @@ export default function getStatusIconObject({
 	body: QrCodeAPIResponse | null;
 	error: HTTPValidationError | null;
 }): QRFormStatusIconObject {
+	const statusState = status === 200 ? "success" : status !== null ? "error" : "idle";
 	return {
+		statusState: statusState,
 		icon: getStatusIcon({ status, isLoading }),
 		message: getStatusMessage({ status, isLoading, body: body, error: error }),
 	};

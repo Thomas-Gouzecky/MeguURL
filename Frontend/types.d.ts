@@ -60,6 +60,7 @@ type StatusItem = {
 };
 
 type QRFormStatusIconObject = {
+	statusState: Status;
 	icon: JSX.Element | null;
 	message: string[] | string | null;
 };

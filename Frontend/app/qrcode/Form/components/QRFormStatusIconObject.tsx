@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import getStatusIconObject from "./helper/QRGetStatusIconObjectHelper";
 import QRFormStatusMessage from "./QRFormStatusMessage";
 import { useState } from "react";
@@ -16,6 +16,7 @@ export default function QRFormStatusIconObject({
 }) {
 	const [messageVisible, setMessageVisible] = useState<boolean>(false);
 	const iconObject: QRFormStatusIconObject = getStatusIconObject({ status, isLoading, body, error });
+
 	const HoverIconButton = (iconObject: QRFormStatusIconObject) => {
 		return (
 			<motion.button
@@ -51,13 +52,62 @@ export default function QRFormStatusIconObject({
 						{HoverIconButton(iconObject)}
 					</motion.div>
 				</AnimatePresence>
-				<motion.div
-					className="absolute bottom-full left-0 mb-2 w-max"
-					animate={messageVisible ? { opacity: 1 } : { opacity: 0 }}
-				>
-					<QRFormStatusMessage message={iconObject.message} />
-				</motion.div>
+				{MessageContainer(iconObject, messageVisible)}
 			</div>
 		</div>
+	);
+}
+function MessageContainer(iconObject: QRFormStatusIconObject, messageVisible: boolean) {
+	const statusMessageCSS: Record<Status, string> = {
+		success: "bg-[#11a839] border-[#048025]",
+		error: "bg-[#9b0929] border-[#6c0d0d]",
+		idle: "border-[rgba(0,0,0,0)]",
+	};
+	const parent: Variants = {
+		hidden: {
+			transition: {
+				staggerChildren: 0.1,
+				staggerDirection: -1,
+			},
+		},
+		visible: {
+			transition: {
+				staggerChildren: 0.1,
+				staggerDirection: 1,
+			},
+		},
+	};
+	const child: Variants = {
+		hidden: {
+			opacity: 0,
+			y: 15,
+			scale: 0.95,
+			transition: { duration: 0.15, ease: "easeIn" },
+		},
+		visible: {
+			opacity: 1,
+			y: 0,
+			scale: 1,
+			transition: { duration: 0.15, ease: "easeOut" },
+		},
+	};
+	return (
+		<motion.div
+			variants={parent}
+			layout
+			animate={messageVisible ? "visible" : "hidden"}
+			className="relative"
+		>
+			<motion.div
+				className={`${statusMessageCSS[iconObject.statusState]} button-padding button-rounding custom-text-primary font-bold border-3 absolute bottom-full left-0 mb-2 w-max`}
+				variants={child}
+			>
+				<QRFormStatusMessage message={iconObject.message} />
+			</motion.div>
+			<motion.div
+				variants={child}
+				className={`${statusMessageCSS[iconObject.statusState]} absolute rounded-md bottom-full left-0 w-4 h-4 border-3`}
+			/>
+		</motion.div>
 	);
 }
