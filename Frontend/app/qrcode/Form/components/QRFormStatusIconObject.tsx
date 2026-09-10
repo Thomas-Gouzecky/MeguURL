@@ -96,17 +96,19 @@ function MessageContainer(iconObject: QRFormStatusIconObject, messageVisible: bo
 			variants={parent}
 			layout
 			animate={messageVisible ? "visible" : "hidden"}
-			className="relative"
+			className="absolute bottom-full left-0"
 		>
 			<motion.div
-				className={`${statusMessageCSS[iconObject.statusState]} button-padding button-rounding custom-text-primary font-bold border-3 absolute bottom-full left-0 mb-2 w-max`}
+				className={`${statusMessageCSS[iconObject.statusState]} button-padding button-rounding custom-text-primary font-bold border-3 mb-2 w-max`}
 				variants={child}
 			>
 				<QRFormStatusMessage message={iconObject.message} />
 			</motion.div>
+
+			{/* Bubble Icon */}
 			<motion.div
 				variants={child}
-				className={`${statusMessageCSS[iconObject.statusState]} absolute rounded-md bottom-full left-0 w-4 h-4 border-3`}
+				className={`${statusMessageCSS[iconObject.statusState]} relative rounded-md bottom-full left-3 w-4 h-4 border-3`}
 			/>
 		</motion.div>
 	);
