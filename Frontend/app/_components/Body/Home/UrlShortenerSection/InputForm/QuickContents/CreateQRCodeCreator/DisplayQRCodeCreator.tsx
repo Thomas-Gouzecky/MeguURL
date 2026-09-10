@@ -2,10 +2,11 @@ import { Dispatch, SetStateAction, useEffect, useState, useSyncExternalStore } f
 import DisplayQRCodeIcon from "./QRCodeIcon";
 import { motion } from "motion/react";
 import useQrCode from "@/hooks/useQrCode";
+import QRCodeModal from "@/app/qrcode/QRCodeImage/QRCodeModal";
 
 export default function DisplayQRCodeCreator({ code }: { code: string | undefined }) {
 	const [hover, setHover] = useState(false);
-	const { body, create } = useQrCode();
+	const { QRCode, body, create } = useQrCode();
 	const baseURL = useSyncExternalStore(
 		() => () => {},
 		() => window.location.host,
@@ -26,6 +27,26 @@ export default function DisplayQRCodeCreator({ code }: { code: string | undefine
 	}
 
 	return (
+		<>
+			<QRCodeModal QRCode={QRCode} />
+			<QuickQRCodeButton
+				handleClick={handleClick}
+				setHover={setHover}
+				hover={hover}
+			/>
+		</>
+	);
+}
+function QuickQRCodeButton({
+	handleClick,
+	setHover,
+	hover,
+}: {
+	handleClick: () => Promise<void>;
+	setHover: Dispatch<SetStateAction<boolean>>;
+	hover: boolean;
+}) {
+	return (
 		<motion.button
 			className="font-bold flex items-center justify-center gap-2 text-lg w-fit button-padding h-15"
 			onClick={handleClick}
@@ -37,6 +58,7 @@ export default function DisplayQRCodeCreator({ code }: { code: string | undefine
 		</motion.button>
 	);
 }
+
 function QuickQRButtonContents(setHover: Dispatch<SetStateAction<boolean>>, hover: boolean) {
 	return (
 		<motion.div
