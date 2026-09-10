@@ -29,7 +29,6 @@ export default function DisplayQRCodeCreator({ code }: { code: string | undefine
 		<motion.button
 			className="font-bold flex items-center justify-center gap-2 text-lg w-fit button-padding h-15"
 			onClick={handleClick}
-			initial={{ scale: 1 }}
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 1 }}
 			transition={{ duration: 0.3, type: "spring", stiffness: 400, damping: 20 }}

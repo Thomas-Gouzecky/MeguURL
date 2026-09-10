@@ -1,10 +1,9 @@
 "use client";
 
 import useShortenUrl from "@/hooks/useShortenUrl";
-import DisplayUrlContainer from "./DisplayUrlContainer/DisplayUrlContainer";
 import Form from "./Form/Form";
 import { FormProvider } from "@/hooks/useFormContext";
-import DisplayQRCodeCreatorContainer from "./CreateQRCodeCreator/DisplayQRCodeCreatorContainer";
+import QuickContents from "./QuickContents/QuickContents";
 
 export default function InputFormContainer() {
 	const { code, isLoading, shortenUrl } = useShortenUrl();
@@ -14,10 +13,7 @@ export default function InputFormContainer() {
 			<FormProvider isLoading={isLoading}>
 				<Form shortenUrl={shortenUrl} />
 			</FormProvider>
-			<div className="flex flex-row justify-center items-center w-full">
-				<DisplayUrlContainer code={code} />
-				<DisplayQRCodeCreatorContainer code={code} />
-			</div>
+			<QuickContents code={code} />
 		</div>
 	);
 }
