@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { isValidElement } from "react";
 import { testUrl } from "../data";
 import useQrCode from "@/hooks/useQrCode";
 import { renderHook, act } from "@testing-library/react";
