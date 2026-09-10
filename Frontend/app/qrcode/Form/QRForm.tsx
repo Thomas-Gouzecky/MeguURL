@@ -1,16 +1,25 @@
 "use client";
 
+import useQrCode from "@/hooks/useQrCode";
 import QRFormButton from "./components/QRFormButton";
 import QRFormInput from "./components/QRFormInput";
+import { useEffect } from "react";
 
 export default function QRForm() {
+	const { status, body, error, create } = useQrCode();
+
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 		const inputText = formData.get("QRInput") as string;
 
-		console.log("Input text for QR code generation:", inputText);
+		await create({ data: inputText });
 	}
+
+	useEffect(() => {
+		console.log("Body:", body);
+		console.log("Error:", error);
+	}, [body, error]);
 	return (
 		<form
 			onSubmit={handleSubmit}
