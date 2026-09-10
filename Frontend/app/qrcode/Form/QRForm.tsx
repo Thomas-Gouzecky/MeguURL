@@ -1,14 +1,21 @@
-"use client";
-
 import { useEffect } from "react";
-import useQrCode from "@/hooks/useQrCode";
 import QRFormButton from "./components/QRFormButton";
 import QRFormInput from "./components/QRFormInput";
 import QRFormStatusIconObject from "./components/QRFormStatusIconObject";
 
-export default function QRForm() {
-	const { status, isLoading, body, error, create } = useQrCode();
-
+export default function QRForm({
+	status,
+	isLoading,
+	body,
+	error,
+	create,
+}: {
+	status: number | null;
+	isLoading: boolean;
+	body: QrCodeAPIResponse | null;
+	error: HTTPValidationError | null;
+	create: (request: QrCodeAPIRequest) => Promise<Response>;
+}) {
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
