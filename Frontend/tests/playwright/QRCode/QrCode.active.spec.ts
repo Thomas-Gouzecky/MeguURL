@@ -36,18 +36,24 @@ test.describe("QR Code Creation Page", () => {
 
 	test("Check Status Message shows correct error for no input", async ({ page }) => {
 		const status = page.locator(".flex.size-10");
-		await page.getByRole("button", { name: "Generate QR Code" }).click();
+		const form = page.locator("form");
+		await form.getByRole("button", { name: "Generate QR Code", exact: true }).click();
 		await expect(status).toBeVisible();
-		await page.getByRole("main").getByRole("button").filter({ hasText: /^$/ }).click();
-		await expect(page.locator("form")).toContainText("String should have at least 1 character");
+		await form.locator("button").filter({ hasText: /^$/ }).click();
+		await expect(form).toContainText("String should have at least 1 character");
 	});
 
 	test("Check Status shows success on successful input", async ({ page }) => {
 		const status = page.locator(".flex.size-10");
+		const form = page.locator("form");
 		await page.getByRole("textbox", { name: "Enter text to generate QR code" }).fill("hello world");
-		await page.getByRole("button", { name: "Generate QR Code" }).click();
+		await form.getByRole("button", { name: "Generate QR Code", exact: true }).click();
 		await expect(status).toBeVisible();
-		await page.getByRole("main").getByRole("button").filter({ hasText: /^$/ }).click();
-		await expect(page.locator("form")).toContainText("Success!");
+		const modal = page.locator("div.fixed");
+		await expect(modal).toBeVisible();
+		await modal.getByRole("button").first().click();
+		await expect(modal).toBeHidden();
+		await form.locator("button").filter({ hasText: /^$/ }).click();
+		await expect(form).toContainText("Success!");
 	});
 });
