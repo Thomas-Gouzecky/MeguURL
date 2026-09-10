@@ -12,7 +12,7 @@ export default function QRFormStatusIconObject({
 	status: number | null;
 	isLoading: boolean;
 	body: QrCodeAPIResponse | null;
-	error: HTTPValidationError | null;
+	error: HTTPValidationError | ServiceUnavailableResponse | null;
 }) {
 	const [messageVisible, setMessageVisible] = useState<boolean>(false);
 	const [hovered, setHovered] = useState<boolean>(false);

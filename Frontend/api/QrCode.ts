@@ -12,11 +12,7 @@ export async function generateQrCode(request: QrCodeAPIRequest): Promise<Respons
 	} catch {
 		return new Response(
 			JSON.stringify({
-				detail: [
-					{
-						msg: "Backend is currently unavailable",
-					},
-				],
+				detail: [{ msg: "Backend is currently unavailable" }],
 			}),
 			{
 				status: 503,
