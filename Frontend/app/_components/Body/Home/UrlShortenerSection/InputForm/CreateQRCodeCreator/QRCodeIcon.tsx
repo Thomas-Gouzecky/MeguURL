@@ -29,5 +29,5 @@ export default function DisplayQRCodeIcon({ hover }: { hover: boolean }) {
 }
 
 function getCurrentIcon(hover: boolean) {
-	return hover ? <IoQrCodeOutline size={24} /> : <IoMdQrScanner size={24} />;
+	return hover ? <IoQrCodeOutline size={20} /> : <IoMdQrScanner size={20} />;
 }

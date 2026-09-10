@@ -14,8 +14,10 @@ export default function InputFormContainer() {
 			<FormProvider isLoading={isLoading}>
 				<Form shortenUrl={shortenUrl} />
 			</FormProvider>
-			<DisplayUrlContainer code={code} />
-			<DisplayQRCodeCreatorContainer code={code} />
+			<div className="flex flex-row justify-center items-center w-full">
+				<DisplayUrlContainer code={code} />
+				<DisplayQRCodeCreatorContainer code={code} />
+			</div>
 		</div>
 	);
 }

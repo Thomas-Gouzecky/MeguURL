@@ -2,7 +2,7 @@ import DisplayQRCodeCreator from "./DisplayQRCodeCreator";
 
 export default function DisplayQRCodeCreatorContainer({ code }: { code: string | undefined }) {
 	return (
-		<div className="h-15 w-full flex justify-center items-center">
+		<div className="w-fit flex justify-center items-center bg-[#1f1414] border-2 border-[#402a2a] button-rounding">
 			<DisplayQRCodeCreator code={code} />
 		</div>
 	);
