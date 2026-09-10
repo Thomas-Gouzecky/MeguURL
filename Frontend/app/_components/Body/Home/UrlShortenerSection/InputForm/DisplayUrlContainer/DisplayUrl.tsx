@@ -3,14 +3,19 @@
 import Link from "next/link";
 import { CopyButton } from "@/components/animate-ui/components/buttons/copy";
 import { motion, Variants } from "motion/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 type AnimateStates = "visible" | "hidden" | "bounce";
 
 export default function DisplayUrl({ code }: { code: string | null }) {
-	const [baseURL, setBaseURL] = useState<string>("");
-	const previousCode = useRef<string | null>(null);
+	const baseURL = typeof window !== "undefined" ? window.location.host : "";
+	const [previousCode, setPreviousCode] = useState<string | null>(null);
 	const [animationState, setAnimationState] = useState<AnimateStates>("hidden");
+
+	if (code !== previousCode) {
+		setAnimationState(previousCode && code ? "bounce" : code ? "visible" : "hidden");
+		setPreviousCode(code);
+	}
 
 	const variants: Variants = {
 		hidden: {
@@ -63,27 +68,6 @@ export default function DisplayUrl({ code }: { code: string | null }) {
 	};
 
 	useEffect(() => {
-		setBaseURL(window.location.host);
-	}, []);
-
-	useEffect(() => {
-		function animateState(): AnimateStates {
-			if (previousCode.current && code) {
-				return "bounce";
-			}
-
-			if (!code) {
-				return "hidden";
-			}
-
-			return "visible";
-		}
-
-		setAnimationState(animateState());
-		if (code) previousCode.current = code;
-	}, [code]);
-
-	useEffect(() => {
 		if (animationState === "bounce") {
 			const timer = setTimeout(() => {
 				setAnimationState("visible");
@@ -106,7 +90,7 @@ export default function DisplayUrl({ code }: { code: string | null }) {
 						href={code ? code : "/"}
 						target="_blank"
 					>
-						{baseURL + "/" + (previousCode.current ?? "")}
+						{baseURL + "/" + (previousCode?.toString() ?? "")}
 
 						<span className="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-linear-to-r from-transparent via-[#FADA64] to-transparent transition-all duration-500 group-hover:w-3/4" />
 					</Link>
