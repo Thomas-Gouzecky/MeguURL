@@ -1,4 +1,5 @@
 import getStatusIconObject from "./helper/QRGetStatusIconObjectHelper";
+import QRFormStatusMessage from "./QRFormStatusMessage";
 
 export default function QRFormStatusIconObject({
 	status,
@@ -14,9 +15,10 @@ export default function QRFormStatusIconObject({
 	const iconObject: QRFormStatusIconObject = getStatusIconObject({ status, isLoading, body, error });
 
 	return (
-		<div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">
+		<div className="flex items-center justify-start size-full relative">
 			{iconObject.icon}
-			<div>Message: {iconObject.message}</div>
+
+			<QRFormStatusMessage message={iconObject.message} />
 		</div>
 	);
 }

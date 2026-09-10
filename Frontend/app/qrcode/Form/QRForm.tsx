@@ -24,7 +24,7 @@ export default function QRForm() {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-4 w-full max-w-md mx-auto p-4 border rounded"
+			className="flex flex-col gap-4 w-full max-w-md mx-auto p-4 border rounded overflow-visible"
 		>
 			<QRFormStatusIconObject
 				status={status}

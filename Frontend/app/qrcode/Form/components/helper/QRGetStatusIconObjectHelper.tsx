@@ -6,9 +6,10 @@ function getStatusIcon({ status, isLoading }: { status: number | null; isLoading
 
 	if (isLoading) {
 		return (
-			<div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 animate-spin">
-				<ImSpinner9 className="w-4 h-4 text-gray-500" />
-			</div>
+			<ImSpinner9
+				className="text-gray-500"
+				size={32}
+			/>
 		);
 	}
 
