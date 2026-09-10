@@ -3,12 +3,16 @@
 import Link from "next/link";
 import { CopyButton } from "@/components/animate-ui/components/buttons/copy";
 import { motion, Variants } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore, useEffect } from "react";
 
 type AnimateStates = "visible" | "hidden" | "bounce";
 
 export default function DisplayUrl({ code }: { code: string | null }) {
-	const baseURL = typeof window !== "undefined" ? window.location.host : "";
+	const baseURL = useSyncExternalStore(
+		() => () => {},
+		() => window.location.host,
+		() => "",
+	);
 	const [previousCode, setPreviousCode] = useState<string | null>(null);
 	const [animationState, setAnimationState] = useState<AnimateStates>("hidden");
 

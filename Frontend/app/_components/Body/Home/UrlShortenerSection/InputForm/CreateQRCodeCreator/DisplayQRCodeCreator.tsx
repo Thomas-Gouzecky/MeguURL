@@ -1,5 +1,11 @@
+import { useSyncExternalStore } from "react";
+
 export default function DisplayQRCodeCreator({ code }: { code: string | undefined }) {
-	const baseURL = typeof window !== "undefined" ? window.location.host : "";
+	const baseURL = useSyncExternalStore(
+		() => () => {},
+		() => window.location.host,
+		() => "",
+	);
 
 	return (
 		<div>
