@@ -1,6 +1,6 @@
 export async function generateQrCode(request: QrCodeAPIRequest): Promise<Response> {
 	try {
-		const response = await fetch(`${process.env.BACKEND}/api/qrcode/`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/qrcode/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -12,11 +12,7 @@ export async function generateQrCode(request: QrCodeAPIRequest): Promise<Respons
 	} catch {
 		return new Response(
 			JSON.stringify({
-				detail: [
-					{
-						msg: "Backend is currently unavailable",
-					},
-				],
+				detail: [{ msg: "Backend is currently unavailable" }],
 			}),
 			{
 				status: 503,

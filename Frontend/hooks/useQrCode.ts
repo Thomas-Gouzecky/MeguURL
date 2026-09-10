@@ -5,8 +5,11 @@ export default function useQrCode() {
 	const [body, setBody] = useState<QrCodeAPIResponse | null>(null);
 	const [error, setError] = useState<HTTPValidationError | null>(null);
 	const [status, setStatus] = useState<number | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	async function create(request: QrCodeAPIRequest) {
+		setIsLoading(true);
+
 		const response = await generateQrCode(request);
 
 		setStatus(response.status);
@@ -19,11 +22,16 @@ export default function useQrCode() {
 			setBody(await response.json());
 		}
 
-		return response;
+		try {
+			return response;
+		} finally {
+			setIsLoading(false);
+		}
 	}
 
 	return {
 		status,
+		isLoading,
 		body,
 		error,
 		create,
