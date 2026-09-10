@@ -1,17 +1,23 @@
 import { AnimatePresence, motion } from "motion/react";
 import { IoClose } from "react-icons/io5";
+import { createPortal } from "react-dom";
 import QRCodeImage from "./QRCodeImage";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
-export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): React.JSX.Element {
+export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): React.JSX.Element | null {
 	const [dismissedQRCode, setDismissedQRCode] = useState<React.ReactNode>(null);
 	const modalOpen = Boolean(QRCode) && QRCode !== dismissedQRCode;
+	const mounted = useSyncExternalStore(
+		() => () => {},
+		() => true,
+		() => false,
+	);
 
 	const handleClose = () => {
 		setDismissedQRCode(QRCode);
 	};
 
-	return (
+	const content = (
 		<>
 			<AnimatePresence>
 				{modalOpen && QRCode && (
@@ -40,6 +46,8 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 			)}
 		</>
 	);
+
+	return mounted ? createPortal(content, document.body) : null;
 }
 
 function CloseButton({ handleClose }: { handleClose: () => void }) {
