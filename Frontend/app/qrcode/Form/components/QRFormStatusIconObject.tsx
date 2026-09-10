@@ -15,11 +15,63 @@ export default function QRFormStatusIconObject({
 	error: HTTPValidationError | null;
 }) {
 	const [messageVisible, setMessageVisible] = useState<boolean>(false);
+	const [hovered, setHovered] = useState<boolean>(false);
 	const iconObject: QRFormStatusIconObject = getStatusIconObject({ status, isLoading, body, error });
+	const statusMessageCSS: Record<Status, string> = {
+		success: "bg-[#11a839] border-[#048025]",
+		error: "bg-[#9b0929] border-[#6c0d0d]",
+		idle: "border-[rgba(0,0,0,0)]",
+	};
 
+	return (
+		<div className="flex size-full items-center justify-start">
+			<motion.div
+				onHoverStart={() => setHovered(true)}
+				onHoverEnd={() => setHovered(false)}
+				className="relative flex items-center justify-center"
+			>
+				<AnimatePresence mode="popLayout">
+					<StatusIconContainer
+						status={status}
+						isLoading={isLoading}
+						iconObject={iconObject}
+						statusMessageCSS={statusMessageCSS}
+						setMessageVisible={setMessageVisible}
+						messageVisible={messageVisible}
+					/>
+				</AnimatePresence>
+				<AnimatePresence mode="wait">
+					{(messageVisible || hovered) && (
+						<MessageContainer
+							key={`${iconObject.statusState}-${iconObject.message}`}
+							statusMessageCSS={statusMessageCSS}
+							iconObject={iconObject}
+						/>
+					)}
+				</AnimatePresence>
+			</motion.div>
+		</div>
+	);
+}
+function StatusIconContainer({
+	status,
+	isLoading,
+	iconObject,
+	statusMessageCSS,
+	setMessageVisible,
+	messageVisible,
+}: {
+	status: number | null;
+	isLoading: boolean;
+	iconObject: QRFormStatusIconObject;
+	statusMessageCSS: Record<Status, string>;
+	setMessageVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	messageVisible: boolean;
+}) {
 	const HoverIconButton = (iconObject: QRFormStatusIconObject) => {
 		return (
 			<motion.button
+				className="z-20"
 				whileHover={{ scale: 1.1 }}
 				whileTap={{ scale: 0.9 }}
 				onClick={(e) => {
@@ -38,31 +90,38 @@ export default function QRFormStatusIconObject({
 	};
 
 	return (
-		<div className="flex size-full items-center justify-start">
-			<div className="relative flex items-center justify-center">
-				<AnimatePresence mode="popLayout">
-					<motion.div
-						key={`${status}-${isLoading}`}
-						className="flex size-10 origin-center items-center justify-center"
-						initial={{ opacity: 0, scale: 0.5 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={{ opacity: 0, scale: 0.5 }}
-						transition={{ duration: 0.3, type: "spring", stiffness: 400, damping: 20 }}
-					>
-						{HoverIconButton(iconObject)}
-					</motion.div>
-				</AnimatePresence>
-				{MessageContainer(iconObject, messageVisible)}
-			</div>
-		</div>
+		<motion.div
+			key={`${status}-${isLoading}`}
+			className="flex size-10 origin-center items-center justify-center flex-col gap-1"
+			initial={{ opacity: 0, scale: 0.5 }}
+			animate={{ opacity: 1, scale: 1 }}
+			exit={{ opacity: 0, scale: 0.5 }}
+			transition={{ duration: 0.3, type: "spring", stiffness: 400, damping: 20 }}
+		>
+			{HoverIconButton(iconObject)}
+
+			<motion.div
+				className={`${statusMessageCSS[iconObject.statusState]} w-[80%] h-0.5 rounded-lg origin-center`}
+				animate={{
+					opacity: messageVisible ? 1 : 0,
+					scaleX: messageVisible ? "100%" : 0,
+				}}
+				transition={{
+					duration: 0.2,
+					ease: "easeOut",
+				}}
+			/>
+		</motion.div>
 	);
 }
-function MessageContainer(iconObject: QRFormStatusIconObject, messageVisible: boolean) {
-	const statusMessageCSS: Record<Status, string> = {
-		success: "bg-[#11a839] border-[#048025]",
-		error: "bg-[#9b0929] border-[#6c0d0d]",
-		idle: "border-[rgba(0,0,0,0)]",
-	};
+
+function MessageContainer({
+	statusMessageCSS,
+	iconObject,
+}: {
+	statusMessageCSS: Record<Status, string>;
+	iconObject: QRFormStatusIconObject;
+}) {
 	const parent: Variants = {
 		hidden: {
 			transition: {
@@ -95,8 +154,10 @@ function MessageContainer(iconObject: QRFormStatusIconObject, messageVisible: bo
 		<motion.div
 			variants={parent}
 			layout
-			animate={messageVisible ? "visible" : "hidden"}
-			className="absolute bottom-full left-0"
+			initial="hidden"
+			animate="visible"
+			exit="hidden"
+			className="absolute bottom-full left-0 -translate-y-1 w-fit min-w-64 max-w-[70%] select-text"
 		>
 			<motion.div
 				className={`${statusMessageCSS[iconObject.statusState]} button-padding button-rounding custom-text-primary font-bold border-3 mb-2 w-max`}
