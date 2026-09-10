@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function QRCode() {
 	return (
-		<div>
+		<div className="flex flex-col items-center justify-center min-h-screen p-4">
 			<QRForm />
 		</div>
 	);
