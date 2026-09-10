@@ -59,6 +59,11 @@ type StatusItem = {
 	status: StatusProp;
 };
 
+type QRFormStatusIconObject = {
+	icon: JSX.Element | null;
+	message: string[] | string | null;
+};
+
 // ===========================================================
 // Post Url Response Types
 // ===========================================================

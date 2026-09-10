@@ -1,12 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import useQrCode from "@/hooks/useQrCode";
 import QRFormButton from "./components/QRFormButton";
 import QRFormInput from "./components/QRFormInput";
-import { useEffect } from "react";
+import QRFormStatusIconObject from "./components/QRFormStatusIconObject";
 
 export default function QRForm() {
-	const { status, body, error, create } = useQrCode();
+	const { status, isLoading, body, error, create } = useQrCode();
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -25,6 +26,12 @@ export default function QRForm() {
 			onSubmit={handleSubmit}
 			className="flex flex-col gap-4 w-full max-w-md mx-auto p-4 border rounded"
 		>
+			<QRFormStatusIconObject
+				status={status}
+				isLoading={isLoading}
+				body={body}
+				error={error}
+			/>
 			<QRFormInput />
 			<QRFormButton />
 		</form>
