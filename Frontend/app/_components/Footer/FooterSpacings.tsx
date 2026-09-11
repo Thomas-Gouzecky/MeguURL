@@ -4,6 +4,11 @@ import { socialLinks } from "./components/SocialLinks/socialLinks";
 import { extraInfoList } from "./components/ExtraInfo/extraInfo";
 import FooterCard from "./components/FooterCard";
 import Image from "next/image";
+import QRCodeImage from "@/app/qrcode/QRCodeImage/QRCodeImage";
+import { CreateQRCodeSVG } from "@/lib/svgGenerator";
+import Link from "next/link";
+
+const randomQRCodeMatrix = Array.from({ length: 21 * 21 }, () => (Math.random() < 0.5 ? "0" : "1")).join("");
 
 export default function SpacingFooter({ spacingType }: { spacingType?: "flex" | "grid" }) {
 	const footerSpacings = {
@@ -27,11 +32,15 @@ function FlexSpacingFooter() {
 			</div>
 		</div>
 	);
+	const QRCode = CreateQRCodeSVG({
+		size: 21,
+		matrix: randomQRCodeMatrix,
+	});
 	return (
 		<div className="flex flex-col gap-4 w-full">
 			<div className="grid grid-cols-4 gap-4 lg:flex lg:flex-row lg:w-full">
 				{/* Literally Me :3*/}
-				<div className="col-span-2">
+				<div className="col-span-2 lg:flex-1">
 					<FooterCard
 						className="flex justify-center h-fit w-full md:h-full"
 						FooterProps={{ title: "Literally Me :3" }}
@@ -47,18 +56,36 @@ function FlexSpacingFooter() {
 				</div>
 
 				{/* QR Code Section */}
-				<div className="col-span-2">
+				<div className="col-span-2 lg:flex-1">
 					<FooterCard
 						className="flex justify-center h-fit w-full md:h-full"
-						FooterProps={{ title: "Literally Me :3" }}
+						FooterProps={{ title: "MeguQR" }}
 					>
-						<Image
-							src="/literally-me.jpg"
-							className="w-full max-w-full h-full rounded-lg object-cover"
-							alt="Literally me as a sleepy cat ^_^"
-							width={150}
-							height={100}
-						/>
+						<div className="flex h-full w-full flex-col items-center justify-between gap-4 text-center">
+							<div className="flex flex-col items-center gap-1">
+								<span className="text-md font-bold clickable-text-color transition-colors duration-300">
+									Generate a QR code
+								</span>
+								<p className="hidden md:block lg:hidden max-w-56 text-sm custom-text-primary/70">
+									Turn any long URL into a quick, scannable code.
+								</p>
+							</div>
+							<div className="flex justify-center items-center w-full">
+								<Link
+									href="/qrcode"
+									aria-label="Open MeguQR"
+									className="transition-all duration-300 hover:scale-105 active:scale-100"
+								>
+									<QRCodeImage
+										QRCode={QRCode}
+										Size={"small"}
+									/>
+								</Link>
+							</div>
+							<span className=" hidden md:block lg:hidden rounded-full border border-[#5e3131] px-3 py-1 text-xs font-bold uppercase tracking-wider clickable-text-color">
+								Fast · Free · Shareable
+							</span>
+						</div>
 					</FooterCard>
 				</div>
 
