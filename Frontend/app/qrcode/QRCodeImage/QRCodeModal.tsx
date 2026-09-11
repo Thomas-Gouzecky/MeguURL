@@ -94,28 +94,48 @@ function ModalContents({
 							Size={QRCodeSize}
 						/>
 					</AnimatePresence>
-					<QRCodeSizes setQRCodeSize={setQRCodeSize} />
+					<QRCodeSizes
+						QRCodeSize={QRCodeSize}
+						setQRCodeSize={setQRCodeSize}
+					/>
 				</div>
 			</div>
 		</DefaultGlass>
 	);
 }
 
-function QRCodeSizes({ setQRCodeSize }: { setQRCodeSize: React.Dispatch<React.SetStateAction<QRCodeSize>> }) {
+function QRCodeSizes({
+	QRCodeSize,
+	setQRCodeSize,
+}: {
+	QRCodeSize: QRCodeSize;
+	setQRCodeSize: React.Dispatch<React.SetStateAction<QRCodeSize>>;
+}) {
 	const sizes: QRCodeSize[] = ["small", "medium", "large"];
+	const animationVariants = {
+		initial: { opacity: 0, scale: 0.8 },
+		animate: { opacity: 1, scale: 1 },
+		active: { opacity: 0.5, scale: 0.85 },
+		exit: { opacity: 0, scale: 0.8 },
+	};
 
 	return (
-		<div className="mt-4 flex w-full flex-row items-center justify-around gap-4 text-sm text-gray-500">
+		<div className="mt-4 flex w-full flex-row items-center justify-around gap-4 text-sm font-bold">
 			{sizes.map((size) => (
 				<motion.button
 					key={size}
-					initial={{ scale: 1 }}
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
+					className={`${QRCodeSize === size ? "pointer-events-none" : ""}`}
+					variants={animationVariants}
+					initial="initial"
+					animate={QRCodeSize === size ? "active" : "animate"}
+					exit="exit"
+					disabled={QRCodeSize === size}
+					whileHover={QRCodeSize !== size ? { scale: 1.05 } : undefined}
+					whileTap={QRCodeSize !== size ? { scale: 0.95 } : undefined}
 					transition={{ type: "spring", stiffness: 400, damping: 20 }}
 					onClick={() => setQRCodeSize(size)}
 				>
-					<div className="button-padding button-rounding">
+					<div className="button-padding button-rounding clickable-text-color relative grow md:grow! bg-[#471414] clickable-text-color overflow-hidden flex justify-center md:justify-start max-w-sm max-h-12 border-transparent border-2 button-padding button-rounding transition-all duration-300 hover:bg-[#260707] hover:inset-shadow-2xs hover:border-[#5E3131] hover:-translate-y-1 hover:shadow-[0px_6px_0px_rgba(0,0,0,0.2)] active:translate-y-0.5 active:shadow-none">
 						Size: {size.charAt(0).toUpperCase() + size.slice(1)}
 					</div>
 				</motion.button>
