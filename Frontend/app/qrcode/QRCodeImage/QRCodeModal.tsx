@@ -61,14 +61,16 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 
 function CloseButton({ handleClose }: { handleClose: () => void }) {
 	return (
-		<motion.button
-			onClick={handleClose}
-			initial={{ rotate: 0 }}
-			whileHover={{ rotate: 90 }}
-			className="absolute top-2 right-2 z-10 cursor-pointer text-gray-500 transition-colors duration-200 hover:text-gray-700"
-		>
-			<IoClose size={32} />
-		</motion.button>
+		<div className="absolute top-2 right-2 z-10 flex size-9 items-center justify-center rounded-lg bg-[#471414] clickable-text-color border-transparent border-2 hover:bg-[#260707] hover:inset-shadow-2xs hover:border-[#5E3131] transition-all duration-300">
+			<motion.button
+				className="flex size-full cursor-pointer items-center justify-center bg-transparent leading-none"
+				onClick={handleClose}
+				initial={{ rotate: 0 }}
+				whileHover={{ rotate: 90 }}
+			>
+				<IoClose size={32} />
+			</motion.button>
+		</div>
 	);
 }
 
