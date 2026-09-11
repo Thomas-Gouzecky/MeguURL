@@ -5,7 +5,7 @@ export default function QRCodeImage({
 	Size,
 }: {
 	QRCode: React.ReactNode;
-	Size: "small" | "medium" | "large";
+	Size: QRCodeSize;
 }): React.JSX.Element {
 	let className = "shrink-0 overflow-visible m-auto";
 	switch (Size) {

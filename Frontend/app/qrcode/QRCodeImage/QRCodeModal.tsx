@@ -7,7 +7,7 @@ import DefaultGlass from "@/app/_components/DefaultGlass";
 
 export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): React.JSX.Element | null {
 	const [dismissedQRCode, setDismissedQRCode] = useState<React.ReactNode>(null);
-	const [QRCodeSize, setQRCodeSize] = useState<"small" | "medium" | "large">("medium");
+	const [QRCodeSize, setQRCodeSize] = useState<QRCodeSize>("medium");
 	const modalOpen = Boolean(QRCode) && QRCode !== dismissedQRCode;
 	const mounted = useSyncExternalStore(
 		() => () => {},
@@ -79,9 +79,9 @@ function ModalContents({
 	QRCodeSize,
 }: {
 	handleClose: () => void;
-	setQRCodeSize: React.Dispatch<React.SetStateAction<"small" | "medium" | "large">>;
+	setQRCodeSize: React.Dispatch<React.SetStateAction<QRCodeSize>>;
 	QRCode: React.ReactNode;
-	QRCodeSize: "small" | "medium" | "large";
+	QRCodeSize: QRCodeSize;
 }) {
 	return (
 		<DefaultGlass>
@@ -101,31 +101,25 @@ function ModalContents({
 	);
 }
 
-function QRCodeSizes({
-	setQRCodeSize,
-}: {
-	setQRCodeSize: React.Dispatch<React.SetStateAction<"small" | "medium" | "large">>;
-}) {
+function QRCodeSizes({ setQRCodeSize }: { setQRCodeSize: React.Dispatch<React.SetStateAction<QRCodeSize>> }) {
+	const sizes: QRCodeSize[] = ["small", "medium", "large"];
+
 	return (
 		<div className="mt-4 flex w-full flex-row items-center justify-around gap-4 text-sm text-gray-500">
-			<span
-				className="cursor-pointer"
-				onClick={() => setQRCodeSize("small")}
-			>
-				Size: Small
-			</span>
-			<span
-				className="cursor-pointer"
-				onClick={() => setQRCodeSize("medium")}
-			>
-				Size: Medium
-			</span>
-			<span
-				className="cursor-pointer"
-				onClick={() => setQRCodeSize("large")}
-			>
-				Size: Large
-			</span>
+			{sizes.map((size) => (
+				<motion.button
+					key={size}
+					initial={{ scale: 1 }}
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.95 }}
+					transition={{ type: "spring", stiffness: 400, damping: 20 }}
+					onClick={() => setQRCodeSize(size)}
+				>
+					<div className="button-padding button-rounding">
+						Size: {size.charAt(0).toUpperCase() + size.slice(1)}
+					</div>
+				</motion.button>
+			))}
 		</div>
 	);
 }
