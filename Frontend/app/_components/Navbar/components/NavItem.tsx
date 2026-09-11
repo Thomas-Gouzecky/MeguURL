@@ -15,7 +15,7 @@ export default function NavItem({ NavItem }: { NavItem: NavItemProp }) {
 			scale: 0.95,
 		},
 		visible: {
-			opacity: active ? 0.5 : 1,
+			opacity: 1,
 			scale: 1,
 		},
 	};
@@ -28,18 +28,16 @@ export default function NavItem({ NavItem }: { NavItem: NavItemProp }) {
 		visible: {
 			opacity: 1,
 			scale: 1,
-			backgroundColor: active ? "rgba(0, 0, 0, 0)" : "#981f1f",
 			transition: {
 				type: "spring",
 			},
 		},
 		hover: {
 			scale: 1.05,
-			backgroundColor: "#981f1f",
+			backgroundColor: "rgba(0, 0, 0, 0.1)",
 		},
 		tap: {
 			scale: 0.95,
-			backgroundColor: "#7a1a1a",
 		},
 	};
 
@@ -51,11 +49,25 @@ export default function NavItem({ NavItem }: { NavItem: NavItemProp }) {
 			<Link
 				href={NavItem.href}
 				aria-disabled={active}
+				aria-current={active ? "page" : undefined}
+				tabIndex={active ? -1 : undefined}
+				onClick={(event) => {
+					if (active) event.preventDefault();
+				}}
 				className={`button-rounding ${active ? "pointer-events-none" : ""}`}
 			>
 				<motion.div
-					className={`relative button-padding button-rounding text-2xl text-shadow-md font-bold`}
+					key={`${NavItem.href}-${pathname}`}
+					className="relative button-padding button-rounding text-2xl text-shadow-md font-bold"
 					variants={defaultItem}
+					animate={{
+						backgroundColor: active ? "#981f1f" : "rgba(0, 0, 0, 0)",
+						scale: 1,
+					}}
+					transition={{
+						backgroundColor: { duration: 0.25, ease: "easeOut" },
+						scale: { type: "spring", stiffness: 400, damping: 25 },
+					}}
 					layout
 					whileHover={active ? undefined : "hover"}
 					whileTap="tap"

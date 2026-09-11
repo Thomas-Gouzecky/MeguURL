@@ -24,7 +24,7 @@ export default function QRFormStatusIconObject({
 	};
 
 	return (
-		<div className="flex size-full items-center justify-start">
+		<div className="flex size-10 shrink-0 items-center justify-start">
 			<motion.div
 				onHoverStart={() => setHovered(true)}
 				onHoverEnd={() => setHovered(false)}

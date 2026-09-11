@@ -30,12 +30,12 @@ test.describe("QR Code Creation Page", () => {
 	});
 
 	test("Check Status is not visible on load", async ({ page }) => {
-		const status = page.locator(".flex.size-10");
+		const status = page.locator(".flex.size-10.origin-center");
 		await expect(status).toBeEmpty();
 	});
 
 	test("Check Status Message shows correct error for no input", async ({ page }) => {
-		const status = page.locator(".flex.size-10");
+		const status = page.locator(".flex.size-10.origin-center");
 		const form = page.locator("form");
 		await form.getByRole("button", { name: "Generate QR Code", exact: true }).click();
 		await expect(status).toBeVisible();
@@ -44,12 +44,12 @@ test.describe("QR Code Creation Page", () => {
 	});
 
 	test("Check Status shows success on successful input", async ({ page }) => {
-		const status = page.locator(".flex.size-10");
+		const status = page.locator(".flex.size-10.origin-center");
 		const form = page.locator("form");
-		await page.getByRole("textbox", { name: "Enter text to generate QR code" }).fill("hello world");
+		await page.getByRole("textbox", { name: "Example: MeguURL" }).fill("hello world");
 		await form.getByRole("button", { name: "Generate QR Code", exact: true }).click();
 		await expect(status).toBeVisible();
-		const modal = page.locator("div.fixed");
+		const modal = page.locator("div.fixed.inset-0");
 		await expect(modal).toBeVisible();
 		await modal.getByRole("button").first().click();
 		await expect(modal).toBeHidden();

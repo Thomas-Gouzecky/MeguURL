@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import QRFormButton from "./components/QRFormButton";
 import QRFormInput from "./components/QRFormInput";
 import QRFormStatusIconObject from "./components/QRFormStatusIconObject";
@@ -24,23 +23,26 @@ export default function QRForm({
 		await create({ data: inputText });
 	}
 
-	useEffect(() => {
-		console.log("Body:", body);
-		console.log("Error:", error);
-	}, [body, error]);
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-4 w-full max-w-md mx-auto p-4 border rounded overflow-visible"
+			className="flex flex-row gap-4 w-full mx-auto p-4 rounded overflow-visible"
 		>
-			<QRFormStatusIconObject
-				status={status}
-				isLoading={isLoading}
-				body={body}
-				error={error}
-			/>
-			<QRFormInput />
-			<QRFormButton />
+			<div className="relative flex w-full flex-col gap-2 md:flex-row md:items-center">
+				<div className="flex min-w-0 flex-1 items-center gap-2">
+					<QRFormStatusIconObject
+						status={status}
+						isLoading={isLoading}
+						body={body}
+						error={error}
+					/>
+					<QRFormInput
+						status={status}
+						isLoading={isLoading}
+					/>
+				</div>
+				<QRFormButton isLoading={isLoading} />
+			</div>
 		</form>
 	);
 }

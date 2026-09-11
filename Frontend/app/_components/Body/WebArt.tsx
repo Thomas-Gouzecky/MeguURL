@@ -1,4 +1,4 @@
-export default function WebArt() {
+export default function WebArt({ text }: { text?: string }) {
 	return (
 		<div className="m-auto relative w-fit pb-4">
 			{/* Shadow */}
@@ -8,7 +8,7 @@ export default function WebArt() {
 				md:text-9xl md:translate-x-1.75 md:translate-y-1.75 
 				text-[clamp(3rem,16vw,8rem)] translate-x-1 translate-y-1"
 			>
-				MeguURL
+				{text || "MeguURL"}
 			</span>
 
 			{/* GIF */}
@@ -24,7 +24,7 @@ export default function WebArt() {
 					filter: "brightness(0.8) contrast(1.2) saturate(1.3)",
 				}}
 			>
-				MeguURL
+				{text || "MeguURL"}
 			</span>
 		</div>
 	);

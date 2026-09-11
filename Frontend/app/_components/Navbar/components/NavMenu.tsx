@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "motion/react";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import NavItem from "./NavItem";
 
 export default function NavMenu({ NavItems }: { NavItems: NavItemProp[] }) {
@@ -26,12 +26,14 @@ export default function NavMenu({ NavItems }: { NavItems: NavItemProp[] }) {
 			variants={variant}
 			className="flex flex-row justify-center w-full gap-4"
 		>
-			{NavItems.map((item, index) => (
-				<NavItem
-					key={index}
-					NavItem={item}
-				/>
-			))}
+			<AnimatePresence>
+				{NavItems.map((item, index) => (
+					<NavItem
+						key={index}
+						NavItem={item}
+					/>
+				))}
+			</AnimatePresence>
 		</motion.div>
 	);
 }
