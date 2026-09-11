@@ -27,7 +27,7 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ y: 200, opacity: 0 }}
 					>
-						<div className="relative w-full max-w-md">
+						<div className="relative w-full max-w-md flex justify-center">
 							<CloseButton handleClose={handleClose} />
 							<QRCodeImage QRCode={QRCode} />
 						</div>
