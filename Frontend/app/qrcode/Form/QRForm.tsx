@@ -26,7 +26,7 @@ export default function QRForm({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-row gap-4 w-full max-w-lg mx-auto p-4 border rounded overflow-visible"
+			className="flex flex-row gap-4 w-full mx-auto p-4 rounded overflow-visible"
 		>
 			<div className="relative flex w-full flex-col gap-2 md:flex-row md:items-center">
 				<div className="flex min-w-0 flex-1 items-center gap-2">
