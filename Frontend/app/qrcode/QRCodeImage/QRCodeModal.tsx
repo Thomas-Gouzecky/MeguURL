@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import QRCodeImage from "./QRCodeImage";
 import { useState, useSyncExternalStore } from "react";
 import DefaultGlass from "@/app/_components/DefaultGlass";
+import ClickableButton from "@/app/_components/ClickableButton";
 
 export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): React.JSX.Element | null {
 	const [dismissedQRCode, setDismissedQRCode] = useState<React.ReactNode>(null);
@@ -44,15 +45,26 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 				)}
 			</AnimatePresence>
 
-			{QRCode && !modalOpen && (
-				<button
-					type="button"
-					className="fixed right-4 bottom-4 z-99 rounded border bg-white px-4 py-2 text-sm shadow"
-					onClick={() => setDismissedQRCode(null)}
-				>
-					Show QR code
-				</button>
-			)}
+			<AnimatePresence>
+				{QRCode && !modalOpen && (
+					<motion.div
+						initial={{ y: 100, opacity: 0, scale: 0.8 }}
+						animate={{ y: 0, opacity: 1, scale: 1 }}
+						exit={{ y: 100, scale: 0.8, opacity: 0 }}
+						className="fixed right-4 bottom-4 z-99"
+					>
+						<ClickableButton>
+							<button
+								type="button"
+								className="w-full px-4 py-2 text-sm font-bold"
+								onClick={() => setDismissedQRCode(null)}
+							>
+								Show QR code
+							</button>
+						</ClickableButton>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</>
 	);
 
