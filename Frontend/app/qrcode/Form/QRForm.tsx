@@ -26,19 +26,21 @@ export default function QRForm({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-4 w-full max-w-md mx-auto p-4 border rounded overflow-visible"
+			className="flex flex-row gap-4 w-full max-w-lg mx-auto p-4 border rounded overflow-visible"
 		>
-			<QRFormStatusIconObject
-				status={status}
-				isLoading={isLoading}
-				body={body}
-				error={error}
-			/>
-			<QRFormInput
-				status={status}
-				isLoading={isLoading}
-			/>
-			<QRFormButton isLoading={isLoading} />
+			<div className="relative flex w-full flex-col gap-2 md:flex-row md:items-center">
+				<QRFormStatusIconObject
+					status={status}
+					isLoading={isLoading}
+					body={body}
+					error={error}
+				/>
+				<QRFormInput
+					status={status}
+					isLoading={isLoading}
+				/>
+				<QRFormButton isLoading={isLoading} />
+			</div>
 		</form>
 	);
 }
