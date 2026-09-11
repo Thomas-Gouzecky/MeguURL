@@ -3,9 +3,11 @@ import { IoClose } from "react-icons/io5";
 import { createPortal } from "react-dom";
 import QRCodeImage from "./QRCodeImage";
 import { useState, useSyncExternalStore } from "react";
+import DefaultGlass from "@/app/_components/DefaultGlass";
 
 export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): React.JSX.Element | null {
 	const [dismissedQRCode, setDismissedQRCode] = useState<React.ReactNode>(null);
+	const [QRCodeSize, setQRCodeSize] = useState<"small" | "medium" | "large">("medium");
 	const modalOpen = Boolean(QRCode) && QRCode !== dismissedQRCode;
 	const mounted = useSyncExternalStore(
 		() => () => {},
@@ -15,6 +17,7 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 
 	const handleClose = () => {
 		setDismissedQRCode(QRCode);
+		setQRCodeSize("medium");
 	};
 
 	const content = (
@@ -27,10 +30,12 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ y: 200, opacity: 0 }}
 					>
-						<div className="relative w-full max-w-md flex justify-center">
-							<CloseButton handleClose={handleClose} />
-							<QRCodeImage QRCode={QRCode} />
-						</div>
+						<ModalContents
+							handleClose={handleClose}
+							setQRCodeSize={setQRCodeSize}
+							QRCode={QRCode}
+							QRCodeSize={QRCodeSize}
+						/>
 					</motion.div>
 				)}
 			</AnimatePresence>
@@ -60,5 +65,61 @@ function CloseButton({ handleClose }: { handleClose: () => void }) {
 		>
 			<IoClose size={32} />
 		</motion.button>
+	);
+}
+
+function ModalContents({
+	handleClose,
+	setQRCodeSize,
+	QRCode,
+	QRCodeSize,
+}: {
+	handleClose: () => void;
+	setQRCodeSize: React.Dispatch<React.SetStateAction<"small" | "medium" | "large">>;
+	QRCode: React.ReactNode;
+	QRCodeSize: "small" | "medium" | "large";
+}) {
+	return (
+		<DefaultGlass>
+			<div className="relative flex w-full max-w-lg flex-row items-center justify-center gap-4">
+				<CloseButton handleClose={handleClose} />
+				<div className="relative w-full flex flex-col justify-center">
+					<QRCodeImage
+						QRCode={QRCode}
+						Size={QRCodeSize}
+					/>
+					<QRCodeSizes setQRCodeSize={setQRCodeSize} />
+				</div>
+			</div>
+		</DefaultGlass>
+	);
+}
+
+function QRCodeSizes({
+	setQRCodeSize,
+}: {
+	setQRCodeSize: React.Dispatch<React.SetStateAction<"small" | "medium" | "large">>;
+}) {
+	return (
+		<div className="mt-4 flex w-full flex-row items-center justify-around gap-4 text-sm text-gray-500">
+			<span
+				className="cursor-pointer"
+				onClick={() => setQRCodeSize("small")}
+			>
+				Size: Small
+			</span>
+			<span
+				className="cursor-pointer"
+				onClick={() => setQRCodeSize("medium")}
+			>
+				Size: Medium
+			</span>
+			<span
+				className="cursor-pointer"
+				onClick={() => setQRCodeSize("large")}
+			>
+				Size: Large
+			</span>
+		</div>
 	);
 }
