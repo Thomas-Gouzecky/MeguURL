@@ -29,16 +29,18 @@ export default function QRForm({
 			className="flex flex-row gap-4 w-full max-w-lg mx-auto p-4 border rounded overflow-visible"
 		>
 			<div className="relative flex w-full flex-col gap-2 md:flex-row md:items-center">
-				<QRFormStatusIconObject
-					status={status}
-					isLoading={isLoading}
-					body={body}
-					error={error}
-				/>
-				<QRFormInput
-					status={status}
-					isLoading={isLoading}
-				/>
+				<div className="flex min-w-0 flex-1 items-center gap-2">
+					<QRFormStatusIconObject
+						status={status}
+						isLoading={isLoading}
+						body={body}
+						error={error}
+					/>
+					<QRFormInput
+						status={status}
+						isLoading={isLoading}
+					/>
+				</div>
 				<QRFormButton isLoading={isLoading} />
 			</div>
 		</form>
