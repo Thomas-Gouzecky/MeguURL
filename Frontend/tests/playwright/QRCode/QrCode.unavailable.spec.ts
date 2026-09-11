@@ -17,7 +17,7 @@ test.describe("QR Code Creation Page - Mock Services", () => {
 		});
 
 		await page.goto("/qrcode");
-		await page.getByRole("textbox", { name: "Enter text to generate QR code" }).fill("mock request");
+		await page.getByRole("textbox", { name: "Example: MeguURL" }).fill("mock request");
 
 		const responsePromise = page.waitForResponse(
 			(response) => response.url().includes("/api/qrcode/") && response.status() === 503,
@@ -38,7 +38,7 @@ test.describe("QR Code Creation Page - Mock Services", () => {
 		});
 
 		await page.goto("/qrcode");
-		await page.getByRole("textbox", { name: "Enter text to generate QR code" }).fill("mock request");
+		await page.getByRole("textbox", { name: "Example: MeguURL" }).fill("mock request");
 		await page.getByRole("button", { name: "Generate QR Code" }).click();
 
 		const statusButton = page.locator("form button").first();

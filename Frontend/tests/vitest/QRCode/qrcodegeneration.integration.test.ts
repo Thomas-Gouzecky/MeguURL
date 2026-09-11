@@ -26,7 +26,7 @@ describe("Integration Tests - QRCode Image Generation", () => {
 
 		expect(isValidElement(result.QRCode)).toBe(true);
 		expect(result.QRCode?.type).toBe("svg");
-		expect(result.QRCode?.props.viewBox).toBe("0 0 21 21");
+		expect(result.QRCode?.props.viewBox).toBe("0 0 23 23");
 		expect(result.QRCode?.props.shapeRendering).toBe("crispEdges");
 		expect(result.QRCode?.props.children).toHaveLength(2);
 	});
