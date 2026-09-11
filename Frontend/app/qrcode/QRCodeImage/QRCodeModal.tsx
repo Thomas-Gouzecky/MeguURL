@@ -26,9 +26,13 @@ export default function QRCodeModal({ QRCode }: { QRCode: React.ReactNode }): Re
 				{modalOpen && QRCode && (
 					<motion.div
 						className="z-99 fixed inset-0 flex w-full flex-col items-center justify-center"
-						initial={{ y: 200, opacity: 0 }}
-						animate={{ y: 0, opacity: 1 }}
-						exit={{ y: 200, opacity: 0 }}
+						initial={{ scale: 0.2, opacity: 0 }}
+						animate={{
+							scale: 1,
+							opacity: 1,
+							transition: { duration: 0.3, type: "spring", stiffness: 400, damping: 20 },
+						}}
+						exit={{ scale: 0.2, opacity: 0, transition: { ease: "easeInOut", duration: 0.2 } }}
 					>
 						<ModalContents
 							handleClose={handleClose}
