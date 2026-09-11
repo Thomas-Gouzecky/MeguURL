@@ -40,7 +40,7 @@ export default function QRForm({
 				error={error}
 			/>
 			<QRFormInput />
-			<QRFormButton />
+			<QRFormButton isLoading={isLoading} />
 		</form>
 	);
 }
