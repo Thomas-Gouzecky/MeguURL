@@ -84,10 +84,12 @@ function ModalContents({
 			<div className="relative flex w-full max-w-lg flex-row items-center justify-center gap-4">
 				<CloseButton handleClose={handleClose} />
 				<div className="relative w-full flex flex-col justify-center">
-					<QRCodeImage
-						QRCode={QRCode}
-						Size={QRCodeSize}
-					/>
+					<AnimatePresence>
+						<QRCodeImage
+							QRCode={QRCode}
+							Size={QRCodeSize}
+						/>
+					</AnimatePresence>
 					<QRCodeSizes setQRCodeSize={setQRCodeSize} />
 				</div>
 			</div>
