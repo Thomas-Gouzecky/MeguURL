@@ -87,7 +87,7 @@ jobs:
             - name: Run Playwright tests
               working-directory: Frontend
               env:
-                  BASE_URL_TEST: http://127.0.0.1:3000
+                  BASE_URL_TEST: http://localhost:3000
                   NEXT_PUBLIC_BACKEND: http://localhost:6767
               run: npx playwright test
 
