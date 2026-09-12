@@ -2,14 +2,8 @@ name: Build Frontend Image
 
 on:
     push:
-        branches:
-            - "main"
         tags:
             - "v*"
-        paths:
-            - "Frontend/**"
-            - "Frontend/Dockerfile"
-            - ".github/workflows/build_frontend.yaml"
     workflow_dispatch:
         inputs:
             deployment:
