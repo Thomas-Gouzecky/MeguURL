@@ -27,6 +27,12 @@ jobs:
               working-directory: Frontend
               run: npx playwright install --with-deps
 
+            - name: Build frontend
+              working-directory: Frontend
+              env:
+                  NEXT_PUBLIC_BACKEND: http://localhost:6767
+              run: npm run build
+
             - name: Pull backend image
               run: docker pull ${{ secrets.DOCKER_USERNAME }}/meguurl-backend-repo:latest
 
@@ -78,12 +84,11 @@ jobs:
                   docker logs qr-code-generator
                   exit 1
 
-            - name: Run Frontend server
-              working-directory: Frontend
-              run: npm run dev
-
             - name: Run Playwright tests
               working-directory: Frontend
+              env:
+                  BASE_URL_TEST: http://127.0.0.1:3000
+                  NEXT_PUBLIC_BACKEND: http://localhost:6767
               run: npx playwright test
 
             - name: Upload Artifact
