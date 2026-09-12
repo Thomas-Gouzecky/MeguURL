@@ -1,12 +1,80 @@
+"use client";
+
+import { motion, Variants } from "motion/react";
 import Link from "next/link";
 
+import { usePathname } from "next/navigation";
+
 export default function NavItem({ NavItem }: { NavItem: NavItemProp }) {
+	const pathname = usePathname();
+	const active = pathname === NavItem.href;
+
+	const checkActive: Variants = {
+		hidden: {
+			opacity: 0,
+			scale: 0.95,
+		},
+		visible: {
+			opacity: 1,
+			scale: 1,
+		},
+	};
+
+	const defaultItem: Variants = {
+		hidden: {
+			opacity: 0,
+			scale: 0.95,
+		},
+		visible: {
+			opacity: 1,
+			scale: 1,
+			transition: {
+				type: "spring",
+			},
+		},
+		hover: {
+			scale: 1.05,
+			backgroundColor: "rgba(0, 0, 0, 0.1)",
+		},
+		tap: {
+			scale: 0.95,
+		},
+	};
+
 	return (
-		<Link
-			href={NavItem.href}
-			className="border-transparent border-3 button-padding button-rounding text-2xl text-shadow-md font-bold transition-all duration-300 hover:bg-[#260707] hover:inset-shadow-2xs hover:border-[#5E3131] hover:-translate-y-1.5 hover:shadow-[0px_6px_0px_rgba(0,0,0,0.2)] active:translate-y-1 active:shadow-none"
+		<motion.div
+			variants={checkActive}
+			className="relative"
 		>
-			{NavItem.name}
-		</Link>
+			<Link
+				href={NavItem.href}
+				aria-disabled={active}
+				aria-current={active ? "page" : undefined}
+				tabIndex={active ? -1 : undefined}
+				onClick={(event) => {
+					if (active) event.preventDefault();
+				}}
+				className={`button-rounding ${active ? "pointer-events-none" : ""}`}
+			>
+				<motion.div
+					key={`${NavItem.href}-${pathname}`}
+					className="relative button-padding button-rounding text-2xl text-shadow-md font-bold"
+					variants={defaultItem}
+					animate={{
+						backgroundColor: active ? "#981f1f" : "rgba(0, 0, 0, 0)",
+						scale: 1,
+					}}
+					transition={{
+						backgroundColor: { duration: 0.25, ease: "easeOut" },
+						scale: { type: "spring", stiffness: 400, damping: 25 },
+					}}
+					layout
+					whileHover={active ? undefined : "hover"}
+					whileTap="tap"
+				>
+					{NavItem.name}
+				</motion.div>
+			</Link>
+		</motion.div>
 	);
 }

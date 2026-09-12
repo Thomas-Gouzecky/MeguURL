@@ -1,0 +1,107 @@
+name: Playwright Tests
+on:
+    push:
+        branches: [main, master]
+    pull_request:
+        branches: [main, master]
+jobs:
+    test:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: Frontend
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+
+            - name: Install dependencies
+              working-directory: Frontend
+              run: npm ci
+
+            - name: Install Playwright Browsers
+              working-directory: Frontend
+              run: npx playwright install --with-deps
+
+            - name: Build frontend
+              working-directory: Frontend
+              env:
+                  NEXT_PUBLIC_BACKEND: http://localhost:6767
+              run: npm run build
+
+            - name: Pull backend image
+              run: docker pull ${{ secrets.DOCKER_USERNAME }}/meguurl-backend-repo:latest
+
+            - name: Pull qr code generator image
+              run: docker pull ${{ secrets.DOCKER_USERNAME }}/qr-code-generator:latest
+
+            - name: Create backend environment file
+              env:
+                  BACKEND_ENV: ${{ secrets.BACKEND_ENV_FOR_FRONTEND_TEST }}
+              run: printf '%s\n' "$BACKEND_ENV" > backend.env
+
+            - name: Create Docker network
+              run: docker network create megu-network
+
+            - name: Start backend service
+              run: >
+                  docker run -d
+                  --name meguURL-backend
+                  --network megu-network
+                  --network-alias test-backend
+                  -p 6767:8080
+                  --env-file backend.env
+                  ${{ secrets.DOCKER_USERNAME }}/meguurl-backend-repo:latest
+
+            - name: Start qr code generator service
+              run: >
+                  docker run -d
+                  --name qr-code-generator
+                  --network megu-network
+                  --network-alias test-qrcode
+                  ${{ secrets.DOCKER_USERNAME }}/qr-code-generator:latest
+
+            - name: Wait for backend
+              run: |
+                  for i in {1..30}; do
+                    if curl --fail --silent \
+                      -H "Content-Type: application/json" \
+                      -d '{"data":"https://megu.url","error_correction":"LOW"}' \
+                      http://localhost:6767/api/qrcode > /dev/null; then
+                        exit 0
+                    fi
+
+                    sleep 2
+                  done
+
+                  echo "Backend failed to start"
+                  docker ps -a
+                  docker logs meguURL-backend
+                  docker logs qr-code-generator
+                  exit 1
+
+            - name: Run Playwright tests
+              working-directory: Frontend
+              env:
+                  BASE_URL_TEST: http://localhost:3000
+                  NEXT_PUBLIC_BACKEND: http://localhost:6767
+              run: npx playwright test
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: playwright-report
+                  path: Frontend/playwright-report/
+                  retention-days: 30
+
+            - name: Stop services
+              if: always()
+              run: |
+                  docker rm --force meguURL-backend || true
+                  docker rm --force qr-code-generator || true
+                  docker network rm megu-network || true

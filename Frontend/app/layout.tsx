@@ -40,7 +40,7 @@ export default function RootLayout({
 			<body className="min-h-full flex flex-col">
 				<CustomCursor />
 				<Navbar />
-				<main className="relative overflow-x-hidden">
+				<main className="relative overflow-x-clip overflow-y-visible">
 					<div className="background-gradient" />
 					{children}
 				</main>

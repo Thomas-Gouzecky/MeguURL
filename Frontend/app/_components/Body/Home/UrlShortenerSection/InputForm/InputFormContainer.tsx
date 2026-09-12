@@ -1,9 +1,9 @@
 "use client";
 
 import useShortenUrl from "@/hooks/useShortenUrl";
-import DisplayUrlContainer from "./DisplayUrlContainer/DisplayUrlContainer";
 import Form from "./Form/Form";
 import { FormProvider } from "@/hooks/useFormContext";
+import QuickContents from "./QuickContents/QuickContents";
 
 export default function InputFormContainer() {
 	const { code, isLoading, shortenUrl } = useShortenUrl();
@@ -13,7 +13,7 @@ export default function InputFormContainer() {
 			<FormProvider isLoading={isLoading}>
 				<Form shortenUrl={shortenUrl} />
 			</FormProvider>
-			<DisplayUrlContainer code={code} />
+			<QuickContents code={code} />
 		</div>
 	);
 }
