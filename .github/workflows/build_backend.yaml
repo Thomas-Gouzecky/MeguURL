@@ -2,14 +2,8 @@ name: Build Backend Image
 
 on:
     push:
-        branches:
-            - "main"
         tags:
             - "v*"
-        paths:
-            - "Backend/App/**"
-            - "Backend/Dockerfile"
-            - ".github/workflows/build_backend.yaml"
     workflow_dispatch:
 
 jobs:
