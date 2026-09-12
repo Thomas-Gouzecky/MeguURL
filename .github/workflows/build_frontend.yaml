@@ -1,6 +1,15 @@
 name: Build Frontend Image
 
 on:
+    push:
+        branches:
+            - "main"
+        tags:
+            - "v*"
+        paths:
+            - "Frontend/**"
+            - "Frontend/Dockerfile"
+            - ".github/workflows/build_frontend.yaml"
     workflow_dispatch:
         inputs:
             deployment:
@@ -33,7 +42,7 @@ jobs:
                   password: ${{ secrets.DOCKER_TOKEN }}
 
             - name: Build Local Image
-              if: inputs.deployment == 'local' || inputs.deployment == 'both'
+              if: inputs.deployment == 'local' || inputs.deployment == 'both' || github.event_name == 'push'
               uses: docker/build-push-action@v6
               with:
                   context: ./Frontend
@@ -45,7 +54,7 @@ jobs:
                       ${{ secrets.DOCKER_USERNAME }}/meguurl-frontend-repo:local
 
             - name: Build Kubernetes Image
-              if: inputs.deployment == 'k8s' || inputs.deployment == 'both'
+              if: inputs.deployment == 'k8s' || inputs.deployment == 'both' || github.event_name == 'push'
               uses: docker/build-push-action@v6
               with:
                   context: ./Frontend
