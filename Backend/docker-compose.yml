@@ -21,7 +21,22 @@ services:
         networks:
             - megu-network
 
+    redis:
+        image: redis:8.10
+        container_name: redis
+        pull_policy: if_not_present
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis-data:/data
+        environment:
+            - --appendonly yes
+        networks:
+            - megu-network
+
 volumes:
+    redis-data:
+        driver: local
     dataprotection-keys:
 
 networks:
