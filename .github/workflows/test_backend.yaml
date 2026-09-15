@@ -62,8 +62,15 @@ jobs:
               shell: bash
               run: |
                   for attempt in {1..30}; do
-                    if redis-cli -h localhost ping | grep -q "PONG"; then
+                    status=$(docker inspect --format='{{.State.Health.Status}}' redis 2>/dev/null || true)
+                    if [[ "$status" == "healthy" ]]; then
                         exit 0
+                    fi
+
+                    if [[ "$status" == "unhealthy" ]]; then
+                        echo "Redis service became unhealthy"
+                        docker compose logs redis
+                        exit 1
                     fi
 
                     sleep 2
