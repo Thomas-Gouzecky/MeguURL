@@ -126,6 +126,7 @@ public class UrlController : ControllerBase
 
         if (cachedUrl != null)
         {
+            await _urlCacheService.RefreshRedirectUrlAsync(code, TimeSpan.FromMinutes(10));
             return Ok(new RedirectUrl { LongUrl = cachedUrl });
         }
 
@@ -142,6 +143,8 @@ public class UrlController : ControllerBase
 
         if (result == null)
             return NotFound();
+
+        await _urlCacheService.SetRedirectUrlAsync(code, result.LongUrl, TimeSpan.FromMinutes(10));
 
         return Ok(result);
     }
