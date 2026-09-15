@@ -1,5 +1,6 @@
 using backend.Components;
 using Microsoft.AspNetCore.DataProtection;
+using StackExchange.Redis;
 using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,13 @@ var databaseApi = builder.Configuration["ApiSettings:DatabaseApi"]
 var qrcodeApi = builder.Configuration["ApiSettings:QrCodeApi"]
     ?? throw new InvalidOperationException("QR Code API URL is missing");
 
+var redis = builder.Configuration["ApiSettings:Redis"]
+    ?? throw new InvalidOperationException("Redis URL is missing");
+
 builder.Services.AddTransient<ApiExceptionHandler>();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redis));
+builder.Services.AddHttpClient();
 
 builder.Services.AddHttpClient("BackendApi", client => { client.BaseAddress = new Uri(backendApi); });
 builder.Services.AddHttpClient("DatabaseApi", client => { client.BaseAddress = new Uri(databaseApi); }).AddHttpMessageHandler<ApiExceptionHandler>(); ;
