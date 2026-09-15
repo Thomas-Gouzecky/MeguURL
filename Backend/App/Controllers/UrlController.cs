@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
 using Backend.Attributes;
+using StackExchange.Redis;
 
 namespace Backend.Controllers;
 
@@ -13,18 +14,21 @@ public class UrlController : ControllerBase
     private readonly UrlCodeService _urlCodeService;
     private readonly IConfiguration _configuration;
     private readonly ValidationService _validationService;
+    private readonly IUrlCacheService _urlCacheService;
 
     public UrlController(
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
         UrlCodeService urlCodeService,
-        ValidationService validationService
+        ValidationService validationService,
+        IUrlCacheService urlCacheService
     )
     {
         _databaseApi = httpClientFactory.CreateClient("DatabaseApi");
         _configuration = configuration;
         _urlCodeService = urlCodeService;
         _validationService = validationService;
+        _urlCacheService = urlCacheService;
     }
 
     [HttpGet]
@@ -76,7 +80,7 @@ public class UrlController : ControllerBase
                 Detail = invalidUrlResponse.Message,
                 url = invalidUrlResponse.Url
             };
-            
+
             return BadRequest(problem);
         }
 
@@ -104,6 +108,8 @@ public class UrlController : ControllerBase
         string code = _urlCodeService.Encode(result.Id);
         var baseUrl = _configuration["ApiSettings:BackendApi"];
 
+        await _urlCacheService.SetRedirectUrlAsync(code, result.LongUrl, TimeSpan.FromMinutes(10));
+
         return Ok(new CreateUrlResponse
         {
             Code = code,
@@ -118,6 +124,14 @@ public class UrlController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
+        string? cachedUrl = await _urlCacheService.GetRedirectUrlAsync(code);
+
+        if (cachedUrl != null)
+        {
+            await _urlCacheService.RefreshRedirectUrlAsync(code, TimeSpan.FromMinutes(10));
+            return Ok(new RedirectUrl { LongUrl = cachedUrl });
+        }
+
         int id = _urlCodeService.Decode(code);
 
         var response = await _databaseApi.GetAsync($"/db/{id}");
@@ -131,6 +145,8 @@ public class UrlController : ControllerBase
 
         if (result == null)
             return NotFound();
+
+        await _urlCacheService.SetRedirectUrlAsync(code, result.LongUrl, TimeSpan.FromMinutes(10));
 
         return Ok(result);
     }
