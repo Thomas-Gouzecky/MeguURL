@@ -108,6 +108,8 @@ public class UrlController : ControllerBase
         string code = _urlCodeService.Encode(result.Id);
         var baseUrl = _configuration["ApiSettings:BackendApi"];
 
+        await _urlCacheService.SetRedirectUrlAsync(code, result.LongUrl, TimeSpan.FromMinutes(10));
+
         return Ok(new CreateUrlResponse
         {
             Code = code,
