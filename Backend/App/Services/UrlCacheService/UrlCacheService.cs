@@ -3,9 +3,9 @@ using StackExchange.Redis;
 public class UrlCacheService : IUrlCacheService
 {
 
-    private readonly Logger<UrlCacheService> _logger;
+    private readonly ILogger<UrlCacheService> _logger;
     private readonly IDatabase _redis;
-    public UrlCacheService(IConnectionMultiplexer muxer, Logger<UrlCacheService> logger)
+    public UrlCacheService(IConnectionMultiplexer muxer, ILogger<UrlCacheService> logger)
     {
         _redis = muxer.GetDatabase();
         _logger = logger;
