@@ -56,6 +56,7 @@ builder.Services.AddHttpClient("UrlValidator", client => { client.Timeout = Time
 builder.Services.AddSingleton<UrlCodeService>();
 builder.Services.AddSingleton<UrlValidator>();
 builder.Services.AddSingleton<ValidationService>();
+builder.Services.AddSingleton<UrlCacheService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

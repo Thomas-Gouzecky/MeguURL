@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
 using Backend.Attributes;
+using StackExchange.Redis;
 
 namespace Backend.Controllers;
 
@@ -13,18 +14,21 @@ public class UrlController : ControllerBase
     private readonly UrlCodeService _urlCodeService;
     private readonly IConfiguration _configuration;
     private readonly ValidationService _validationService;
+    private readonly ICacheService _urlCacheService;
 
     public UrlController(
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
         UrlCodeService urlCodeService,
-        ValidationService validationService
+        ValidationService validationService,
+        ICacheService urlCacheService
     )
     {
         _databaseApi = httpClientFactory.CreateClient("DatabaseApi");
         _configuration = configuration;
         _urlCodeService = urlCodeService;
         _validationService = validationService;
+        _urlCacheService = urlCacheService;
     }
 
     [HttpGet]
@@ -76,7 +80,7 @@ public class UrlController : ControllerBase
                 Detail = invalidUrlResponse.Message,
                 url = invalidUrlResponse.Url
             };
-            
+
             return BadRequest(problem);
         }
 
