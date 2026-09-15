@@ -1,6 +1,6 @@
-public interface ICacheService
+public interface IUrlCacheService
 {
-    Task<string?> GetAsync(string key);
+    Task<string?> GetRedirectUrlAsync(string key);
     Task SetAsync(string key, string value, TimeSpan? expiry = null);
     Task RemoveAsync(string key);
 }

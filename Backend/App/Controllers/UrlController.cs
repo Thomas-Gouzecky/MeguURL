@@ -14,14 +14,14 @@ public class UrlController : ControllerBase
     private readonly UrlCodeService _urlCodeService;
     private readonly IConfiguration _configuration;
     private readonly ValidationService _validationService;
-    private readonly ICacheService _urlCacheService;
+    private readonly IUrlCacheService _urlCacheService;
 
     public UrlController(
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
         UrlCodeService urlCodeService,
         ValidationService validationService,
-        ICacheService urlCacheService
+        IUrlCacheService urlCacheService
     )
     {
         _databaseApi = httpClientFactory.CreateClient("DatabaseApi");
@@ -122,6 +122,13 @@ public class UrlController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetRedirectURL(string code)
     {
+        string? cachedUrl = await _urlCacheService.GetRedirectUrlAsync(code);
+
+        if (cachedUrl != null)
+        {
+            return Ok(new RedirectUrl { LongUrl = cachedUrl });
+        }
+
         int id = _urlCodeService.Decode(code);
 
         var response = await _databaseApi.GetAsync($"/db/{id}");
